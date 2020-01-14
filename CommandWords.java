@@ -1,4 +1,4 @@
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * This class is part of the "World of Zuul" application. 

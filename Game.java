@@ -1,3 +1,5 @@
+import java.util.*;
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,6 +21,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Player player;
 
     /**
      * Create the game and initialise its internal map.
@@ -53,7 +56,7 @@ public class Game
         room11 = new Room("");
         room12 = new Room("");
         room13 = new Room("");
-        c1 = new Room("in a crossroad");
+        c1 = new Room("on a crossroad");
         c2 = new Room("");
         c3 = new Room("");
         c4 = new Room("");
@@ -71,66 +74,66 @@ public class Game
         room1.setExit("south", c1);
 
         room2.setExit("south", room1);
-        
+
         c1.setExit("north", room1);
         c1.setExit("east", room3);
         c1.setExit("west", room4);
 
         room3.setExit("south", c1);
-        
+
         room4.setExit("southwest", room5);
         room4.setExit("southeast", c1);
-        
+
         room5.setExit("north", room6);
         room5.setExit("southwest", room4);
         room5.setExit("southeast", c2);
-        
+
         c2.setExit("south", room5);
         c2.setExit("north", room8);
         c2.setExit("west", t1);
-        
+
         room6.setExit("south", room5);
-        
+
         room7.setExit("north", room8);
         room7.setExit("south", t1);
-        
+
         room8.setExit("north", c3);
         room8.setExit("east", c2);
         room8.setExit("south", room7);
-        
+
         c3.setExit("east", bossRoom);
         c3.setExit("west", c4);
         c3.setExit("south", room8);
-        
+
         c4.setExit("north", c3);
         c4.setExit("west", room9);
         c4.setExit("south", room11);
-        
+
         room9.setExit("east", c4);
         room9.setExit("west", room10);
-        
+
         room10.setExit("east", room9);
-        
+
         room11.setExit("east", c4);
         room11.setExit("south", room12);
-        
+
         room12.setExit("north", room11);
         room12.setExit("south", c5);
-        
+
         c5.setExit("north", room12);
         c5.setExit("east", de1);
         c5.setExit("west", c6);
-        
+
         de1.setExit("west", c5);
-        
+
         c6.setExit("north", room13);
         c6.setExit("west", t2);
         c6.setExit("south", c5);
-        
+
         room13.setExit("north", c6);
-        
+
         de2.setExit("east", t2);
-        
+
         currentRoom = room1;  // start game in room1, the Storage Room
     }
 
