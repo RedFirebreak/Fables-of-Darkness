@@ -32,7 +32,7 @@ public class Game
     /**
      * Create all the rooms and link their exits together.
      */
-    public void createRooms()
+    private void createRooms()
     {
         Room outside, theater, pub, lab, office;
 
