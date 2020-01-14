@@ -40,8 +40,8 @@ public class Game
         Room t1, t2;
         Room bossRoom;
         // create the rooms
-        room1 = new Room("where you woke up. This is a storage room.");
-        room2 = new Room("in another storage room.");
+        room1 = new Room("where you woke up. This is a storage room");
+        room2 = new Room("in another storage room");
         room3 = new Room("");
         room4 = new Room("");
         room5 = new Room("");
@@ -53,7 +53,7 @@ public class Game
         room11 = new Room("");
         room12 = new Room("");
         room13 = new Room("");
-        c1 = new Room("You are in a crossroad.");
+        c1 = new Room("in a crossroad");
         c2 = new Room("");
         c3 = new Room("");
         c4 = new Room("");
