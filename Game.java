@@ -25,8 +25,9 @@ public class Game {
     private Parser parser;
     private Levels level;
     private Room currentRoom;
+    private Room roomInventory;
     private Player player;
-    private java.util.List<String> inventory;
+    private java.util.List<String> inventory = new ArrayList<>();
 
     /**
      * Create the game and initialise its internal map.
@@ -34,9 +35,9 @@ public class Game {
     public Game() {
         level = new Levels();
         level.level1();
-        
+
         currentRoom = level.getStartRoom(); // Get the start room
-        
+        inventory.add("Bread");
         parser = new Parser();
     }
 
@@ -65,7 +66,7 @@ public class Game {
         System.out.println("The room is lit by a torch in the distance.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println("");
-        //System.out.println(currentRoom.getRoomDescription());
+        System.out.println(currentRoom.getRoomDescription());
     }
 
     /**
@@ -80,32 +81,35 @@ public class Game {
         CommandWord commandWord = command.getCommandWord();
 
         switch (commandWord) {
-        case UNKNOWN:
+            case UNKNOWN:
             System.out.println("I don't know what you mean...");
             break;
 
-        case HELP:
+            case HELP:
             printHelp();
             break;
 
-        case GO:
+            case GO:
             goRoom(command);
             break;
 
-        case LOOK:
+            case LOOK:
             System.out.println(currentRoom.getlongDescription());
             break;
 
-        case SEARCH:
+            case SEARCH:
             System.out.println(currentRoom.getlongDescription());
             break;
+
+            case TAKE:
+            pickupItem(command);
             
-        case INV:
-            if(inventory==null) {inventory.add("empty");}
+            case INV:
+            System.out.println("Your inventory contains: ");
             System.out.println(inventory);
             break;
 
-        case QUIT:
+            case QUIT:
             wantToQuit = quit(command);
             break;
         }
@@ -148,6 +152,20 @@ public class Game {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getlongDescription());
         }
+    }
+    
+    /**
+     * Try to go in one direction. If there is an exit, enter the new room,
+     * otherwise print an error message.
+     */
+    private void pickupItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to take...
+            System.out.println("Take what?");
+            return;
+        }
+        
+        
     }
 
     /**
