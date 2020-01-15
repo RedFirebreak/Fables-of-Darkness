@@ -26,6 +26,7 @@ public class Game {
     private Levels level;
     private Room currentRoom;
     private Player player;
+    private java.util.List<String> inventory;
 
     /**
      * Create the game and initialise its internal map.
@@ -63,7 +64,7 @@ public class Game {
         System.out.println("The room is lit by a torch in the distance.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
         System.out.println("");
-        System.out.println(currentRoom.getRoomDescription());
+        //System.out.println(currentRoom.getRoomDescription());
     }
 
     /**
@@ -96,6 +97,11 @@ public class Game {
 
         case SEARCH:
             System.out.println(currentRoom.getlongDescription());
+            break;
+            
+        case INV:
+            if(inventory==null) {inventory.add("empty");}
+            System.out.println(inventory);
             break;
 
         case QUIT:
