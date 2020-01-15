@@ -15,8 +15,8 @@ import java.util.*;
  */
 
 public class Room {
-    private String shortdescription;
-    private String longdescription;
+    private String shortDescription;
+    private String longDescription;
     private HashMap<String, Room> exits; // stores exits of this room.
 
     /**
@@ -25,9 +25,9 @@ public class Room {
      * 
      * @param description The room's description.
      */
-    public Room(String shortdescription, String longdescription) {
-        this.shortdescription = shortdescription;
-        this.longdescription = longdescription;
+    public Room(String shortDescription, String longDescription) {
+        this.shortDescription = shortDescription;
+        this.longDescription = longDescription;
         exits = new HashMap<>();
     }
 
@@ -46,7 +46,7 @@ public class Room {
      *         constructor).
      */
     public String getShortDescription() {
-        return shortdescription;
+        return shortDescription;
     }
 
     /**
@@ -54,7 +54,7 @@ public class Room {
      *         constructor).
      */
     public String getlongDescription() {
-        return longdescription;
+        return longDescription;
     }
 
     /**
@@ -64,7 +64,7 @@ public class Room {
      * @return A long description of this room
      */
     public String getRoomDescription() {
-        return "You are standing in " + shortdescription + ".\n" + getExitString();
+        return "You are standing in " + shortDescription + ".\n" + getExitString();
     }
 
     /**
