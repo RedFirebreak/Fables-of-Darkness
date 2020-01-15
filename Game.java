@@ -28,23 +28,59 @@ public class Game {
     private Player player;
 
     /**
-     * Create the game and initialise its internal map.
-     */
+    * Getting everything ready to start the game
+    */
     public Game() {
-        level = new Levels();
-        level.level1();
-        
-        currentRoom = level.getStartRoom(); // Get the start room
-        
-        parser = new Parser();
     }
 
     /**
      * Main play routine. Loops until end of play.
      */
     public void play() {
-        printWelcome();
+        Scanner in = new Scanner ( System.in );
+        
+        System.out.println("|    FABLES OF DARKNESS    |");
+        System.out.println("|        1. level 1        |");
+        System.out.println("|        2. level 2        |");
+        System.out.println("|        3. Exit           |");
+        System.out.println ("");
+        System.out.println ( "1) Level 1\n2) Level 2\n3) Exit" );
+        System.out.print ( "Selection: " );
 
+        // Switch construct
+        switch (in.nextInt()) {
+            case 1:
+            //in.close(); // Close the menu listener
+            System.out.println("");
+            System.out.println("Level 1 selected: The Cyst of Elemental Worms");
+            
+                level = new Levels(); // make connecting with the levels
+                level.level1(); // load map 1
+                currentRoom = level.getStartRoom(); // Get the start room
+                
+                parser = new Parser(); // start the game-listener
+                
+            clearScreen();
+            System.out.println("");
+            
+            printWelcome(); // welcome the player
+            playloop(); // start the game
+            break;
+            case 2:
+            System.out.println("Level 2 selected: NoName.");
+            break;
+            case 3:
+            System.out.println("Exit selected");
+            break;
+            default:
+             System.err.println ( "Unrecognized option" );
+             break;
+        }
+
+    }
+    
+    
+    public void playloop() {
         // Enter the main command loop. Here we repeatedly read commands and
         // execute them until the game is over.
 
@@ -79,27 +115,27 @@ public class Game {
         CommandWord commandWord = command.getCommandWord();
 
         switch (commandWord) {
-        case UNKNOWN:
+            case UNKNOWN:
             System.out.println("I don't know what you mean...");
             break;
 
-        case HELP:
+            case HELP:
             printHelp();
             break;
 
-        case GO:
+            case GO:
             goRoom(command);
             break;
 
-        case LOOK:
+            case LOOK:
             System.out.println(currentRoom.getlongDescription());
             break;
 
-        case SEARCH:
+            case SEARCH:
             System.out.println(currentRoom.getlongDescription());
             break;
 
-        case QUIT:
+            case QUIT:
             wantToQuit = quit(command);
             break;
         }
@@ -128,6 +164,7 @@ public class Game {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know where to go...
             System.out.println("Go where?");
+            System.out.println(currentRoom.getRoomDescription());
             return;
         }
 
@@ -137,10 +174,10 @@ public class Game {
         Room nextRoom = currentRoom.getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
+            System.out.println("You can't go that way!");
         } else {
             currentRoom = nextRoom;
-            System.out.println(currentRoom.getlongDescription());
+            System.out.println(currentRoom.getRoomDescription());
         }
     }
 
@@ -158,5 +195,12 @@ public class Game {
             return true; // signal that we want to quit
         }
     }
-
+    
+    /**
+     * Clear the screen!
+     */
+    public static void clearScreen() {  
+    System.out.print("");  
+    System.out.flush();  
+   }
 }
