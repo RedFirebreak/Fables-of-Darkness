@@ -35,6 +35,8 @@ public class Game {
         level = new Levels();
         level.level1();
         
+        currentRoom = level.getStartRoom(); // Get the start room
+        
         parser = new Parser();
     }
 
@@ -59,7 +61,6 @@ public class Game {
      * Print out the opening message for the player.
      */
     private void printWelcome() {
-
         System.out.println("You wake up in a dimly lit storage room.");
         System.out.println("The room is lit by a torch in the distance.");
         System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
