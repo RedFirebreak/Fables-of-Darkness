@@ -9,7 +9,7 @@ public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
     
-    public Room getstartroom(){
+    public Room getStartRoom(){
         return currentRoom;
     }
     public void level1() {
