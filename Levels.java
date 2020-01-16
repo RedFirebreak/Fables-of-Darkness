@@ -9,8 +9,9 @@ import java.util.*;
 public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
+    private Stack items = new Stack();
 
-    public Room getStartRoom() {
+    public Room getStartRoom(){
         return currentRoom;
     }
 
@@ -59,8 +60,14 @@ public class Levels {
         t2 = new Room("SHORT_DESC", "LONG_DESC", false);
         bossRoom = new Room("SHORT_DESC", "LONG_DESC", false);
 
-        // set the items in this level
-        List<String> items = new ArrayList<String>();
+        //set the items in this level
+        items.push("Bread");
+        items.push("Bread");
+        items.push("Jug of Water");
+        items.push("Steak");
+        items.push("Dagger");
+        items.push("Cloak");
+        items.push("Unlit Torch");
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
@@ -130,4 +137,17 @@ public class Levels {
         currentRoom = room1;
     }
 
+    public Stack getItemStack() {
+        return items;
+    }
+    
+    public int getStackCount() {
+        Stack countStack = items;
+        int count = 0;
+        while(!countStack.isEmpty()) {
+            count++;
+            countStack.pop();
+        }
+        return count;
+    }
 }

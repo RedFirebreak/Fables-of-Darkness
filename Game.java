@@ -26,6 +26,7 @@ public class Game {
     private Levels level;
     private Room currentRoom;
     private Room roomInventory;
+    private Randomizer itemRandomizer;
     private Player player;
     private Stack backList;
     private java.util.List<String> inventory = new ArrayList<>();
@@ -67,6 +68,7 @@ public class Game {
 
             parser = new Parser(); // start the game-listener
 
+                itemRandomizer.randomizeItems(); //Randomize the items
             System.out.println("");
 
             printWelcome(); // welcome the player
