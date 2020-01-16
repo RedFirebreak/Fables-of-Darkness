@@ -26,6 +26,7 @@ public class Game {
     private Levels level;
     private Room currentRoom;
     private Room roomInventory;
+    private Randomizer itemRandomizer;
     private Player player;
     private java.util.List<String> inventory = new ArrayList<>();
 
@@ -64,7 +65,7 @@ public class Game {
                 level = new Levels(); // make connecting with the levels
                 level.level1(); // load map 1
                 currentRoom = level.getStartRoom(); // Get the start room
-                
+                itemRandomizer.randomizeItems(); //Randomize the items
                 parser = new Parser(); // start the game-listener
                 
             clearScreen();

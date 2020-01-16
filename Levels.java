@@ -9,11 +9,12 @@ import java.util.*;
 public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
-    
+    private Stack items = new Stack();
+
     public Room getStartRoom(){
         return currentRoom;
     }
-    
+
     /**
      * Generate the rooms, the exits, descreptions and item availability.
      * 
@@ -27,9 +28,9 @@ public class Levels {
         Room bossRoom;
         // create the rooms with Room("short description (shows when you move into the room)", "long description (shows when you seach the room)", boolean true or false (checks whether the room can have an item or not)
         room1 = new Room("a dark storage room",
-                "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door", true);
+            "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door", true);
         room2 = new Room("a storage room",
-                "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)", true);
+            "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)", true);
         room3 = new Room("SHORT_DESC", "LONG_DESC", true);
         room4 = new Room("SHORT_DESC", "LONG_DESC", true);
         room5 = new Room("SHORT_DESC", "LONG_DESC", true);
@@ -53,11 +54,16 @@ public class Levels {
         t1 = new Room("SHORT_DESC", "LONG_DESC", false);
         t2 = new Room("SHORT_DESC", "LONG_DESC", false);
         bossRoom = new Room("SHORT_DESC", "LONG_DESC", false);
-        
+
         //set the items in this level
-        List<String> items = new ArrayList<String>();
-        
-        
+        items.push("Bread");
+        items.push("Bread");
+        items.push("Jug of Water");
+        items.push("Steak");
+        items.push("Dagger");
+        items.push("Cloak");
+        items.push("Unlit Torch");
+
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
         room1.setExit("south", c1);
@@ -122,10 +128,21 @@ public class Levels {
         room13.setExit("north", c6);
 
         de2.setExit("east", t2);
-        
 
         currentRoom = room1;
     }
+
+    public Stack getItemStack() {
+        return items;
+    }
     
-    
+    public int getStackCount() {
+        Stack countStack = items;
+        int count = 0;
+        while(!countStack.isEmpty()) {
+            count++;
+            countStack.pop();
+        }
+        return count;
+    }
 }
