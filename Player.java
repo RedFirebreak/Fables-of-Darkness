@@ -18,5 +18,16 @@ public class Player
         // view command met: System.out.println(inv);
         int HP;
     }
+    
+    public void backcommand(){
+        Stack back = new Stack();
+        
+        back.push("1"); // Add something to the stack
+        back.pop(); // Remove the top item from the stack
+        back.peek(); // View the top item from the stack
+        int index = back.search("3"); // Search the thirdindex = 3
+        
+    
+    }
 
 }
