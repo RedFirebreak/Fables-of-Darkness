@@ -17,6 +17,7 @@ import java.util.*;
 public class Room {
     private String shortDescription;
     private String longDescription;
+    private int roomAmount = 0;
     private HashMap<String, Room> exits; // stores exits of this room.
     private ArrayList<String[]> roomInventory; // stores items of this room.
 
@@ -26,9 +27,14 @@ public class Room {
      * 
      * @param description The room's description.
      */
-    public Room(String shortDescription, String longDescription) {
+    public Room(String shortDescription, String longDescription,boolean hasItem ) {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
+        
+    if (hasItem) {
+        roomAmount++;
+    }
+    
         exits = new HashMap<>();
     }
 
