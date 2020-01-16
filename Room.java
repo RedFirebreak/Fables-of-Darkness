@@ -29,11 +29,11 @@ public class Room {
     public Room(String shortDescription, String longDescription,boolean hasItem ) {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
-        
-    if (hasItem) {
-        roomAmount++;
-    }
-    
+
+        if (hasItem) {
+            roomAmount++;
+        }
+
         exits = new HashMap<>();
     }
 

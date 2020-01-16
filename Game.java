@@ -31,6 +31,7 @@ public class Game {
     * Getting everything ready to start the game
     */
     public Game() {
+        
     }
 
     /**
@@ -60,7 +61,6 @@ public class Game {
                 
                 parser = new Parser(); // start the game-listener
                 
-            clearScreen();
             System.out.println("");
             
             printWelcome(); // welcome the player
@@ -195,12 +195,4 @@ public class Game {
             return true; // signal that we want to quit
         }
     }
-    
-    /**
-     * Clear the screen!
-     */
-    public static void clearScreen() {  
-    System.out.print("");  
-    System.out.flush();  
-   }
 }

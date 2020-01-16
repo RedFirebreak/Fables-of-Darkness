@@ -8,6 +8,7 @@ import java.util.*;
  */
 public class Player
 {
+    private Stack back = new Stack();
 
     /**
      * Create a player for player management
@@ -19,15 +20,16 @@ public class Player
         int HP;
     }
     
-    public void backcommand(){
-        Stack back = new Stack();
-        
-        back.push("1"); // Add something to the stack
-        back.pop(); // Remove the top item from the stack
-        back.peek(); // View the top item from the stack
-        int index = back.search("3"); // Search the thirdindex = 3
-        
-    
+    private void addBack(String addToBack){       
+        back.push(addToBack); // Add something to the stack
+        //int index = back.search("3"); // Search the thirdindex = 3
     }
 
+    private void removeBack(){       
+        back.pop();
+    }
+    
+    private Stack getBack(){       
+        return back;
+    }
 }
