@@ -18,6 +18,8 @@ public class Room {
     private String shortDescription;
     private String longDescription;
     private HashMap<String, Room> exits; // stores exits of this room.
+    private HashMap<String, Room> ids; // stores ids of this room.
+    
     private ArrayList<String[]> roomInventory; // stores items of this room.
 
     /**
@@ -31,6 +33,7 @@ public class Room {
         this.longDescription = longDescription;
 
         exits = new HashMap<>();
+        ids = new HashMap<>();
     }
 
     /**
@@ -42,7 +45,27 @@ public class Room {
     public void setExit(String direction, Room neighbor) {
         exits.put(direction, neighbor);
     }
-
+    
+    public void setRoomID(String id, Room roomname) {
+        ids.put(id, roomname);
+    }
+    
+    /**
+     * Define an ID for every room so we can easily find it later.
+     */
+    public Room getRoomFromID(String id) {
+        return ids.get(id); // Gets the room based on input id
+    }
+    
+    public String getRoomID() {
+        String returnString = "RoomID:";
+        Set<String> keys = ids.keySet();
+        for (String exit : keys) {
+            returnString += " " + exit;
+        }
+        return returnString;
+    }
+    
     /**
      * @return The short description of the room (the one that was defined in the
      *         constructor).

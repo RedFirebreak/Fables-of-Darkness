@@ -10,6 +10,7 @@ public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack items = new Stack();
+    private HashMap<String, Room> exits; // stores exits of this room.
 
     public Room getStartRoom(){
         return currentRoom;
@@ -32,11 +33,11 @@ public class Levels {
         // room)", "long description (shows when you seach the room)", boolean true or
         // false (checks whether the room can have an item or not)
         room1 = new Room("a dark storage room",
-                "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door",
-                true);
+            "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door",
+            true);
         room2 = new Room("a storage room",
-                "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)",
-                true);
+            "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)",
+            true);
         room3 = new Room("SHORT_DESC", "LONG_DESC", true);
         room4 = new Room("SHORT_DESC", "LONG_DESC", true);
         room5 = new Room("SHORT_DESC", "LONG_DESC", true);
@@ -60,7 +61,37 @@ public class Levels {
         t2 = new Room("SHORT_DESC", "LONG_DESC", false);
         bossRoom = new Room("SHORT_DESC", "LONG_DESC", false);
 
-        //set the items in this level
+        //Set the roomID
+        room1.setRoomID("1",room1);
+        room2.setRoomID("2",room2);
+        room3.setRoomID("3",room3);
+        room4.setRoomID("4",room4);
+        room5.setRoomID("5",room5);
+        room6.setRoomID("6",room6);
+        room7.setRoomID("7",room7);
+        room8.setRoomID("8",room8);
+        room9.setRoomID("9",room9);
+        room10.setRoomID("10",room10);
+        room11.setRoomID("11",room11);
+        room12.setRoomID("12",room12);
+        room13.setRoomID("13",room13);
+
+        c1.setRoomID("14",c1);
+        c2.setRoomID("15",c2);
+        c3.setRoomID("16",c3);
+        c4.setRoomID("17",c4);
+        c5.setRoomID("18",c5);
+        c6.setRoomID("19",c6);
+
+        de1.setRoomID("20",de1);
+        de2.setRoomID("21",de2);
+
+        t1.setRoomID("22",t1);
+        t2.setRoomID("23",t2);
+
+        bossRoom.setRoomID("24",bossRoom);
+
+        // Set the items in this level
         items.push("Bread");
         items.push("Bread");
         items.push("Jug of Water");
@@ -140,7 +171,7 @@ public class Levels {
     public Stack getItemStack() {
         return items;
     }
-    
+
     public int getStackCount() {
         Stack countStack = items;
         int count = 0;
@@ -150,4 +181,5 @@ public class Levels {
         }
         return count;
     }
+
 }

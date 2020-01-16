@@ -68,7 +68,7 @@ public class Game {
 
             parser = new Parser(); // start the game-listener
 
-                itemRandomizer.randomizeItems(); //Randomize the items
+                //itemRandomizer.randomizeItems(); //Randomize the items
             System.out.println("");
 
             printWelcome(); // welcome the player
@@ -200,7 +200,6 @@ public class Game {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getRoomDescription());
             System.out.println("DEBUG: roomID: " + currentRoom.getRoomID());
-            System.out.println("DEBUG: RooumAmount: " + currentRoom.getRoomAmount());
         }
     }
 
