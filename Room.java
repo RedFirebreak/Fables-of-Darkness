@@ -27,17 +27,21 @@ public class Room {
      * 
      * @param description The room's description.
      */
-    public Room(String shortDescription, String longDescription,boolean hasItem ) {
+    public Room(String shortDescription, String longDescription, boolean hasItem) {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
-        
-    if (hasItem) {
-        roomAmount++;
-    }
-    
+
+        if (hasItem) {
+            roomAmount++;
+        }
+
         exits = new HashMap<>();
     }
 
+    public int getRoomAmount() {
+        return roomAmount;
+    }
+    
     /**
      * Define an exit from this room.
      * 

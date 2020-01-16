@@ -8,17 +8,29 @@ import java.util.*;
  */
 public class Randomizer
 {
-    private int roomCount;
+    private int roomCount = 0;
+    
     public Randomizer() {
-        roomCount = 20; //amount of rooms and crossroads.
+        Game room = new Game();
+        Room currentRoom = room.getCurrentRoom();
+        roomCount = currentRoom.getRoomAmount();
+        System.out.println("DEBUG: roomamount: " + roomCount);
     }
     
     public int getRandomNumber() {
         Random random = new Random();
-        int randomnumber = random.nextInt(roomCount);
+        int randomNumber = random.nextInt(roomCount);
+        return randomNumber;
     }
     
-    
-    
+    public void randomizeItems() {
+        int random = 0;
+        
+        for(int i = 0; i<roomCount; i++) {
+            random = getRandomNumber(); 
+            
+        }
+        
+    }
     
 }

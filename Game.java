@@ -35,7 +35,6 @@ public class Game {
     public Game() {
         level = new Levels();
         level.level1();
-
         currentRoom = level.getStartRoom(); // Get the start room
         inventory.add("Bread");
         parser = new Parser();
@@ -54,7 +53,7 @@ public class Game {
         System.out.println ("");
         System.out.println ( "1) Level 1\n2) Level 2\n3) Exit" );
         System.out.print ( "Selection: " );
-
+        
         // Switch construct
         switch (in.nextInt()) {
             case 1:
@@ -87,6 +86,9 @@ public class Game {
 
     }
     
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
     
     public void playloop() {
         // Enter the main command loop. Here we repeatedly read commands and
