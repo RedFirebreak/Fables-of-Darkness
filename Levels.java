@@ -10,6 +10,7 @@ public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack items = new Stack();
+    private int roomCounter = 0;
     private HashMap<String, Room> exits; // stores exits of this room.
 
     public Room getStartRoom(){
@@ -99,6 +100,9 @@ public class Levels {
         items.push("Dagger");
         items.push("Cloak");
         items.push("Unlit Torch");
+        
+        room1.setRoomInventory("Bread");
+        room1.getRoomInventory();
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
@@ -181,5 +185,8 @@ public class Levels {
         }
         return count;
     }
-
+    
+    public int getRoomCount() {
+        return roomCounter;
+    }
 }

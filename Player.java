@@ -9,7 +9,7 @@ import java.util.*;
 public class Player
 {
     private Stack back = new Stack();
-
+// voeg current room hier toe
     /**
      * Create a player for player management
      */
