@@ -17,8 +17,10 @@ import java.util.*;
 public class Room {
     private String shortDescription;
     private String longDescription;
+    private String roomID;
+
     private HashMap<String, Room> exits; // stores exits of this room.
-    private HashMap<String, Room> ids; // stores ids of this room.
+
     private ArrayList<String> roomInventory; // stores items of this room.
 
     /**
@@ -27,19 +29,18 @@ public class Room {
      * 
      * @param description The room's description.
      */
-    public Room(String shortDescription, String longDescription, boolean hasItem) {
+    public Room(String ID, String shortDescription, String longDescription, boolean hasItem) {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
-        
+        this.roomID = ID;
+
         this.roomInventory = new ArrayList<String>();
         exits = new HashMap<>();
-        ids = new HashMap<>();
     }
-    
-    public ArrayList getRoomInventory() {
-        return roomInventory;
-    }
-    
+
+    /**
+     * Add something to the current room inventory
+     */
     public void setRoomInventory(String input) {
         roomInventory.add(input);
     }
@@ -53,27 +54,26 @@ public class Room {
     public void setExit(String direction, Room neighbor) {
         exits.put(direction, neighbor);
     }
-    
-    public void setRoomID(String id, Room roomname) {
-        ids.put(id, roomname);
+
+    public void setRoomID(String ID) {
+        this.roomID = ID;
     }
-    
+
+    // All getters follow now
     /**
-     * Define an ID for every room so we can easily find it later.
+     * Get the current room ID
      */
-    public Room getRoomFromID(String id) {
-        return ids.get(id); // Gets the room based on input id
-    }
-    
     public String getRoomID() {
-        String returnString = "RoomID:";
-        Set<String> keys = ids.keySet();
-        for (String exit : keys) {
-            returnString += " " + exit;
-        }
-        return returnString;
+        return roomID;
     }
-    
+
+    /**
+     * Get the current room inventory
+     */
+    public ArrayList getRoomInventory() {
+        return roomInventory;
+    }
+
     /**
      * @return The short description of the room (the one that was defined in the
      *         constructor).

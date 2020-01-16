@@ -3,6 +3,7 @@ import java.util.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * This class is the main class of the "World of Zuul" application. "World of
@@ -42,47 +43,61 @@ public class Game {
      */
     public void play() {
         Scanner in = new Scanner(System.in);
-
+        
+        System.out.println(" __________________________ ");
         System.out.println("|    FABLES OF DARKNESS    |");
         System.out.println("|        1. level 1        |");
         System.out.println("|        2. level 2        |");
         System.out.println("|        3. Exit           |");
+        System.out.println("|__________________________|");
         System.out.println("");
         System.out.println("1) Level 1\n2) Level 2\n3) Exit");
-        System.out.print("Selection: ");
+        System.out.print(" > ");
 
         // Switch construct
-        switch (in.nextInt()) {
-        case 1:
-            // in.close(); // Close the menu listener
-            System.out.println("");
-            System.out.println("Level 1 selected: The Cyst of Elemental Worms");
-
-            level = new Levels(); // make connecting with the levels
-            level.level1(); // load map 1
-            currentRoom = level.getStartRoom(); // Get the start room
-
-            player = new Player(); // load the player
-            backList = player.getBack();
-
-            parser = new Parser(); // start the game-listener
-            
-            System.out.println("");
-
-            printWelcome(); // welcome the player
-            playloop(); // start the game
-            break;
-        case 2:
-            System.out.println("Level 2 selected: NoName.");
-            break;
-        case 3:
-            System.out.println("Exit selected");
-            break;
-        default:
-            System.err.println("Unrecognized option");
-            break;
+        try {
+        
+            switch (in.nextInt()) {
+            case 1:
+                // in.close(); // Close the menu listener
+                System.out.println("");
+                System.out.println("Level 1 selected: The Cyst of Elemental Worms");
+    
+                level = new Levels(); // make connecting with the levels
+                level.level1(); // load map 1
+                currentRoom = level.getStartRoom(); // Get the start room
+    
+                player = new Player(); // load the player
+                backList = player.getBack();
+    
+                parser = new Parser(); // start the game-listener
+    
+                System.out.println("");
+    
+                printWelcome(); // welcome the player
+                playloop(); // start the game
+                break;
+            case 2:
+                System.out.println("Level 2 selected: NoName.");
+                break;
+            case 3:
+                System.out.println("Exit selected!");
+                System.out.println("");
+                goodbyeMessage();
+                break;
+            default:
+                System.out.println("That option does not exist! Please try again.");
+                System.out.println("");
+                play();
+                break;
+            }
         }
-
+        catch (Exception e) {
+          // Someone probably entered a string instead of a number. Inform the user and try again
+          System.out.println("Please put in a number.");
+          System.out.println("");
+          play();
+    }
     }
 
     public Room getCurrentRoom() {
@@ -98,7 +113,11 @@ public class Game {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing Fables of Darkness.  Have a nice day and goodbye!");
+        goodbyeMessage();
+    }
+    
+    private void goodbyeMessage() {
+     System.out.println("Thank you for playing Fables of Darkness.  Have a nice day and goodbye!");   
     }
 
     /**
@@ -107,7 +126,9 @@ public class Game {
     private void printWelcome() {
         System.out.println("You wake up in a dimly lit storage room.");
         System.out.println("The room is lit by a torch in the distance.");
-        System.out.println("Type '" + CommandWord.HELP + "' if you need help.");
+        System.out.println("Your command words are:");
+        parser.showCommands();
+        
         System.out.println("");
         System.out.println(currentRoom.getRoomDescription());
     }
@@ -148,6 +169,28 @@ public class Game {
 
         case TAKE:
             pickupItem(command);
+            break;
+
+        case BACK:
+            Stack<String> backStack = player.getBack();
+            if (backStack.empty()) {
+                System.out.println("You cant go back from here!");
+            } else {
+                 
+                HashMap<String, Room> allroomIDs = level.getAllroomIDs(); // get full map from levels
+                if (allroomIDs.containsKey(backStack.peek())) { // Check if the latest stack item exists
+                Room previousRoom = allroomIDs.get(backStack.peek());// compare the latest in the stack and save that in "previousroom"
+                currentRoom = previousRoom; // replace the current room with the previous room we just got
+                System.out.println("");
+                System.out.println("You went back!"); // inform the user
+                System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+                
+                player.removeBack();
+                } else {
+                    System.out.println("The previous room couldn't be loaded.");
+                }
+            }
+            break;
 
         case INV:
             System.out.println("Your inventory contains: ");
@@ -195,11 +238,13 @@ public class Game {
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
         } else {
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getRoomDescription());
+            player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
+            currentRoom = nextRoom; // go to the next room
+            System.out.println("");
+            System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+
             Levels level = new Levels();
-            int roomCount = level.getRoomCount(); System.out.println("DEBUG: roomCount= " + roomCount);
-            System.out.println("DEBUG: roomID: " + currentRoom.getRoomID());
+            int roomCount = level.getRoomCount();
         }
     }
 
