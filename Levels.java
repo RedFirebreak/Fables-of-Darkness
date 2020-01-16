@@ -10,6 +10,7 @@ public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack items = new Stack();
+    private int roomCounter = 0;
 
     public Room getStartRoom(){
         return currentRoom;
@@ -31,35 +32,35 @@ public class Levels {
         // create the rooms with Room("short description (shows when you move into the
         // room)", "long description (shows when you seach the room)", boolean true or
         // false (checks whether the room can have an item or not)
-        room1 = new Room("a dark storage room",
+            room1 = new Room("a dark storage room",
                 "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door",
                 true);
-        room2 = new Room("a storage room",
+            room2 = new Room("a storage room",
                 "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)",
                 true);
-        room3 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room4 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room5 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room6 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room7 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room8 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room9 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room10 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room11 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room12 = new Room("SHORT_DESC", "LONG_DESC", true);
-        room13 = new Room("SHORT_DESC", "LONG_DESC", true);
-        c1 = new Room("In a crossroad", "You can see a long corridor. It smells kind of damp.", true);
-        c2 = new Room("SHORT_DESC", "LONG_DESC", true);
-        c3 = new Room("SHORT_DESC", "LONG_DESC", true);
-        c4 = new Room("SHORT_DESC", "LONG_DESC", true);
-        c5 = new Room("SHORT_DESC", "LONG_DESC", true);
-        c6 = new Room("SHORT_DESC", "LONG_DESC", true);
-        de1 = new Room("SHORT_DESC", "LONG_DESC", false);
-        de2 = new Room("SHORT_DESC", "LONG_DESC", false);
-        t1 = new Room("SHORT_DESC", "LONG_DESC", false);
-        t2 = new Room("SHORT_DESC", "LONG_DESC", false);
-        bossRoom = new Room("SHORT_DESC", "LONG_DESC", false);
-
+            room3 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room4 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room5 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room6 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room7 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room8 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room9 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room10 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room11 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room12 = new Room("SHORT_DESC", "LONG_DESC", true);
+            room13 = new Room("SHORT_DESC", "LONG_DESC", true);
+            c1 = new Room("In a crossroad", "You can see a long corridor. It smells kind of damp.", true);
+            c2 = new Room("SHORT_DESC", "LONG_DESC", true);
+            c3 = new Room("SHORT_DESC", "LONG_DESC", true);
+            c4 = new Room("SHORT_DESC", "LONG_DESC", true);
+            c5 = new Room("SHORT_DESC", "LONG_DESC", true);
+            c6 = new Room("SHORT_DESC", "LONG_DESC", true);
+            de1 = new Room("SHORT_DESC", "LONG_DESC", false);
+            de2 = new Room("SHORT_DESC", "LONG_DESC", false);
+            t1 = new Room("SHORT_DESC", "LONG_DESC", false);
+            t2 = new Room("SHORT_DESC", "LONG_DESC", false);
+            bossRoom = new Room("SHORT_DESC", "LONG_DESC", false);
+        
         //set the items in this level
         items.push("Bread");
         items.push("Bread");
@@ -68,6 +69,9 @@ public class Levels {
         items.push("Dagger");
         items.push("Cloak");
         items.push("Unlit Torch");
+        
+        room1.setRoomInventory("Bread");
+        room1.getRoomInventory();
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
@@ -140,7 +144,7 @@ public class Levels {
     public Stack getItemStack() {
         return items;
     }
-    
+
     public int getStackCount() {
         Stack countStack = items;
         int count = 0;
@@ -149,5 +153,9 @@ public class Levels {
             countStack.pop();
         }
         return count;
+    }
+    
+    public int getRoomCount() {
+        return roomCounter;
     }
 }

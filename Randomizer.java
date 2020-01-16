@@ -18,9 +18,8 @@ public class Randomizer
     */
     public Randomizer() {
         //Get room amount
-        Game room = new Game();
-        Room currentRoom = room.getCurrentRoom();
-        roomCount = currentRoom.getRoomAmount();
+        Levels level = new Levels();
+        roomCount = level.getRoomCount();
 
         //Get item stack from Levels
         Levels item = new Levels();
