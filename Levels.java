@@ -1,3 +1,4 @@
+import java.util.*;
 
 /**
  * Write a description of class Levels here.
@@ -13,13 +14,18 @@ public class Levels {
         return currentRoom;
     }
     
+    /**
+     * Generate the rooms, the exits, descreptions and item availability.
+     * 
+     */
     public void level1() {
+        //What rooms do you want to generate? room is a room. c is a crossroad. de is a dead end. t is a trapdoor. bossRoom is unique.
         Room room1, room2, room3, room4, room5, room6, room7, room8, room9, room10, room11, room12, room13;
         Room c1, c2, c3, c4, c5, c6, c7;
         Room de1, de2;
         Room t1, t2;
         Room bossRoom;
-        // create the rooms
+        // create the rooms with Room("short description (shows when you move into the room)", "long description (shows when you seach the room)", boolean true or false (checks whether the room can have an item or not)
         room1 = new Room("a dark storage room",
                 "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door", true);
         room2 = new Room("a storage room",
@@ -47,8 +53,12 @@ public class Levels {
         t1 = new Room("SHORT_DESC", "LONG_DESC", false);
         t2 = new Room("SHORT_DESC", "LONG_DESC", false);
         bossRoom = new Room("SHORT_DESC", "LONG_DESC", false);
-
-        // initialise room exits
+        
+        //set the items in this level
+        List<String> items = new ArrayList<String>();
+        
+        
+        // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
         room1.setExit("south", c1);
 
@@ -116,4 +126,6 @@ public class Levels {
 
         currentRoom = room1;
     }
+    
+    
 }

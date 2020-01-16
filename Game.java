@@ -25,13 +25,19 @@ public class Game {
     private Parser parser;
     private Levels level;
     private Room currentRoom;
+    private Room roomInventory;
     private Player player;
+    private java.util.List<String> inventory = new ArrayList<>();
 
     /**
     * Getting everything ready to start the game
     */
     public Game() {
-        
+        level = new Levels();
+        level.level1();
+        currentRoom = level.getStartRoom(); // Get the start room
+        inventory.add("Bread");
+        parser = new Parser();
     }
 
     /**
@@ -47,7 +53,7 @@ public class Game {
         System.out.println ("");
         System.out.println ( "1) Level 1\n2) Level 2\n3) Exit" );
         System.out.print ( "Selection: " );
-
+        
         // Switch construct
         switch (in.nextInt()) {
             case 1:
@@ -79,6 +85,9 @@ public class Game {
 
     }
     
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
     
     public void playloop() {
         // Enter the main command loop. Here we repeatedly read commands and
@@ -135,6 +144,14 @@ public class Game {
             System.out.println(currentRoom.getlongDescription());
             break;
 
+            case TAKE:
+            pickupItem(command);
+            
+            case INV:
+            System.out.println("Your inventory contains: ");
+            System.out.println(inventory);
+            break;
+
             case QUIT:
             wantToQuit = quit(command);
             break;
@@ -179,6 +196,20 @@ public class Game {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getRoomDescription());
         }
+    }
+    
+    /**
+     * Try to go in one direction. If there is an exit, enter the new room,
+     * otherwise print an error message.
+     */
+    private void pickupItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to take...
+            System.out.println("Take what?");
+            return;
+        }
+        
+        
     }
 
     /**

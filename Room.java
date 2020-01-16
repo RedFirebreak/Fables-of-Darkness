@@ -19,6 +19,7 @@ public class Room {
     private String longDescription;
     private int roomAmount = 0;
     private HashMap<String, Room> exits; // stores exits of this room.
+    private ArrayList<String[]> roomInventory; // stores items of this room.
 
     /**
      * Create a room described "description". Initially, it has no exits.
@@ -26,7 +27,7 @@ public class Room {
      * 
      * @param description The room's description.
      */
-    public Room(String shortDescription, String longDescription,boolean hasItem ) {
+    public Room(String shortDescription, String longDescription, boolean hasItem) {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
 
@@ -37,6 +38,10 @@ public class Room {
         exits = new HashMap<>();
     }
 
+    public int getRoomAmount() {
+        return roomAmount;
+    }
+    
     /**
      * Define an exit from this room.
      * 
