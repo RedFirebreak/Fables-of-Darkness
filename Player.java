@@ -20,16 +20,16 @@ public class Player
         int HP;
     }
     
-    private void addBack(String addToBack){       
+    public void addBack(String addToBack){       
         back.push(addToBack); // Add something to the stack
         //int index = back.search("3"); // Search the thirdindex = 3
     }
 
-    private void removeBack(){       
+    public void removeBack(){       
         back.pop();
     }
     
-    private Stack getBack(){       
+    public Stack getBack(){       
         return back;
     }
 }

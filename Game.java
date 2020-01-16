@@ -27,68 +27,68 @@ public class Game {
     private Room currentRoom;
     private Room roomInventory;
     private Player player;
+    private Stack backList;
     private java.util.List<String> inventory = new ArrayList<>();
 
     /**
-    * Getting everything ready to start the game
-    */
+     * Getting everything ready to start the game
+     */
     public Game() {
-        level = new Levels();
-        level.level1();
-        currentRoom = level.getStartRoom(); // Get the start room
         inventory.add("Bread");
-        parser = new Parser();
     }
 
     /**
      * Main play routine. Loops until end of play.
      */
     public void play() {
-        Scanner in = new Scanner ( System.in );
-        
+        Scanner in = new Scanner(System.in);
+
         System.out.println("|    FABLES OF DARKNESS    |");
         System.out.println("|        1. level 1        |");
         System.out.println("|        2. level 2        |");
         System.out.println("|        3. Exit           |");
-        System.out.println ("");
-        System.out.println ( "1) Level 1\n2) Level 2\n3) Exit" );
-        System.out.print ( "Selection: " );
-        
+        System.out.println("");
+        System.out.println("1) Level 1\n2) Level 2\n3) Exit");
+        System.out.print("Selection: ");
+
         // Switch construct
         switch (in.nextInt()) {
-            case 1:
-            //in.close(); // Close the menu listener
+        case 1:
+            // in.close(); // Close the menu listener
             System.out.println("");
             System.out.println("Level 1 selected: The Cyst of Elemental Worms");
-            
-                level = new Levels(); // make connecting with the levels
-                level.level1(); // load map 1
-                currentRoom = level.getStartRoom(); // Get the start room
-                
-                parser = new Parser(); // start the game-listener
-                
+
+            level = new Levels(); // make connecting with the levels
+            level.level1(); // load map 1
+            currentRoom = level.getStartRoom(); // Get the start room
+
+            player = new Player(); // load the player
+            backList = player.getBack();
+
+            parser = new Parser(); // start the game-listener
+
             System.out.println("");
-            
+
             printWelcome(); // welcome the player
             playloop(); // start the game
             break;
-            case 2:
+        case 2:
             System.out.println("Level 2 selected: NoName.");
             break;
-            case 3:
+        case 3:
             System.out.println("Exit selected");
             break;
-            default:
-             System.err.println ( "Unrecognized option" );
-             break;
+        default:
+            System.err.println("Unrecognized option");
+            break;
         }
 
     }
-    
+
     public Room getCurrentRoom() {
         return currentRoom;
     }
-    
+
     public void playloop() {
         // Enter the main command loop. Here we repeatedly read commands and
         // execute them until the game is over.
@@ -124,35 +124,37 @@ public class Game {
         CommandWord commandWord = command.getCommandWord();
 
         switch (commandWord) {
-            case UNKNOWN:
+        case UNKNOWN:
             System.out.println("I don't know what you mean...");
             break;
 
-            case HELP:
+        case HELP:
             printHelp();
             break;
 
-            case GO:
+        case GO:
+            // backList.push(command.getSecondWord()); // save the current room, then
+            // TELEPORT him there
             goRoom(command);
             break;
 
-            case LOOK:
+        case LOOK:
             System.out.println(currentRoom.getlongDescription());
             break;
 
-            case SEARCH:
+        case SEARCH:
             System.out.println(currentRoom.getlongDescription());
             break;
 
-            case TAKE:
+        case TAKE:
             pickupItem(command);
-            
-            case INV:
+
+        case INV:
             System.out.println("Your inventory contains: ");
             System.out.println(inventory);
             break;
 
-            case QUIT:
+        case QUIT:
             wantToQuit = quit(command);
             break;
         }
@@ -195,9 +197,11 @@ public class Game {
         } else {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getRoomDescription());
+            System.out.println("DEBUG: roomID: " + currentRoom.getRoomID());
+            System.out.println("DEBUG: RooumAmount: " + currentRoom.getRoomAmount());
         }
     }
-    
+
     /**
      * Try to go in one direction. If there is an exit, enter the new room,
      * otherwise print an error message.
@@ -208,8 +212,7 @@ public class Game {
             System.out.println("Take what?");
             return;
         }
-        
-        
+
     }
 
     /**
