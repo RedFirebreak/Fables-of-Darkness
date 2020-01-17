@@ -19,9 +19,12 @@ public class Room {
     private String longDescription;
     private String roomID;
 
+    private boolean canHoldItem;
     private HashMap<String, Room> exits; // stores exits of this room.
 
     private ArrayList<String> roomInventory; // stores items of this room.
+    private HashMap<String, Room> ids; // stores ids of this room.
+    private int roomCount;
 
     /**
      * Create a room described "description". Initially, it has no exits.
@@ -33,8 +36,9 @@ public class Room {
         this.shortDescription = shortDescription;
         this.longDescription = longDescription;
         this.roomID = ID;
-
         this.roomInventory = new ArrayList<String>();
+        this.canHoldItem = hasItem;
+        this.roomCount = 0;
         exits = new HashMap<>();
     }
 

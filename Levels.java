@@ -11,13 +11,21 @@ public class Levels {
     private Room currentRoom;
     private Stack items = new Stack();
     private int roomCounter = 0;
+    private int totalRooms = 0;
+    private Randomizer random = new Randomizer();
 
     private HashMap<String, Room> allroomIDs; // stores ids of ALL rooms.
 
     public Room getStartRoom() {
         return currentRoom;
     }
-
+    
+    public void roomInventories() {
+            random.setEmptyRoomInventories(24);
+            random.getAllRoomInventories();
+            random.randomizeRoomInventories();
+        }
+        
     /**
      * Generate the rooms, the exits, descreptions and item availability.
      * 
@@ -96,6 +104,8 @@ public class Levels {
         allroomIDs.put(t1.getRoomID(), t1);
         allroomIDs.put(t2.getRoomID(), t2);
 
+        setTotalRooms(24);
+        
         allroomIDs.put(bossRoom.getRoomID(), bossRoom);
 
         // Set the items in this level
@@ -106,9 +116,6 @@ public class Levels {
         items.push("Dagger");
         items.push("Cloak");
         items.push("Unlit Torch");
-
-        room1.setRoomInventory("Bread");
-        room1.getRoomInventory();
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
@@ -180,6 +187,14 @@ public class Levels {
 
     public Stack getItemStack() {
         return items;
+    }
+    
+    public void setTotalRooms(int totalOfRooms) {
+        totalRooms = totalOfRooms;
+    }
+    
+    public int getTotalRooms() {
+        return totalRooms;
     }
 
     public int getStackCount() {

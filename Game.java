@@ -26,16 +26,20 @@ public class Game {
     private Parser parser;
     private Levels level;
     private Room currentRoom;
-    private Randomizer itemRandomizer;
     private Player player;
     private Stack backList;
     private java.util.List<String> inventory = new ArrayList<>();
+    private int totalRooms;
+    private Randomizer random;
 
     /**
      * Getting everything ready to start the game
      */
     public Game() {
         inventory.add("Bread");
+        level = new Levels();
+        totalRooms = 24;
+        random = new Randomizer();
     }
 
     /**
@@ -91,6 +95,7 @@ public class Game {
                 play();
                 break;
             }
+            level.roomInventories();
         }
         catch (Exception e) {
           // Someone probably entered a string instead of a number. Inform the user and try again
@@ -164,7 +169,8 @@ public class Game {
             break;
 
         case SEARCH:
-            System.out.println(currentRoom.getRoomInventory());
+            System.out.println(random.getAllRoomInventories());
+            //System.out.println(currentRoom.getRoomInventory(currentRoom.getRoomIDNumber()));
             break;
 
         case TAKE:
