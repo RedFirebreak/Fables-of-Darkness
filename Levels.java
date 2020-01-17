@@ -9,23 +9,16 @@ import java.util.*;
 public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
-    private Stack items = new Stack();
-    private int roomCounter = 0;
+    private Stack<String> randomItems = new Stack<String>();
+
     private int totalRooms = 0;
-    private Randomizer random = new Randomizer();
 
     private HashMap<String, Room> allroomIDs; // stores ids of ALL rooms.
 
     public Room getStartRoom() {
         return currentRoom;
     }
-    
-    public void roomInventories() {
-            random.setEmptyRoomInventories(24);
-            random.getAllRoomInventories();
-            random.randomizeRoomInventories();
-        }
-        
+
     /**
      * Generate the rooms, the exits, descreptions and item availability.
      * 
@@ -43,13 +36,13 @@ public class Levels {
         // (shows when you move into the
         // room)", "long description (shows when you seach the room)", boolean true or
         // false (checks whether the room can have an item or not)
-        int roomid = 0;
+        int roomid = 1;
         room1 = new Room(Integer.toString(roomid++), "a dark storage room",
-                "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door",
-                true);
+            "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door",
+            true);
         room2 = new Room(Integer.toString(roomid++), "a storage room",
-                "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)",
-                true);
+            "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)",
+            true);
         room3 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         room4 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         room5 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
@@ -62,7 +55,7 @@ public class Levels {
         room12 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         room13 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         c1 = new Room(Integer.toString(roomid++), "In a crossroad",
-                "You can see a long corridor. It smells kind of damp.", true);
+            "You can see a long corridor. It smells kind of damp.", true);
         c2 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         c3 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         c4 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
@@ -104,19 +97,34 @@ public class Levels {
         allroomIDs.put(t1.getRoomID(), t1);
         allroomIDs.put(t2.getRoomID(), t2);
 
-        setTotalRooms(24);
-        
         allroomIDs.put(bossRoom.getRoomID(), bossRoom);
 
         // Set the items in this level
-        items.push("Bread");
-        items.push("Bread");
-        items.push("Jug of Water");
-        items.push("Steak");
-        items.push("Dagger");
-        items.push("Cloak");
-        items.push("Unlit Torch");
+        totalRooms = roomid; // copy the max amount of rooms (is 25 for the first level)
 
+        // Add items to the random-stack
+        
+        randomItems.push("Bread");
+        randomItems.push("Bread");
+        randomItems.push("Jug of Water");
+        randomItems.push("Steak");
+        randomItems.push("Dagger");
+        randomItems.push("Cloak");
+        randomItems.push("Unlit Torch");
+
+        // Get a random String-number based on the max of the roomcount 
+        Randomizer randomize = new Randomizer();
+        
+        Iterator randomItemsIterator = randomItems.iterator(); // Create a iterator to loop trough all the random items 
+        while (randomItemsIterator.hasNext()) {
+            int randomNumber = randomize.getRandomNumber(totalRooms); // get a random number (int)
+            String randomRoomID = Integer.toString(randomNumber); // convert the int to string
+            
+            Room roomToAddItem = allroomIDs.get(randomRoomID); // load the room based on string-ID
+            roomToAddItem.setRoomInventory(randomItems.peek()); // add the top-most item to the room we just loaded.
+            randomItems.pop();
+        } 
+        
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
         room1.setExit("south", c1);
@@ -186,31 +194,9 @@ public class Levels {
     }
 
     public Stack getItemStack() {
-        return items;
-    }
-    
-    public void setTotalRooms(int totalOfRooms) {
-        totalRooms = totalOfRooms;
-    }
-    
-    public int getTotalRooms() {
-        return totalRooms;
+        return randomItems;
     }
 
-    public int getStackCount() {
-        Stack countStack = items;
-        int count = 0;
-        while (!countStack.isEmpty()) {
-            count++;
-            countStack.pop();
-        }
-        return count;
-    }
-
-    public int getRoomCount() {
-        return roomCounter;
-    }
-    
     public HashMap<String, Room> getAllroomIDs() {
         return allroomIDs;
     }

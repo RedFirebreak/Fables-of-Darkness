@@ -28,18 +28,11 @@ public class Game {
     private Room currentRoom;
     private Player player;
     private Stack backList;
-    private java.util.List<String> inventory = new ArrayList<>();
-    private int totalRooms;
-    private Randomizer random;
 
     /**
      * Getting everything ready to start the game
      */
     public Game() {
-        inventory.add("Bread");
-        level = new Levels();
-        totalRooms = 24;
-        random = new Randomizer();
     }
 
     /**
@@ -95,7 +88,6 @@ public class Game {
                 play();
                 break;
             }
-            level.roomInventories();
         }
         catch (Exception e) {
           // Someone probably entered a string instead of a number. Inform the user and try again
@@ -169,8 +161,7 @@ public class Game {
             break;
 
         case SEARCH:
-            System.out.println(random.getAllRoomInventories());
-            //System.out.println(currentRoom.getRoomInventory(currentRoom.getRoomIDNumber()));
+            System.out.println(currentRoom.getRoomInventory());
             break;
 
         case TAKE:
@@ -200,7 +191,7 @@ public class Game {
 
         case INV:
             System.out.println("Your inventory contains: ");
-            System.out.println(inventory);
+            System.out.println(""); // [FIX] LOAD THE CURRENT PLAYER INVENTORY
             break;
 
         case QUIT:
@@ -248,9 +239,6 @@ public class Game {
             currentRoom = nextRoom; // go to the next room
             System.out.println("");
             System.out.println(currentRoom.getRoomDescription()); // Print out the current description
-
-            Levels level = new Levels();
-            int roomCount = level.getRoomCount();
         }
     }
 
