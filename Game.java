@@ -52,7 +52,7 @@ public class Game {
         System.out.println("|__________________________|");
         System.out.println("");
         System.out.println("1) Level 1\n2) Level 2\n3) Exit");
-        System.out.print(" > ");
+        System.out.print("> ");
 
         // Switch construct
         try {
