@@ -40,7 +40,7 @@ public class Game {
      */
     public void play() {
         Scanner in = new Scanner(System.in);
-        
+
         System.out.println(" __________________________ ");
         System.out.println("|    FABLES OF DARKNESS    |");
         System.out.println("|        1. level 1        |");
@@ -53,36 +53,38 @@ public class Game {
 
         // Switch construct
         try {
-        
+
             switch (in.nextInt()) {
-            case 1:
+                case 1:
                 // in.close(); // Close the menu listener
                 System.out.println("");
                 System.out.println("Level 1 selected: The Cyst of Elemental Worms");
-    
+
+                // load the level
                 level = new Levels(); // make connecting with the levels
                 level.level1(); // load map 1
                 currentRoom = level.getStartRoom(); // Get the start room
-    
-                player = new Player(); // load the player
-                backList = player.getBack();
-    
+
+                // load the player
+                player = new Player(); // make connection with player
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
+
                 parser = new Parser(); // start the game-listener
-    
+
                 System.out.println("");
-    
+
                 printWelcome(); // welcome the player
                 playloop(); // start the game
                 break;
-            case 2:
+                case 2:
                 System.out.println("Level 2 selected: NoName.");
                 break;
-            case 3:
+                case 3:
                 System.out.println("Exit selected!");
                 System.out.println("");
                 goodbyeMessage();
                 break;
-            default:
+                default:
                 System.out.println("That option does not exist! Please try again.");
                 System.out.println("");
                 play();
@@ -90,11 +92,11 @@ public class Game {
             }
         }
         catch (Exception e) {
-          // Someone probably entered a string instead of a number. Inform the user and try again
-          System.out.println("Please put in a number.");
-          System.out.println("");
-          play();
-    }
+            // Someone probably entered a string instead of a number. Inform the user and try again
+            System.out.println("Please put in a number.");
+            System.out.println("");
+            play();
+        }
     }
 
     public Room getCurrentRoom() {
@@ -106,15 +108,27 @@ public class Game {
         // execute them until the game is over.
 
         boolean finished = false;
+        boolean gameover = false;
         while (!finished) {
-            Command command = parser.getCommand();
-            finished = processCommand(command);
+            int playerHealt = player.getHealth();
+            if (playerHealt == 0){
+                gameover = true;
+            }
+
+            if (gameover){
+                System.out.println("The game is over! Want to try again?");
+                finished = true;
+                play();
+            } else {
+                Command command = parser.getCommand();
+                finished = processCommand(command);
+            }
         }
         goodbyeMessage();
     }
-    
+
     private void goodbyeMessage() {
-     System.out.println("Thank you for playing Fables of Darkness.  Have a nice day and goodbye!");   
+        System.out.println("Thank you for playing Fables of Darkness.  Have a nice day and goodbye!");   
     }
 
     /**
@@ -125,7 +139,7 @@ public class Game {
         System.out.println("The room is lit by a torch in the distance.");
         System.out.println("Your command words are:");
         parser.showCommands();
-        
+
         System.out.println("");
         System.out.println(currentRoom.getRoomDescription());
     }
@@ -138,65 +152,80 @@ public class Game {
      */
     private boolean processCommand(Command command) {
         boolean wantToQuit = false;
+        System.out.println("DEBUG-COMMAND: "+ command);
 
         CommandWord commandWord = command.getCommandWord();
 
         switch (commandWord) {
-        case UNKNOWN:
+            case UNKNOWN:
             System.out.println("I don't know what you mean...");
             break;
 
-        case HELP:
+            case HELP:
             printHelp();
             break;
 
-        case GO:
+            case GO:
             // backList.push(command.getSecondWord()); // save the current room, then
             // TELEPORT him there
             goRoom(command);
             break;
 
-        case LOOK:
+            case LOOK:
             System.out.println(currentRoom.getlongDescription());
             break;
 
-        case SEARCH:
+            case SEARCH:
             System.out.println(currentRoom.getRoomInventory());
             break;
 
-        case TAKE:
+            case TAKE:
             pickupItem(command);
             break;
 
-        case BACK:
+            case BACK:
             Stack<String> backStack = player.getBack();
             if (backStack.empty()) {
                 System.out.println("You cant go back from here!");
             } else {
-                 
+
                 HashMap<String, Room> allroomIDs = level.getAllroomIDs(); // get full map from levels
                 if (allroomIDs.containsKey(backStack.peek())) { // Check if the latest stack item exists
-                Room previousRoom = allroomIDs.get(backStack.peek());// compare the latest in the stack and save that in "previousroom"
-                currentRoom = previousRoom; // replace the current room with the previous room we just got
-                System.out.println("");
-                System.out.println("You went back!"); // inform the user
-                System.out.println(currentRoom.getRoomDescription()); // Print out the current description
-                
-                player.removeBack();
+                    Room previousRoom = allroomIDs.get(backStack.peek());// compare the latest in the stack and save that in "previousroom"
+                    currentRoom = previousRoom; // replace the current room with the previous room we just got
+                    System.out.println("");
+                    System.out.println("You went back!"); // inform the user
+                    System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+
+                    player.removeBack();
                 } else {
                     System.out.println("The previous room couldn't be loaded.");
                 }
             }
             break;
 
-        case INV:
+            case INV:
             System.out.println("Your inventory contains: ");
             System.out.println(""); // [FIX] LOAD THE CURRENT PLAYER INVENTORY
             break;
 
-        case QUIT:
+            case QUIT:
             wantToQuit = quit(command);
             break;
+
+            // Now come the aliasses of commands. This list MIGHT get long lol.
+            /*case NORTH:
+             * goRoom(command);(go north);
+            break;
+            case EAST:
+            processCommand(go east);
+            break;
+            case SOUTH:
+            processCommand(go south);
+            break;
+            case WEST:
+            processCommand(go west);
+            break;*/
         }
         return wantToQuit;
     }
@@ -237,8 +266,11 @@ public class Game {
         } else {
             player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
             currentRoom = nextRoom; // go to the next room
+            player.setCurrentRoom(currentRoom); // save the current room in the player class
             System.out.println("");
+
             System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+
         }
     }
 

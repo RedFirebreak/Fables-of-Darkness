@@ -8,8 +8,9 @@ import java.util.*;
  */
 public class Player {
     private Stack<String> back = new Stack<String>();
+    private Room currentRoom;
+    private int HealthPoints = 20;
 
-    // voeg current room hier toe
     /**
      * Create a player for player management
      */
@@ -17,7 +18,28 @@ public class Player {
         List<String> inv = new ArrayList<String>();
         // om items toe te voegen: inv.add("itemname");
         // view command met: System.out.println(inv);
-        int HP;
+    }
+
+    public void setCurrentRoom(Room room) {
+        currentRoom = room;
+    }
+
+    public int getHealth() {
+        return HealthPoints;
+    }
+
+    public void removeHealth(int amount) {
+        HealthPoints = HealthPoints - amount;
+        if (HealthPoints < 0){
+            HealthPoints = 0; // make sure the players health can never be below 0
+        }
+    }
+
+    public void addHealth(int amount) {
+        HealthPoints = HealthPoints + amount;
+        if (HealthPoints > 20){
+            HealthPoints = 20; // make sure the players health can never be above 20
+        }
     }
 
     public void addBack(String addToBack) {
@@ -32,4 +54,9 @@ public class Player {
     public Stack<String> getBack() {
         return back;
     }
+
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
 }
