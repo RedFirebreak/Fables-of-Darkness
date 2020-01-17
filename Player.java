@@ -10,7 +10,9 @@ public class Player {
     private Stack<String> back = new Stack<String>();
     private List<String> playerInventory;
     private int carryWeight;
+    private int maxCarryWeight;
     private int HP;
+    private int maxHP;
 
     // voeg current room hier toe
     /**
@@ -27,8 +29,16 @@ public class Player {
         HP += healAmount;
     }
     
-    public void setHP(int HPsetter) {
-        HP = HPsetter;
+    public void damagePlayer(int damageAmount) {
+        HP -= damageAmount;
+    }
+    
+    public void setMaxHP(int HPsetter) {
+        maxHP = HPsetter;
+    }
+    
+    public int getMaxHP() {
+        return maxHP;
     }
     
     public int getHP() {
@@ -60,11 +70,20 @@ public class Player {
         return playerInventory;
     }
     
-    public void setCarryWeight(int carryWeight) {
-        this.carryWeight = carryWeight;
+    public void addToCarryWeight(int carryWeight) {
+        this.carryWeight += carryWeight;
     }
     
     public int getCarryWeight() {
         return carryWeight;
     }
+    
+    public void setMaxCarryWeight(int maxCarryWeight) {
+        this.maxCarryWeight = maxCarryWeight;
+    }
+    
+    public int getMaxCarryWeight() {
+        return maxCarryWeight;
+    }
+    
 }

@@ -66,11 +66,10 @@ public class Game {
                 currentRoom = level.getStartRoom(); // get the start room
 
                 player = new Player(); // load the player
-                items = new Item();
                 backList = player.getBack();
 
-                player.setHP(20); // set player HP
-                player.setCarryWeight(50); // set player carryweight
+                player.setMaxHP(20); // set player's max HP
+                player.setMaxCarryWeight(50); // set playerś max carryweight
 
                 parser = new Parser(); // start the game-listener
 
@@ -230,6 +229,11 @@ public class Game {
             eatItem(command);
             break;
 
+            case INFO:
+            System.out.println("your current hp is: " + player.getHP() + ".");
+            System.out.println("your current carry weight is: " + player.getCarryWeight() + "/" + player.getMaxCarryWeight() + "KGs.");
+            break;
+
             case QUIT:
             wantToQuit = quit(command);
             break;
@@ -293,6 +297,7 @@ public class Game {
         if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
             player.addItemToInventory(itemToBeAdded);
             currentRoom.removeRoomInventory(itemToBeAdded);
+            //player.addToCarryWeight(items.getItemWeight(itemToBeAdded)); FIX DIT, DIT LAAT HET GAME CRASHEN
             System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
         }
         else {
@@ -348,17 +353,27 @@ public class Game {
         if (player.getPlayerInventory().contains(itemToBeEaten)) { // check if item is in your inventory
             switch (itemToBeEaten) {
                 case "bread":
-                System.out.println("You eat the bread. It heals 2 HP.");
-                player.healPlayer(2);
-                player.removeItemFromInventory(itemToBeEaten);
-                System.out.println("Your HP is now " + player.getHP() + ".");
+                if((player.getHP())<=(player.getMaxHP()-2)) {
+                    System.out.println("You eat the bread. It heals 2 HP.");
+                    player.healPlayer(2);
+                    player.removeItemFromInventory(itemToBeEaten);
+                    System.out.println("Your HP is now " + player.getHP() + ".");
+                }
+                else {
+                    System.out.println("You cannot heal over your current amount with " + itemToBeEaten);
+                }
                 break;
-                
+
                 case "steak":
-                System.out.println("You eat the steak. It heals 5 HP.");
-                player.healPlayer(5);
-                player.removeItemFromInventory(itemToBeEaten);
-                System.out.println("Your HP is now " + player.getHP() + ".");
+                if((player.getHP())<=(player.getMaxHP()-2)) {
+                    System.out.println("You eat the steak. It heals 5 HP.");
+                    player.healPlayer(5);
+                    player.removeItemFromInventory(itemToBeEaten);
+                    System.out.println("Your HP is now " + player.getHP() + ".");
+                }
+                else {
+                    System.out.println("You cannot heal over your current amount with " + itemToBeEaten);
+                }
                 break;
 
                 default:
