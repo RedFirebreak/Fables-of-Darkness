@@ -10,13 +10,20 @@ public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack items = new Stack();
-    private int roomCounter = 0;
     private HashMap<String, Room> exits; // stores exits of this room.
+    private int totalRooms = 0;
+    private Randomizer random = new Randomizer();
 
     public Room getStartRoom(){
         return currentRoom;
     }
-
+    
+    public void roomInventories() {
+            random.setEmptyRoomInventories(24);
+            random.getAllRoomInventories();
+            random.randomizeRoomInventories();
+        }
+        
     /**
      * Generate the rooms, the exits, descreptions and item availability.
      * 
@@ -92,6 +99,8 @@ public class Levels {
 
         bossRoom.setRoomID("24",bossRoom);
 
+        setTotalRooms(24);
+        
         // Set the items in this level
         items.push("Bread");
         items.push("Bread");
@@ -100,9 +109,6 @@ public class Levels {
         items.push("Dagger");
         items.push("Cloak");
         items.push("Unlit Torch");
-        
-        room1.setRoomInventory("Bread");
-        room1.getRoomInventory();
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
@@ -175,6 +181,14 @@ public class Levels {
     public Stack getItemStack() {
         return items;
     }
+    
+    public void setTotalRooms(int totalOfRooms) {
+        totalRooms = totalOfRooms;
+    }
+    
+    public int getTotalRooms() {
+        return totalRooms;
+    }
 
     public int getStackCount() {
         Stack countStack = items;
@@ -184,9 +198,5 @@ public class Levels {
             countStack.pop();
         }
         return count;
-    }
-    
-    public int getRoomCount() {
-        return roomCounter;
     }
 }

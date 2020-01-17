@@ -25,16 +25,20 @@ public class Game {
     private Parser parser;
     private Levels level;
     private Room currentRoom;
-    private Randomizer itemRandomizer;
     private Player player;
     private Stack backList;
     private java.util.List<String> inventory = new ArrayList<>();
+    private int totalRooms;
+    private Randomizer random;
 
     /**
      * Getting everything ready to start the game
      */
     public Game() {
         inventory.add("Bread");
+        level = new Levels();
+        totalRooms = 24;
+        random = new Randomizer();
     }
 
     /**
@@ -64,7 +68,7 @@ public class Game {
 
             player = new Player(); // load the player
             backList = player.getBack();
-
+            level.roomInventories();
             parser = new Parser(); // start the game-listener
             
             System.out.println("");
@@ -143,7 +147,8 @@ public class Game {
             break;
 
         case SEARCH:
-            System.out.println(currentRoom.getRoomInventory());
+            System.out.println(random.getAllRoomInventories());
+            //System.out.println(currentRoom.getRoomInventory(currentRoom.getRoomIDNumber()));
             break;
 
         case TAKE:
@@ -198,7 +203,6 @@ public class Game {
             currentRoom = nextRoom;
             System.out.println(currentRoom.getRoomDescription());
             Levels level = new Levels();
-            int roomCount = level.getRoomCount(); System.out.println("DEBUG: roomCount= " + roomCount);
             System.out.println("DEBUG: roomID: " + currentRoom.getRoomID());
         }
     }
