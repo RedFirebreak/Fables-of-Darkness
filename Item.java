@@ -7,34 +7,49 @@ import java.util.*;
  * @version (a version number or a date)
  */
 public class Item {
-    private String name;
-    private int weight;
-    private int quantity;
-    private int value;
-    private String description;
 
-    public Item(String name, int value, String description) {
-        this.name = name;
-        this.value = value;
-        this.description = description;
-    }
+    public Item() {
+    }   
     
-    private String item(Command addedItem) {
-        String returnStatement = "Item not found.";
-        String itemName = addedItem.getSecondWord();
-        switch (itemName) {
-            case "Bread":
-            name="Bread"; weight=3; quantity=1; value=1; description="A nice loaf of bread. Not warm though.";
-            returnStatement = "You take the bread and put it in your inventory.";
+    public String getItemDescription(String itemToGetDescriptionFrom) {
+        String itemDescription = "Item not found";
+        switch (itemToGetDescriptionFrom) {
+            case "bread":
+            itemDescription="A nice loaf of bread. Not warm though. Can be eaten";
             break;
             
-            case "Torch":
-            name="Torch"; weight=5; quantity=1; value=1; description="A healthy fire on a stick, good for light and for burning things.";
-            returnStatement = "You take the torch and put it in your inventory.";
+            case "torch":
+            itemDescription="A healthy fire on a stick, good for light and for burning things.";
             break;
         }
-        return returnStatement;
+        return itemDescription;
     }
     
-
+    public int getItemWeight(String itemToGetWeightFrom) {
+        int itemWeight = 0;
+        switch (itemToGetWeightFrom) {
+            case "bread":
+            itemWeight=1;
+            break;
+            
+            case "torch":
+            itemWeight=5;
+            break;
+        }
+        return itemWeight;
+    }
+    
+    public int getItemValue(String itemToGetValueFrom) {
+        int itemValue = 0;
+        switch (itemToGetValueFrom) {
+            case "bread":
+            itemValue=1;
+            break;
+            
+            case "torch":
+            itemValue=1;
+            break;
+        }
+        return itemValue;
+    }
 }

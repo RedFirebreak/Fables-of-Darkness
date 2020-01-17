@@ -38,6 +38,10 @@ public class Room {
         this.roomInventory = new ArrayList<String>();
         exits = new HashMap<>();
     }
+    
+    public boolean canRoomHoldItems() {
+        return canHoldItem;
+    }
 
     /**
      * Add something to the current room inventory

@@ -103,7 +103,7 @@ public class Levels {
         totalRooms = roomid; // copy the max amount of rooms (is 25 for the first level)
 
         // Add items to the random-stack
-        
+
         randomItems.push("bread");
         randomItems.push("bread");
         randomItems.push("jug_of_water");
@@ -114,15 +114,17 @@ public class Levels {
 
         // Get a random String-number based on the max of the roomcount 
         Randomizer randomize = new Randomizer();
-        
+
         Iterator randomItemsIterator = randomItems.iterator(); // Create a iterator to loop trough all the random items 
         while (randomItemsIterator.hasNext()) {
             int randomNumber = randomize.getRandomNumber(totalRooms); // get a random number (int)
             String randomRoomID = Integer.toString(randomNumber); // convert the int to string
-            
+
             Room roomToAddItem = allroomIDs.get(randomRoomID); // load the room based on string-ID
-            roomToAddItem.setRoomInventory(randomItems.peek()); // add the top-most item to the room we just loaded.
-            randomItems.pop();
+            if (roomToAddItem.canRoomHoldItems()) { // check if the room may hold items, if not the getting of the rooms is done again
+                roomToAddItem.setRoomInventory(randomItems.peek()); // add the top-most item to the room we just loaded.
+                randomItems.pop();
+            }
         } 
         
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)

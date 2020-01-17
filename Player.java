@@ -9,6 +9,8 @@ import java.util.*;
 public class Player {
     private Stack<String> back = new Stack<String>();
     private List<String> playerInventory;
+    private int carryWeight;
+    private int HP;
 
     // voeg current room hier toe
     /**
@@ -18,7 +20,19 @@ public class Player {
         playerInventory = new ArrayList<String>();
         // om items toe te voegen: playerInventory.add("itemname");
         // view command met: System.out.println(inv);
-        int HP;
+        HP = 0;
+    }
+    
+    public void healPlayer(int healAmount) {
+        HP += healAmount;
+    }
+    
+    public void setHP(int HPsetter) {
+        HP = HPsetter;
+    }
+    
+    public int getHP() {
+        return HP;
     }
 
     public void addBack(String addToBack) {
@@ -44,5 +58,13 @@ public class Player {
     
     public List<String> getPlayerInventory() {
         return playerInventory;
+    }
+    
+    public void setCarryWeight(int carryWeight) {
+        this.carryWeight = carryWeight;
+    }
+    
+    public int getCarryWeight() {
+        return carryWeight;
     }
 }

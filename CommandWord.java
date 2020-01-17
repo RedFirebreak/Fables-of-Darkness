@@ -10,7 +10,7 @@ import java.util.*;
 public enum CommandWord {
     // A value for each command word along with its
     // corresponding user interface string.
-    GO("go"), SEARCH("search"), LOOK("look"), TAKE("take"), DROP("drop"),  INV("inv"), BACK("back"), QUIT("quit"), HELP("help"),
+    GO("go"), SEARCH("search"), LOOK("look"), TAKE("take"), DROP("drop"),  INV("inv"), INSPECT("inspect"), EAT("eat"), BACK("back"), QUIT("quit"), HELP("help"),
     UNKNOWN("?");
 
     // The command string.
