@@ -161,11 +161,25 @@ public class Game {
             break;
 
             case SEARCH:
-            System.out.println(searchMessage(command));
+            if (currentRoom.doesRoomContainItems()){
+                System.out.println("You search the room and find the following items: ");
+                Iterator printNiceList=currentRoom.getRoomInventory().iterator();
+                while(printNiceList.hasNext()) {
+                    String obj = printNiceList.next().toString();
+                    System.out.println(obj);
+                }
+            }
+            else {
+                System.out.println("You search around the room but fail to find any items of use.");
+            }
             break;
 
             case TAKE:
             pickupItem(command);
+            break;
+
+            case DROP:
+            dropItem(command);
             break;
 
             case BACK:
@@ -190,7 +204,17 @@ public class Game {
             break;
 
             case INV:
-            System.out.println("Your look in your backpack and find the following items: " + player.getPlayerInventory()); // [FIX] de items moeten nog in een mooie lijst komen
+            if(!player.getPlayerInventory().isEmpty()) {
+                System.out.println("Your look in your backpack and find the following items: ");
+                Iterator printNiceInventoryList=player.getPlayerInventory().iterator();
+                while(printNiceInventoryList.hasNext()) {
+                    String obj = printNiceInventoryList.next().toString();
+                    System.out.println(obj);
+                }
+            }
+            else {
+                System.out.println("Your inventory is empty.");
+            }
             break;
 
             case QUIT:
@@ -256,25 +280,29 @@ public class Game {
         if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
             player.addItemToInventory(itemToBeAdded);
             currentRoom.removeRoomInventory(itemToBeAdded);
-            System.out.println("You take the " + itemToBeAdded + " and put it in your backpack");
+            System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
+        }
+        else {
+            System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
         }
     }
 
-    private String searchMessage(Command command) {
-        String returnString = "";
-        if (command.hasSecondWord()) {
-            // if there is a second word, we don't know what to do.
-            returnString = "please only do \"search\"";
-            return returnString;
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to drop...
+            System.out.println("Drop what?");
+            return;
         }
+        String itemToBeDropped = command.getSecondWord();
 
-        if (currentRoom.doesRoomContainItems()){
-            returnString = "You search the room and find the following items: " + currentRoom.getRoomInventory() + "!";
+        if (player.getPlayerInventory().contains(itemToBeDropped)) {
+            player.removeItemFromInventory(itemToBeDropped);
+            currentRoom.setRoomInventory(itemToBeDropped);
+            System.out.println("You drop the " + itemToBeDropped + " and put it on the ground.");
         }
         else {
-            returnString = "You search around the room but fail to find any items of use.";
+            System.out.println("You cannot drop " + itemToBeDropped + " because you don't have it in your inventory!");
         }
-        return returnString;
     }
 
     /**

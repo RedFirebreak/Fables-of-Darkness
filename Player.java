@@ -38,6 +38,10 @@ public class Player {
         playerInventory.add(itemName);
     }
     
+    public void removeItemFromInventory(String itemName) {
+        playerInventory.remove(itemName);
+    }
+    
     public List<String> getPlayerInventory() {
         return playerInventory;
     }
