@@ -42,8 +42,24 @@ public class Room {
     /**
      * Add something to the current room inventory
      */
-    public void setRoomInventory(String input) {
-        roomInventory.add(input);
+    public void setRoomInventory(String itemToBeAdded) {
+        roomInventory.add(itemToBeAdded);
+    }
+    
+    public void removeRoomInventory(String itemToBeRemoved) {
+        if (roomInventory.contains(itemToBeRemoved)) {
+            roomInventory.remove(itemToBeRemoved);
+        }
+    }
+    
+    public boolean doesRoomContainItems() {
+        boolean returnBoolean = false;
+        
+        if (!roomInventory.isEmpty()) {
+            returnBoolean = true;
+        }
+        
+        return returnBoolean;
     }
 
     /**

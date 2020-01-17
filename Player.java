@@ -8,14 +8,15 @@ import java.util.*;
  */
 public class Player {
     private Stack<String> back = new Stack<String>();
+    private List<String> playerInventory;
 
     // voeg current room hier toe
     /**
      * Create a player for player management
      */
     public Player() {
-        List<String> inv = new ArrayList<String>();
-        // om items toe te voegen: inv.add("itemname");
+        playerInventory = new ArrayList<String>();
+        // om items toe te voegen: playerInventory.add("itemname");
         // view command met: System.out.println(inv);
         int HP;
     }
@@ -31,5 +32,13 @@ public class Player {
 
     public Stack<String> getBack() {
         return back;
+    }
+    
+    public void addItemToInventory(String itemName) {
+        playerInventory.add(itemName);
+    }
+    
+    public List<String> getPlayerInventory() {
+        return playerInventory;
     }
 }

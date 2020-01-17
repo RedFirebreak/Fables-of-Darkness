@@ -104,13 +104,13 @@ public class Levels {
 
         // Add items to the random-stack
         
-        randomItems.push("Bread");
-        randomItems.push("Bread");
-        randomItems.push("Jug of Water");
-        randomItems.push("Steak");
-        randomItems.push("Dagger");
-        randomItems.push("Cloak");
-        randomItems.push("Unlit Torch");
+        randomItems.push("bread");
+        randomItems.push("bread");
+        randomItems.push("jug_of_water");
+        randomItems.push("steak");
+        randomItems.push("dagger");
+        randomItems.push("cloak");
+        randomItems.push("unlit_torch");
 
         // Get a random String-number based on the max of the roomcount 
         Randomizer randomize = new Randomizer();
