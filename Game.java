@@ -53,7 +53,7 @@ public class Game {
         System.out.print("> ");
 
         // Switch construct
-        try {
+        //try {
 
             switch (in.nextInt()) {
                 case 1:
@@ -91,13 +91,13 @@ public class Game {
                 play();
                 break;
             }
-        }
+        /*}
         catch (Exception e) {
             // Someone probably entered a string instead of a number. Inform the user and try again
             System.out.println("Please put in a number.");
             System.out.println("");
             play();
-        }
+        }*/
     }
 
     public void playloop() {
@@ -297,6 +297,11 @@ public class Game {
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
         } else {
+            
+            // Check if there is an enemy in the room
+            if (nextRoom.hasEnemy()) {
+                System.out.println("You encountered an");
+            }
             player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
             currentRoom = nextRoom; // go to the next room
             player.setCurrentRoom(currentRoom); // save the current room in the player class

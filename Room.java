@@ -19,9 +19,13 @@ public class Room {
     private String longDescription;
     private String roomID;
     private boolean canHoldItem;
-    
+
+    private boolean hasEnemy;
+
     private HashMap<String, Room> exits; // stores exits of this room.
     private ArrayList<String> roomInventory; // stores items of this room.
+
+    private Stack<Enemy> enemies;
 
     /**
      * Create a room described "description". Initially, it has no exits.
@@ -34,11 +38,12 @@ public class Room {
         this.longDescription = longDescription;
         this.roomID = ID;
         this.canHoldItem = canHoldItem;
-        
+
         this.roomInventory = new ArrayList<String>();
         exits = new HashMap<>();
+        hasEnemy = false;
     }
-    
+
     public boolean canRoomHoldItems() {
         return canHoldItem;
     }
@@ -49,20 +54,20 @@ public class Room {
     public void setRoomInventory(String itemToBeAdded) {
         roomInventory.add(itemToBeAdded);
     }
-    
+
     public void removeRoomInventory(String itemToBeRemoved) {
         if (roomInventory.contains(itemToBeRemoved)) {
             roomInventory.remove(itemToBeRemoved);
         }
     }
-    
+
     public boolean doesRoomContainItems() {
         boolean returnBoolean = false;
-        
+
         if (!roomInventory.isEmpty()) {
             returnBoolean = true;
         }
-        
+
         return returnBoolean;
     }
 
@@ -145,4 +150,32 @@ public class Room {
     public Room getExit(String direction) {
         return exits.get(direction);
     }
+    
+    public boolean hasEnemy(){
+        return hasEnemy;
+    }
+
+    public void addEnemy(Enemy enemy) {
+        System.out.println("DEBUG: ADDED ENEMY TO ROOM ID"+ getRoomID());
+        enemies = new Stack<Enemy>(); // make a new stack for "all" the enemies.
+        hasEnemy = true;
+        enemies.push(enemy); // Add something to the stack
+    }
+    
+    public Enemy getEnemy(){
+        Enemy enemy = null;
+        if (hasEnemy) {
+            enemy = enemies.peek();
+        }
+        return enemy;
+    }
+    
+    public void removeEnemy() {   
+        enemies.pop();
+        Enemy moreEnemies = enemies.peek(); // check if there are more enemies in the room.
+        if (moreEnemies == null) {
+            hasEnemy = false;
+        }
+    }
+    
 }

@@ -13,7 +13,7 @@ public class Player {
     private int carryWeight;
     private int maxCarryWeight = 50;
     
-    private int HealthPoints = 20; // max hp is hier al door gezet
+    private int healthPoints = 20; // max hp is hier al door gezet
 
     /**
      * Create a player for player management
@@ -29,20 +29,20 @@ public class Player {
     }
 
     public int getHealth() {
-        return HealthPoints;
+        return healthPoints;
     }
 
     public void removeHealth(int amount) {
-        HealthPoints = HealthPoints - amount;
-        if (HealthPoints < 0){
-            HealthPoints = 0; // make sure the players health can never be below 0
+        healthPoints = healthPoints - amount;
+        if (healthPoints < 0){
+            healthPoints = 0; // make sure the players health can never be below 0
         }
     }
 
     public void addHealth(int amount) {
-        HealthPoints = HealthPoints + amount;
-        if (HealthPoints > 20){
-            HealthPoints = 20; // make sure the players health can never be above 20
+        healthPoints = healthPoints + amount;
+        if (healthPoints > 20){
+            healthPoints = 20; // make sure the players health can never be above 20
         }
     }
 

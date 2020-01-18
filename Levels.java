@@ -32,6 +32,13 @@ public class Levels {
         Room t1, t2;
         Room bossRoom;
 
+        // enemies
+        Enemy goblin1, goblin2, human1;
+        Enemy boss;
+
+        // Open the connection to the randomizer. as this level requires it
+        Randomizer randomize = new Randomizer();
+        
         // First, create a roomname, then calculate the next ID, provide a  "short description
         // (shows when you move into the
         // room)", "long description (shows when you seach the room)", boolean true or
@@ -110,7 +117,7 @@ public class Levels {
         dagger = new Item("dagger", "", 0, 0);
         cloak = new Item("cloak", "", 0, 0);
         unlit_torch = new Item("unlit_torch", "", 0, 0);
-        
+
         randomItems.push(bread);
         randomItems.push(bread);
         randomItems.push(jug_of_water);
@@ -121,8 +128,6 @@ public class Levels {
         room1.setRoomInventory("bread");
 
         // Get a random String-number based on the max of the roomcount 
-        Randomizer randomize = new Randomizer();
-
         Iterator randomItemsIterator = randomItems.iterator(); // Create a iterator to loop trough all the random items 
         while (randomItemsIterator.hasNext()) {
             int randomNumber = randomize.getRandomNumber(totalRooms); // get a random number (int)
@@ -135,7 +140,7 @@ public class Levels {
                 randomItems.pop();
             }
         } 
-        
+
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
         room1.setExit("south", c1);
@@ -201,6 +206,33 @@ public class Levels {
 
         de2.setExit("east", t2);
 
+        // Create enemies and the boss monster
+        // Name, max health, description, minimum damage, maximum damage
+        goblin1 = new Enemy("Heasdasz", 5, "A small but angry looking goblin! He's holding a stick!", 2, 3); // found in room 5,6,7 or 8
+        goblin2 = new Enemy("Trorzegs", 5, "A small but angry looking goblin!", 1, 3); // found in room 11, 12 or 13
+        human1 = new Enemy("Arlin", 10, "A fit looking human. He's holding a small dagger.", 2, 3); // found in room 9 or 10
+
+        boss = new Enemy("Drace Grim", 30, "A VERY strong looking human! He's holding a giant axe.", 3, 5); // found ALWAYS in boss-room
+
+        // Add the enemy to specifed, random room
+        int tempRoomNumber;
+        Room roomToAddEnemy;
+        
+        tempRoomNumber = 4 + randomize.getRandomNumber(4); // will return 5,6,7 or 8
+        roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
+        roomToAddEnemy.addEnemy(goblin1);
+        
+        tempRoomNumber = 10 +randomize.getRandomNumber(3); // will return 11, 12 or 13
+        roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
+        roomToAddEnemy.addEnemy(goblin2);
+        
+        tempRoomNumber = 8 +randomize.getRandomNumber(2); // will return 9 or 10
+        roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
+        roomToAddEnemy.addEnemy(human1);
+        
+        // add the boss room
+        bossRoom.addEnemy(boss);
+        
         currentRoom = room1;
     }
 
