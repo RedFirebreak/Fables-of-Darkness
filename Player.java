@@ -9,15 +9,39 @@ import java.util.*;
 public class Player {
     private Stack<String> back = new Stack<String>();
     private Room currentRoom;
-    private int HealthPoints = 20;
+    private List<String> playerInventory;
+    private int carryWeight;
+    private int maxCarryWeight;
+    private int HP;
+    private int maxHP;
 
     /**
      * Create a player for player management
      */
     public Player() {
-        List<String> inv = new ArrayList<String>();
-        // om items toe te voegen: inv.add("itemname");
+        playerInventory = new ArrayList<String>();
+        // om items toe te voegen: playerInventory.add("itemname");
         // view command met: System.out.println(inv);
+    }
+    
+    public void healPlayer(int healAmount) {
+        HP += healAmount;
+    }
+    
+    public void damagePlayer(int damageAmount) {
+        HP -= damageAmount;
+    }
+    
+    public void setMaxHP(int HPsetter) {
+        maxHP = HPsetter;
+    }
+    
+    public int getMaxHP() {
+        return maxHP;
+    }
+    
+    public int getHP() {
+        return HP;
     }
 
     public void setCurrentRoom(Room room) {
@@ -58,5 +82,33 @@ public class Player {
     public Room getCurrentRoom() {
         return currentRoom;
     }
-
+    
+    public void addItemToInventory(String itemName) {
+        playerInventory.add(itemName);
+    }
+    
+    public void removeItemFromInventory(String itemName) {
+        playerInventory.remove(itemName);
+    }
+    
+    public List<String> getPlayerInventory() {
+        return playerInventory;
+    }
+    
+    public void addToCarryWeight(int carryWeight) {
+        this.carryWeight += carryWeight;
+    }
+    
+    public int getCarryWeight() {
+        return carryWeight;
+    }
+    
+    public void setMaxCarryWeight(int maxCarryWeight) {
+        this.maxCarryWeight = maxCarryWeight;
+    }
+    
+    public int getMaxCarryWeight() {
+        return maxCarryWeight;
+    }
+    
 }

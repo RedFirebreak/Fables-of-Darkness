@@ -28,6 +28,7 @@ public class Game {
     private Room currentRoom;
     private Player player;
     private Stack backList;
+    private Item items;
 
     /**
      * Getting everything ready to start the game
@@ -56,19 +57,17 @@ public class Game {
 
             switch (in.nextInt()) {
                 case 1:
-                // in.close(); // Close the menu listener
                 System.out.println("");
                 System.out.println("Level 1 selected: The Cyst of Elemental Worms");
 
                 // load the level
                 level = new Levels(); // make connecting with the levels
                 level.level1(); // load map 1
-                currentRoom = level.getStartRoom(); // Get the start room
 
                 // load the player
-                player = new Player(); // make connection with player
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
-
+                player.setMaxHP(20); // set player's max HP
+                player.setMaxCarryWeight(50); // set playerś max carryweight
                 parser = new Parser(); // start the game-listener
 
                 System.out.println("");
@@ -176,11 +175,25 @@ public class Game {
             break;
 
             case SEARCH:
-            System.out.println(currentRoom.getRoomInventory());
+            if (currentRoom.doesRoomContainItems()){
+                System.out.println("You search the room and find the following items: ");
+                Iterator printNiceList=currentRoom.getRoomInventory().iterator();
+                while(printNiceList.hasNext()) {
+                    String obj = printNiceList.next().toString();
+                    System.out.println(obj);
+                }
+            }
+            else {
+                System.out.println("You search around the room but fail to find any items of use.");
+            }
             break;
 
             case TAKE:
             pickupItem(command);
+            break;
+
+            case DROP:
+            dropItem(command);
             break;
 
             case BACK:
@@ -205,8 +218,30 @@ public class Game {
             break;
 
             case INV:
-            System.out.println("Your inventory contains: ");
-            System.out.println(""); // [FIX] LOAD THE CURRENT PLAYER INVENTORY
+            if(!player.getPlayerInventory().isEmpty()) {
+                System.out.println("Your look in your backpack and find the following items: ");
+                Iterator printNiceInventoryList=player.getPlayerInventory().iterator();
+                while(printNiceInventoryList.hasNext()) {
+                    String obj = printNiceInventoryList.next().toString();
+                    System.out.println(obj);
+                }
+            }
+            else {
+                System.out.println("Your inventory is empty.");
+            }
+            break;
+
+            case INSPECT:
+            getItemInformation(command);
+            break;
+
+            case EAT:
+            eatItem(command);
+            break;
+
+            case INFO:
+            System.out.println("your current hp is: " + player.getHP() + ".");
+            System.out.println("your current carry weight is: " + player.getCarryWeight() + "/" + player.getMaxCarryWeight() + "KGs.");
             break;
 
             case QUIT:
@@ -284,7 +319,99 @@ public class Game {
             System.out.println("Take what?");
             return;
         }
+        String itemToBeAdded = command.getSecondWord();
 
+        if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
+            player.addItemToInventory(itemToBeAdded);
+            currentRoom.removeRoomInventory(itemToBeAdded);
+            //player.addToCarryWeight(items.getItemWeight(itemToBeAdded)); FIX DIT, DIT LAAT HET GAME CRASHEN
+            System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
+        }
+        else {
+            System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
+        }
+    }
+
+    private void dropItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to drop...
+            System.out.println("Drop what?");
+            return;
+        }
+        String itemToBeDropped = command.getSecondWord();
+
+        if (player.getPlayerInventory().contains(itemToBeDropped)) {
+            player.removeItemFromInventory(itemToBeDropped);
+            currentRoom.setRoomInventory(itemToBeDropped);
+            System.out.println("You drop the " + itemToBeDropped + " and put it on the ground.");
+        }
+        else {
+            System.out.println("You cannot drop " + itemToBeDropped + " because you don't have it in your inventory!");
+        }
+    }
+
+    private void getItemInformation(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to inspect...
+            System.out.println("Inspect what?");
+            return;
+        }
+        String itemToBeInspected = command.getSecondWord();
+
+        if (player.getPlayerInventory().contains(itemToBeInspected)) {
+            System.out.println(itemToBeInspected + "'s description: " + items.getItemDescription(itemToBeInspected));
+            System.out.println(itemToBeInspected + "'s weight: " + items.getItemWeight(itemToBeInspected));
+            System.out.println(itemToBeInspected + "'s value: " + items.getItemValue(itemToBeInspected));
+        }
+        else {
+            System.out.println("You cannot inspect " + itemToBeInspected + " because you don't have it in your inventory!");
+        }
+
+    }
+
+    private void eatItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to eat...
+            System.out.println("Eat what?");
+            return;
+        }
+        String itemToBeEaten = command.getSecondWord();
+
+        if (player.getPlayerInventory().contains(itemToBeEaten)) { // check if item is in your inventory
+            switch (itemToBeEaten) {
+                case "bread":
+                if((player.getHP())<=(player.getMaxHP()-2)) {
+                    System.out.println("You eat the bread. It heals 2 HP.");
+                    player.healPlayer(2);
+                    player.removeItemFromInventory(itemToBeEaten);
+                    System.out.println("Your HP is now " + player.getHP() + ".");
+                }
+                else {
+                    System.out.println("You cannot heal over your current amount with " + itemToBeEaten);
+                }
+                break;
+
+                case "steak":
+                if((player.getHP())<=(player.getMaxHP()-2)) {
+                    System.out.println("You eat the steak. It heals 5 HP.");
+                    player.healPlayer(5);
+                    player.removeItemFromInventory(itemToBeEaten);
+                    System.out.println("Your HP is now " + player.getHP() + ".");
+                }
+                else {
+                    System.out.println("You cannot heal over your current amount with " + itemToBeEaten);
+                }
+                break;
+
+                default:
+                System.out.println("You cannot eat this item.");
+                break;
+
+            }
+        }
+        else {
+            System.out.println("You cannot eat " + itemToBeEaten + " because you don't have it in your inventory!");
+        }
     }
 
     /**
