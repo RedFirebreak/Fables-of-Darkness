@@ -63,11 +63,13 @@ public class Game {
                 // load the level
                 level = new Levels(); // make connecting with the levels
                 level.level1(); // load map 1
+                currentRoom = level.getStartRoom(); // load the first room
 
                 // load the player
+                player = new Player(); // make connection and initialize a player (This player will have 20 hp and 50 carry weight)
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
-                player.setMaxHP(20); // set player's max HP
-                player.setMaxCarryWeight(50); // set playerś max carryweight
+                
+                
                 parser = new Parser(); // start the game-listener
 
                 System.out.println("");
@@ -96,10 +98,6 @@ public class Game {
             System.out.println("");
             play();
         }
-    }
-
-    public Room getCurrentRoom() {
-        return currentRoom;
     }
 
     public void playloop() {
@@ -240,7 +238,7 @@ public class Game {
             break;
 
             case INFO:
-            System.out.println("your current hp is: " + player.getHP() + ".");
+            System.out.println("your current hp is: " + player.getHealth() + ".");
             System.out.println("your current carry weight is: " + player.getCarryWeight() + "/" + player.getMaxCarryWeight() + "KGs.");
             break;
 
@@ -380,26 +378,26 @@ public class Game {
         if (player.getPlayerInventory().contains(itemToBeEaten)) { // check if item is in your inventory
             switch (itemToBeEaten) {
                 case "bread":
-                if((player.getHP())<=(player.getMaxHP()-2)) {
+                if((player.getHealth())<=(20)) {
                     System.out.println("You eat the bread. It heals 2 HP.");
-                    player.healPlayer(2);
+                    player.addHealth(2);
                     player.removeItemFromInventory(itemToBeEaten);
-                    System.out.println("Your HP is now " + player.getHP() + ".");
+                    System.out.println("Your HP is now " + player.getHealth() + ".");
                 }
                 else {
-                    System.out.println("You cannot heal over your current amount with " + itemToBeEaten);
+                    System.out.println("Your HP is full!");
                 }
                 break;
 
                 case "steak":
-                if((player.getHP())<=(player.getMaxHP()-2)) {
+                if((player.getHealth())<=(20)) {
                     System.out.println("You eat the steak. It heals 5 HP.");
-                    player.healPlayer(5);
+                    player.addHealth(5);
                     player.removeItemFromInventory(itemToBeEaten);
-                    System.out.println("Your HP is now " + player.getHP() + ".");
+                    System.out.println("Your HP is now " + player.getHealth() + ".");
                 }
                 else {
-                    System.out.println("You cannot heal over your current amount with " + itemToBeEaten);
+                    System.out.println("Your HP is full!");
                 }
                 break;
 
@@ -410,7 +408,7 @@ public class Game {
             }
         }
         else {
-            System.out.println("You cannot eat " + itemToBeEaten + " because you don't have it in your inventory!");
+            System.out.println(itemToBeEaten + "can't be eaten because its non-eatable or you don't have it in your inventory!");
         }
     }
 

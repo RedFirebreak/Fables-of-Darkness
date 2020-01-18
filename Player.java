@@ -11,9 +11,9 @@ public class Player {
     private Room currentRoom;
     private List<String> playerInventory;
     private int carryWeight;
-    private int maxCarryWeight;
-    private int HP;
-    private int maxHP;
+    private int maxCarryWeight = 50;
+    
+    private int HealthPoints = 20; // max hp is hier al door gezet
 
     /**
      * Create a player for player management
@@ -22,26 +22,6 @@ public class Player {
         playerInventory = new ArrayList<String>();
         // om items toe te voegen: playerInventory.add("itemname");
         // view command met: System.out.println(inv);
-    }
-    
-    public void healPlayer(int healAmount) {
-        HP += healAmount;
-    }
-    
-    public void damagePlayer(int damageAmount) {
-        HP -= damageAmount;
-    }
-    
-    public void setMaxHP(int HPsetter) {
-        maxHP = HPsetter;
-    }
-    
-    public int getMaxHP() {
-        return maxHP;
-    }
-    
-    public int getHP() {
-        return HP;
     }
 
     public void setCurrentRoom(Room room) {
