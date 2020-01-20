@@ -12,16 +12,16 @@ public class Enemy
     private int healthPoints; // the amount of health the enemy has.
     private String description; // the description op the enemy
     private boolean alive = true; // Make sure the enemy is alive when created
-    
+
     private int maxHit;
     private int minHit;
-    
+
     private Room currentRoom;
 
     /**
      * Set the enemy's name, health and description based on input
      */
-    public Enemy(String name, int health, String description, int maxHit, int minHit) {
+    public Enemy(String name, int health, String description, int minHit, int maxHit) {
         maxHealth = health; // set the max health
         healthPoints = health; // set the current health (to max)
         enemyName = name; // set the health
@@ -44,13 +44,26 @@ public class Enemy
             healthPoints = 20; // make sure the players health can never be above 20
         }
     }
-    
-    public void setRoom(Room room){
-     currentRoom = room;   
+
+    public void setAlive(boolean alive){
+        // make sure the enemy can be alive'nt
+        this.alive = alive; 
     }
-    
+
+    public void setRoom(Room room){
+        currentRoom = room;   
+    }
+
+    public int getMaxHit(){
+        return maxHit;   
+    }
+
+    public int getMinHit(){
+        return minHit;   
+    }
+
     public Room getRoom(){
-     return currentRoom;   
+        return currentRoom;   
     }
 
     public int getHealth() {
@@ -64,7 +77,7 @@ public class Enemy
     public String getDescription() {
         return description;
     }
-    
+
     public boolean getAlive() {
         return alive;
     }

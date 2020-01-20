@@ -55,48 +55,48 @@ public class Game {
         // Switch construct
         //try {
 
-            switch (in.nextInt()) {
-                case 1:
-                System.out.println("");
-                System.out.println("Level 1 selected: The Cyst of Elemental Worms");
+        switch (in.nextInt()) {
+            case 1:
+            System.out.println("");
+            System.out.println("Level 1 selected: The Cyst of Elemental Worms");
 
-                // load the level
-                level = new Levels(); // make connecting with the levels
-                level.level1(); // load map 1
-                currentRoom = level.getStartRoom(); // load the first room
+            // load the level
+            level = new Levels(); // make connecting with the levels
+            level.level1(); // load map 1
+            currentRoom = level.getStartRoom(); // load the first room
 
-                // load the player
-                player = new Player(); // make connection and initialize a player (This player will have 20 hp and 50 carry weight)
-                player.setCurrentRoom(currentRoom); // save the current room in the player class
+            // load the player
+            player = new Player(); // make connection and initialize a player (This player will have 20 hp and 50 carry weight)
+            player.setCurrentRoom(currentRoom); // save the current room in the player class
 
-                backList = player.getBack();
-                parser = new Parser(); // start the game-listener
+            backList = player.getBack();
+            parser = new Parser(); // start the game-listener
 
-                System.out.println("");
+            System.out.println("");
 
-                printWelcome(); // welcome the player
-                playloop(); // start the game
-                break;
-                case 2:
-                System.out.println("Level 2 selected: NoName.");
-                break;
-                case 3:
-                System.out.println("Exit selected!");
-                System.out.println("");
-                goodbyeMessage();
-                break;
-                default:
-                System.out.println("That option does not exist! Please try again.");
-                System.out.println("");
-                play();
-                break;
-            }
-        /*}
-        catch (Exception e) {
-            // Someone probably entered a string instead of a number. Inform the user and try again
-            System.out.println("Please put in a number.");
+            printWelcome(); // welcome the player
+            playloop(); // start the game
+            break;
+            case 2:
+            System.out.println("Level 2 selected: NoName.");
+            break;
+            case 3:
+            System.out.println("Exit selected!");
+            System.out.println("");
+            goodbyeMessage();
+            break;
+            default:
+            System.out.println("That option does not exist! Please try again.");
             System.out.println("");
             play();
+            break;
+        }
+        /*}[FIX][FIX]
+        catch (Exception e) {
+        // Someone probably entered a string instead of a number. Inform the user and try again
+        System.out.println("Please put in a number.");
+        System.out.println("");
+        play();
         }*/
     }
 
@@ -107,8 +107,8 @@ public class Game {
         boolean finished = false;
         boolean gameover = false;
         while (!finished) {
-            int playerHealt = player.getHealth();
-            if (playerHealt == 0){
+            int playerHealth = player.getHealth();
+            if (playerHealth == 0){
                 gameover = true;
             }
 
@@ -117,7 +117,8 @@ public class Game {
                 finished = true;
                 play();
             } else {
-                Command command = parser.getCommand();
+                Scanner tokenizer = parser.getCommand(); // prompt the user to put a new command in
+                Command command = parser.parseCommand(tokenizer); // send the "scanner" result to 
                 finished = processCommand(command);
             }
         }
@@ -150,9 +151,8 @@ public class Game {
      * @param command The command to be processed.
      * @return true If the command ends the game, false otherwise.
      */
-    private boolean processCommand(Command command) {
+    public boolean processCommand(Command command) {
         boolean wantToQuit = false;
-        System.out.println("DEBUG-COMMAND: "+ command);
 
         CommandWord commandWord = command.getCommandWord();
 
@@ -202,7 +202,6 @@ public class Game {
             if (backStack.empty()) {
                 System.out.println("You cant go back from here!");
             } else {
-
                 HashMap<String, Room> allroomIDs = level.getAllroomIDs(); // get full map from levels
                 if (allroomIDs.containsKey(backStack.peek())) { // Check if the latest stack item exists
                     Room previousRoom = allroomIDs.get(backStack.peek());// compare the latest in the stack and save that in "previousroom"
@@ -300,21 +299,43 @@ public class Game {
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
         } else {
-            
+            boolean goToNextRoom = true;
             // Check if there is an enemy in the room
             if (nextRoom.hasEnemy()) {
-                System.out.println("You encountered an");
-            }
-            player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
-            currentRoom = nextRoom; // go to the next room
-            player.setCurrentRoom(currentRoom); // save the current room in the player class
-            System.out.println("");
+                Battle battle = new Battle(player, nextRoom.getEnemy());
+                int result = battle.play();
 
-            System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+                // 0 = player won, continue, 1 = player ran! dont go to next room, 2 = player died
+                switch (result) {
+                    case 0:
+                    goToNextRoom = true;
+                    break;
+
+                    case 1:
+                    goToNextRoom = false;
+                    System.out.println("You ran out of the room with the enemy! The enemy did not follow you.");
+                    break;
+
+                    case 2:
+                    goToNextRoom = false; // player died and has 0 hp. Next iteration, the game will end automatically.
+                    player.removeHealth(20);
+                    break;
+
+                }
+            }
+
+            if (goToNextRoom) {
+                player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
+                currentRoom = nextRoom; // go to the next room
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
+                System.out.println("");
+
+                System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+            }
 
         }
     }
-    
+
     /**
      * "take" was entered. Check if a second word has been send too and check if the item is takeable.
      * If it is takeable, check if the room has the item in their inventory and take the item,
@@ -331,7 +352,7 @@ public class Game {
         String itemToBeAdded = command.getSecondWord();
         Item selectedItem = new Item(); //setting the new item..
         selectedItem.setItemVariables(itemToBeAdded); //.. and getting all variables
-        
+
         if(selectedItem.getItemPickupAble()) {
             if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
                 player.addItemToInventory(itemToBeAdded);
@@ -347,7 +368,7 @@ public class Game {
             System.out.println("The " + itemToBeAdded + " cannot be picked up as it is stuck to the floor.");
         }
     }
-    
+
     /**
      * "drop" was entered. Check if a second word has been send too.
      * If there is a second word, check if the player has the item in their inventory and drop the item,
@@ -375,7 +396,7 @@ public class Game {
             System.out.println("You cannot drop " + itemToBeDropped + " because you don't have it in your inventory!");
         }
     }
-    
+
     /**
      * "inspect" was entered. Check if a second word has been send too.
      * If there is a second word, check if the player has the item in their inventory and return the info.
@@ -391,7 +412,6 @@ public class Game {
         String itemToBeInspected = command.getSecondWord();
         Item selectedItem = new Item(); //setting the new item..
         selectedItem.setItemVariables(itemToBeInspected); //.. and getting all variables
-
 
         if (player.getPlayerInventory().contains(itemToBeInspected)) {
             System.out.println(itemToBeInspected + "'s description: " + selectedItem.getItemDescription());
@@ -410,7 +430,7 @@ public class Game {
      * 
      * @param command The command entered in the Parser.
      */
-    private void eatItem(Command command) {
+    public void eatItem(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to eat...
             System.out.println("Eat what?");

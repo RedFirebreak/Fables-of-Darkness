@@ -13,6 +13,9 @@ public enum CommandWord {
     GO("go"), SEARCH("search"), LOOK("look"), TAKE("take"), DROP("drop"),  INV("inv"), INSPECT("inspect"), INFO("info"), EAT("eat"), BACK("back"), QUIT("quit"), HELP("help"),
     UNKNOWN("?"),
     
+    // Extra Battle commands
+    ATTACK("attack"), RUN("run"),
+    
     // Aliasses for commands
     NORTH("north"), EAST("east"), SOUTH("south"), WEST("west");
 

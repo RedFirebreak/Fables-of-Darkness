@@ -31,17 +31,23 @@ public class Parser {
     /**
      * @return The next command from the user.
      */
-    public Command getCommand() {
+    public Scanner getCommand() {
         String inputLine; // will hold the full input line
-        String word1 = null;
-        String word2 = null;
 
         System.out.print("> "); // print prompt
 
         inputLine = reader.nextLine();
 
         // Find up to two words on the line.
+
         Scanner tokenizer = new Scanner(inputLine);
+        
+        return tokenizer;
+    }
+
+    public Command parseCommand(Scanner tokenizer) {
+        String word1 = null;
+        String word2 = null;
         if (tokenizer.hasNext()) {
             word1 = tokenizer.next(); // get first word
             if (tokenizer.hasNext()) {
@@ -49,7 +55,6 @@ public class Parser {
                 // note: we just ignore the rest of the input line.
             }
         }
-
         return new Command(commands.getCommandWord(word1), word2);
     }
 
