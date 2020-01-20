@@ -299,7 +299,7 @@ public class Game {
         if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
             player.addItemToInventory(itemToBeAdded);
             currentRoom.removeRoomInventory(itemToBeAdded);
-            player.addToCarryWeight(items.getItemWeight(itemToBeAdded));
+            //[FIX]player.addToCarryWeight(items.getItemWeight(itemToBeAdded));
             System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
         }
         else {
@@ -334,9 +334,9 @@ public class Game {
         String itemToBeInspected = command.getSecondWord();
 
         if (player.getPlayerInventory().contains(itemToBeInspected)) {
-            System.out.println(itemToBeInspected + "'s description: " + items.getItemDescription(itemToBeInspected));
-            System.out.println(itemToBeInspected + "'s weight: " + items.getItemWeight(itemToBeInspected));
-            System.out.println(itemToBeInspected + "'s value: " + items.getItemValue(itemToBeInspected));
+            //[FIX]System.out.println(itemToBeInspected + "'s description: " + items.getItemDescription(itemToBeInspected));
+            //[FIX]System.out.println(itemToBeInspected + "'s weight: " + items.getItemWeight(itemToBeInspected));
+            //[FIX]System.out.println(itemToBeInspected + "'s value: " + items.getItemValue(itemToBeInspected));
         }
         else {
             System.out.println("You cannot inspect " + itemToBeInspected + " because you don't have it in your inventory!");

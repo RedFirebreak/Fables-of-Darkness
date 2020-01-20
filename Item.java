@@ -23,12 +23,12 @@ public class Item {
     
     public void setItemVariables (String item) {
         switch(item) {
-            case "bread":
+            case "bread": //[FIX]
             //itemName = setItemName("bread");
             //itemDescription = setItemDescription("A nice loaf of bread. Not warm though. Can be eaten to heal 2 hp.");
             //itemWeight = setItemWeight(1);
             //itemValue = setItemValue(1);
-            itemPickupAble = setItemPickupable(true);
+            //itemPickupAble = setItemPickupable(true);
         }
     }
     
