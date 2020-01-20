@@ -12,7 +12,10 @@ public class Item {
     private int itemWeight;
     private int itemValue;
     private boolean itemPickupAble;
-
+    
+    /**
+     * Setting initial values for every item created, just in case
+     */
     public Item() {
         itemName = "error in itemName";
         itemDescription = "error in itemDescription";
@@ -21,56 +24,58 @@ public class Item {
         itemPickupAble = false;
     }
     
-    public void setItemVariables (String item) {
+    /**
+     * New items for the game are defined here.
+     * 
+     * @param item The item to be set. 
+     */
+    public void setItemVariables(String item) {
         switch(item) {
-            case "bread": //[FIX]
-            //itemName = setItemName("bread");
-            //itemDescription = setItemDescription("A nice loaf of bread. Not warm though. Can be eaten to heal 2 hp.");
-            //itemWeight = setItemWeight(1);
-            //itemValue = setItemValue(1);
-            //itemPickupAble = setItemPickupable(true);
+            case "bread":
+            itemName = "bread";
+            itemDescription = "A nice loaf of bread. Not warm though. Can be eaten to heal 2 hp.";
+            itemWeight = 1;
+            itemValue = 1;
+            itemPickupAble = true;
         }
     }
     
+    /**
+     * @return The name of the item set in setItemVariables()
+     */
     public String getItemName() {
         return itemName;
     }
+    
+    /**
+     * @return The description of the item set in setItemVariables()
+     */
     
     public String getItemDescription() {
         return itemDescription;
     }
     
+    /**
+     * @return The weight of the item set in setItemVariables()
+     */
+    
     public int getItemWeight() {
         return itemWeight;
     }
+    
+    /**
+     * @return The value of the item set in setItemVariables()
+     */
     
     public int getItemValue() {
         return itemValue;
     }
     
+    /**
+     * @return The boolean if the item is pickup able or not of set in setItemVariables()
+     */
+    
     public boolean getItemPickupAble() {
         return itemPickupAble;
     }
-    
-    public void setItemName(String name) {
-        itemName = name;
-    }
-    
-    public void setItemDescription(String description) {
-        itemDescription = description;
-    }
-    
-    public void setItemWeight(int weight) {
-        itemWeight = weight;
-    }
-    
-    public void setItemValue(int value) {
-        itemValue = value ;
-    }
-    
-    public void setItemPickupAble(boolean pickupAble) {
-        itemPickupAble = pickupAble;
-    }
-    
-    
 }
