@@ -150,11 +150,10 @@ public class Levels {
         c3.setIsLocked(true);
         room9.setIsLocked(true);
         bossRoom.setIsLocked(true);
-        // set the list
-        lockedRoomList.add(c1.getRoomID()); 
-        lockedRoomList.add(c3.getRoomID()); 
-        lockedRoomList.add(room9.getRoomID()); 
-        lockedRoomList.add(bossRoom.getRoomID()); 
+        
+        // set the trap rooms
+        t1.setIsTrapRoom();
+        t2.setIsTrapRoom();
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
@@ -180,6 +179,8 @@ public class Levels {
         c2.setExit("west", t1);
 
         room6.setExit("south", room5);
+        
+        t1.setExit("west", room3);
 
         room7.setExit("north", room8);
         room7.setExit("south", t1);
@@ -216,6 +217,8 @@ public class Levels {
         c6.setExit("north", room13);
         c6.setExit("west", t2);
         c6.setExit("south", c5);
+        
+        t2.setExit("west", room10);
 
         room13.setExit("north", c6);
 

@@ -20,6 +20,7 @@ public class Room {
     private String roomID;
     private boolean canHoldItem;
     private boolean isLocked;
+    private boolean isTrapRoom;
 
     private boolean hasEnemy;
 
@@ -40,10 +41,19 @@ public class Room {
         this.roomID = ID;
         this.canHoldItem = canHoldItem;
         isLocked = false;
+        isTrapRoom = false;
 
         this.roomInventory = new ArrayList<String>();
         exits = new HashMap<>();
         hasEnemy = false;
+    }
+    
+    public boolean getIsTrapRoom() {
+        return isTrapRoom;
+    }
+    
+    public void setIsTrapRoom() {
+        isTrapRoom = true;
     }
     
     public void setIsLocked(boolean isIt) {
@@ -56,6 +66,10 @@ public class Room {
     
     public void unlockRoom() {
         setIsLocked(false);
+    }
+    
+    public void lockRoom() {
+        setIsLocked(true);
     }
 
     public boolean canRoomHoldItems() {

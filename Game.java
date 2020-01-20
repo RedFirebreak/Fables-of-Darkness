@@ -231,15 +231,15 @@ public class Game {
                 System.out.println("Your inventory is empty.");
             }
             break;
-            
+
             case USE:
             useItem(command);
             break;
-            
+
             case BURN:
             burnItem(command);
             break;
-            
+
             case INSPECT:
             getItemInformation(command);
             break;
@@ -305,12 +305,34 @@ public class Game {
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
 
+        HashMap<String, Room> allroomIDs = level.getAllroomIDs();
+        Room trapdoor1 = allroomIDs.get("22");
+        Room trapdoor2 = allroomIDs.get("23");
+
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
         } 
         else {
             if (nextRoom.getIsLocked()){
-                System.out.println("This door seems to be locked. It won't open.");
+                System.out.println("This door seems to be locked. It won't open."); //[[FIX]] dit doet hij nu ook bij trapdoors
+                return;
+            }
+
+            if (nextRoom == trapdoor1) {
+                System.out.println("You fell into a trapdoor!");
+                trapdoor1.lockRoom();
+                //[[FIX]] remove the backstack
+                currentRoom = nextRoom; // go to the next room
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
+                return;
+            }
+
+            if (nextRoom == trapdoor2) {
+                System.out.println("You fell into a trapdoor!");
+                trapdoor2.lockRoom();
+                //[[FIX]] remove the backstack
+                currentRoom = nextRoom; // go to the next room
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
                 return;
             }
 
@@ -415,7 +437,7 @@ public class Game {
         }
 
     }
-    
+
     private void useItem(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to use...
@@ -428,36 +450,36 @@ public class Game {
         Room roomToUnlock;
         Item selectedItem = new Item(); //setting the new item..
         selectedItem.setItemVariables(itemToBeUsed); //.. and getting all variables
-        
+
         if (player.getPlayerInventory().contains(itemToBeUsed)) { // check if item is in your inventory
             correctRoom = currentRoom.getRoomID();
             switch (correctRoom) {
                 case "8": //room 8, to unlock c3
-                    System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
-                    player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
-                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    roomToUnlock = allroomIDs.get("16"); //16 is c3
-                    roomToUnlock.unlockRoom();
+                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
+                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                roomToUnlock = allroomIDs.get("16"); //16 is c3
+                roomToUnlock.unlockRoom();
                 break;
-                
+
                 case "10": //room 10, to unlock room9
-                    System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
-                    player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
-                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    roomToUnlock = allroomIDs.get("9");
-                    roomToUnlock.unlockRoom();
+                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
+                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                roomToUnlock = allroomIDs.get("9");
+                roomToUnlock.unlockRoom();
                 break;
-                
+
                 case "16": //c3. to unlock bossRoom
-                    System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
-                    player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
-                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    roomToUnlock = allroomIDs.get("24");
-                    roomToUnlock.unlockRoom();
+                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
+                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                roomToUnlock = allroomIDs.get("24");
+                roomToUnlock.unlockRoom();
                 break;
-                
+
                 default:
-                    System.out.println("You cannot use this item here.");
+                System.out.println("You cannot use this item here.");
                 break;
             }
         }
@@ -465,7 +487,7 @@ public class Game {
             System.out.println(itemToBeUsed + "can't be used because you don't have it in your inventory!");
         }
     }
-    
+
     private void burnItem(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to burn...
@@ -476,7 +498,7 @@ public class Game {
         String currentRoomid = currentRoom.getRoomID();
         HashMap<String, Room> allroomIDs = level.getAllroomIDs();
         Room roomToUnlock;
-        
+
         if (player.getPlayerInventory().contains("torch")) { // check if item is in your inventory
             if(whatToBurn.equals("door")) {
                 System.out.println("You burn the door with your torch, the way is now free!");
