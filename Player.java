@@ -10,9 +10,9 @@ public class Player {
     private Stack<String> back = new Stack<String>();
     private Room currentRoom;
     private List<String> playerInventory;
+
     private int carryWeight = 0;
     private int maxCarryWeight = 50;
-    
     private int healthPoints = 20; // max hp is hier al door gezet
 
     /**
@@ -24,10 +24,16 @@ public class Player {
         // view command met: System.out.println(inv);
     }
 
+    // Room
     public void setCurrentRoom(Room room) {
         currentRoom = room;
     }
 
+    public Room getCurrentRoom() {
+        return currentRoom;
+    }
+
+    // Health
     public int getHealth() {
         return healthPoints;
     }
@@ -45,6 +51,8 @@ public class Player {
             healthPoints = 20; // make sure the players health can never be above 20
         }
     }
+
+    // Back
     /**
      * [[ENTER JAVADOC]]
      */
@@ -67,11 +75,6 @@ public class Player {
         return back;
     }
 
-    public Room getCurrentRoom() {
-        return currentRoom;
-    }
-    //End of player's back stack section
-    
     //Start of player inventory section
     /**
      * @param The item to be added to the player's inventory.
@@ -79,22 +82,21 @@ public class Player {
     public void addItemToInventory(String itemName) {
         playerInventory.add(itemName);
     }
-    
+
     /**
      * @param The item to be removed from the player's inventory.
      */
     public void removeItemFromInventory(String itemName) {
         playerInventory.remove(itemName);
     }
-    
+
     /**
      * @return The player's current inventory.
      */
     public List<String> getPlayerInventory() {
         return playerInventory;
     }
-    //End of player's inventory section
-    
+
     //Start of player's carryweight section
     /**
      * @param Add the carryweight of the new item to the current carryweight.
@@ -102,40 +104,39 @@ public class Player {
     public void addToCarryWeight(int carryWeight) {
         this.carryWeight += carryWeight;
     }
-    
+
     /**
      * @param Remove the carryweight of the dropped or eaten item from the current carryweight.
      */
     public void removeFromCarryWeight(int carryWeight) {
         this.carryWeight -= carryWeight;
     }
-    
+
     /**
      * @param Set the initial carryweight of the player.
      */
     public void setCarryWeight(int carryWeight) {
         this.carryWeight = carryWeight;
     }
-    
+
     /**
      * @param Set the maximum carryweight of the player.
      */
     public void setMaxCarryWeight(int maxCarryWeight) {
         this.maxCarryWeight = maxCarryWeight;
     }
-    
+
     /**
      * @return The player's current carryweight.
      */
     public int getCarryWeight() {
         return carryWeight;
     }
-    
+
     /**
      * @return The player's maximum carryweight.
      */
     public int getMaxCarryWeight() {
         return maxCarryWeight;
     }
-    //End of player's carryweight section
 }

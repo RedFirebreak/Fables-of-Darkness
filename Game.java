@@ -425,10 +425,10 @@ public class Game {
                 case "bread":
                 if((player.getHealth())<=(20)) {
                     System.out.println("You eat the bread. It heals 2 HP.");
-                    player.healPlayer(2); // heal the player a selected amount
+                    player.addHealth(2); // heal the player a selected amount
                     player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
                     player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    System.out.println("Your HP is now " + player.getHP() + ".");
+                    System.out.println("Your HP is now " + player.getHealth() + ".");
                 }
                 else {
                     System.out.println("Your HP is full!");
@@ -438,10 +438,10 @@ public class Game {
                 case "steak":
                 if((player.getHealth())<=(20)) {
                     System.out.println("You eat the steak. It heals 5 HP.");
-                    player.healPlayer(5); // heal the player a selected amount
+                    player.addHealth(5); // heal the player a selected amount
                     player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
                     player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    System.out.println("Your HP is now " + player.getHP() + ".");
+                    System.out.println("Your HP is now " + player.getHealth() + ".");
                 }
                 else {
                     System.out.println("Your HP is full!");
