@@ -11,81 +11,71 @@ public class Item {
     private String itemDescription;
     private int itemWeight;
     private int itemValue;
-
-    public Item(String itemName, String description, int weight, int value) {
-        this.itemName = itemName;
-        this.itemDescription = description;
-        this.itemWeight = weight;
-        this.itemValue = value;
-    }   
+    private boolean itemPickupAble;
     
+    /**
+     * Setting initial values for every item created, just in case
+     */
+    public Item() {
+        itemName = "error in itemName";
+        itemDescription = "error in itemDescription";
+        itemWeight = 0;
+        itemValue = 0;
+        itemPickupAble = false;
+    }
+    
+    /**
+     * New items for the game are defined here.
+     * 
+     * @param item The item to be set. 
+     */
+    public void setItemVariables(String item) {
+        switch(item) {
+            case "bread":
+            itemName = "bread";
+            itemDescription = "A nice loaf of bread. Not warm though. Can be eaten to heal 2 hp.";
+            itemWeight = 1;
+            itemValue = 1;
+            itemPickupAble = true;
+        }
+    }
+    
+    /**
+     * @return The name of the item set in setItemVariables()
+     */
     public String getItemName() {
         return itemName;
     }
     
-    public String getItemDescription(String itemToGetDescriptionFrom) {
-        String itemDescription = "Item not found";
-        switch (itemToGetDescriptionFrom) {
-            case "bread":
-            itemDescription="A nice loaf of bread. Not warm though. Can be eaten to heal 2 hp.";
-            break;
-            
-            case "steak":
-            itemDescription="A piece of well-done steak. Can be eaten to heal 5 hp.";
-            break;
-            
-            case "jug_of_water":
-            itemDescription="A jug of water. Can this be used for anything?";
-            break;
-            
-            case "torch":
-            itemDescription="A healthy fire on a stick, good for light and for burning things.";
-            break;
-        }
+    /**
+     * @return The description of the item set in setItemVariables()
+     */
+    
+    public String getItemDescription() {
         return itemDescription;
     }
     
-    public int getItemWeight(String itemToGetWeightFrom) {
-        int itemWeight = 0;
-        switch (itemToGetWeightFrom) {
-            case "bread":
-            itemWeight=1;
-            break;
-            
-            case "steak":
-            itemWeight=2;
-            break;
-            
-            case "jug_of_water":
-            itemWeight=2;
-            break;
-            
-            case "torch":
-            itemWeight=5;
-            break;
-        }
+    /**
+     * @return The weight of the item set in setItemVariables()
+     */
+    
+    public int getItemWeight() {
         return itemWeight;
     }
     
-    public int getItemValue(String itemToGetValueFrom) {
-        int itemValue = 0;
-        switch (itemToGetValueFrom) {
-            case "bread":
-            itemValue=1;
-            break;
-            
-            case "steak":
-            itemValue=1;
-            break;
-            
-            case "jug_of_water":
-            itemValue=1;
-            break;
-            
-            case "torch":
-            itemValue=1;
-            break;
-        }
+    /**
+     * @return The value of the item set in setItemVariables()
+     */
+    
+    public int getItemValue() {
         return itemValue;
+    }
+    
+    /**
+     * @return The boolean if the item is pickup able or not of set in setItemVariables()
+     */
+    
+    public boolean getItemPickupAble() {
+        return itemPickupAble;
     }
 }

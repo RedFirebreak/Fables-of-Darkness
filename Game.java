@@ -68,8 +68,8 @@ public class Game {
                 // load the player
                 player = new Player(); // make connection and initialize a player (This player will have 20 hp and 50 carry weight)
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
-                
-                
+
+                backList = player.getBack();
                 parser = new Parser(); // start the game-listener
 
                 System.out.println("");
@@ -124,12 +124,15 @@ public class Game {
         goodbyeMessage();
     }
 
+    /**
+     * Print the goodbye message for the player if quit has been selected.
+     */
     private void goodbyeMessage() {
         System.out.println("Thank you for playing Fables of Darkness.  Have a nice day and goodbye!");   
     }
 
     /**
-     * Print out the opening message for the player.
+     * Print the opening message for the player.
      */
     private void printWelcome() {
         System.out.println("You wake up in a dimly lit storage room.");
@@ -311,10 +314,13 @@ public class Game {
 
         }
     }
-
+    
     /**
-     * Try to go in one direction. If there is an exit, enter the new room,
-     * otherwise print an error message.
+     * "take" was entered. Check if a second word has been send too and check if the item is takeable.
+     * If it is takeable, check if the room has the item in their inventory and take the item,
+     * adding the item from the inventory and adding the weight, also removing the item from the current room.
+     * 
+     * @param command The command entered in the Parser.
      */
     private void pickupItem(Command command) {
         if (!command.hasSecondWord()) {
@@ -323,18 +329,32 @@ public class Game {
             return;
         }
         String itemToBeAdded = command.getSecondWord();
-
-        if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
-            player.addItemToInventory(itemToBeAdded);
-            currentRoom.removeRoomInventory(itemToBeAdded);
-            //player.addToCarryWeight(items.getItemWeight(itemToBeAdded)); FIX DIT, DIT LAAT HET GAME CRASHEN
-            System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
+        Item selectedItem = new Item(); //setting the new item..
+        selectedItem.setItemVariables(itemToBeAdded); //.. and getting all variables
+        
+        if(selectedItem.getItemPickupAble()) {
+            if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
+                player.addItemToInventory(itemToBeAdded);
+                currentRoom.removeRoomInventory(itemToBeAdded);
+                player.addToCarryWeight(selectedItem.getItemWeight());
+                System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
+            }
+            else {
+                System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
+            }
         }
         else {
-            System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
+            System.out.println("The " + itemToBeAdded + " cannot be picked up as it is stuck to the floor.");
         }
     }
-
+    
+    /**
+     * "drop" was entered. Check if a second word has been send too.
+     * If there is a second word, check if the player has the item in their inventory and drop the item,
+     * removing the item from their inventory and losing the weight, also returning the item to the current room.
+     * 
+     * @param command The command entered in the Parser.
+     */
     private void dropItem(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to drop...
@@ -342,9 +362,12 @@ public class Game {
             return;
         }
         String itemToBeDropped = command.getSecondWord();
+        Item selectedItem = new Item(); //setting the new item..
+        selectedItem.setItemVariables(itemToBeDropped); //.. and getting all variables
 
         if (player.getPlayerInventory().contains(itemToBeDropped)) {
             player.removeItemFromInventory(itemToBeDropped);
+            player.removeFromCarryWeight(selectedItem.getItemWeight());
             currentRoom.setRoomInventory(itemToBeDropped);
             System.out.println("You drop the " + itemToBeDropped + " and put it on the ground.");
         }
@@ -352,7 +375,13 @@ public class Game {
             System.out.println("You cannot drop " + itemToBeDropped + " because you don't have it in your inventory!");
         }
     }
-
+    
+    /**
+     * "inspect" was entered. Check if a second word has been send too.
+     * If there is a second word, check if the player has the item in their inventory and return the info.
+     * 
+     * @param command The command entered in the Parser.
+     */
     private void getItemInformation(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to inspect...
@@ -360,11 +389,14 @@ public class Game {
             return;
         }
         String itemToBeInspected = command.getSecondWord();
+        Item selectedItem = new Item(); //setting the new item..
+        selectedItem.setItemVariables(itemToBeInspected); //.. and getting all variables
+
 
         if (player.getPlayerInventory().contains(itemToBeInspected)) {
-            System.out.println(itemToBeInspected + "'s description: " + items.getItemDescription(itemToBeInspected));
-            System.out.println(itemToBeInspected + "'s weight: " + items.getItemWeight(itemToBeInspected));
-            System.out.println(itemToBeInspected + "'s value: " + items.getItemValue(itemToBeInspected));
+            System.out.println(itemToBeInspected + "'s description: " + selectedItem.getItemDescription());
+            System.out.println(itemToBeInspected + "'s weight: " + selectedItem.getItemWeight());
+            System.out.println(itemToBeInspected + "'s value: " + selectedItem.getItemValue());
         }
         else {
             System.out.println("You cannot inspect " + itemToBeInspected + " because you don't have it in your inventory!");
@@ -372,6 +404,12 @@ public class Game {
 
     }
 
+    /**
+     * "eat" was entered. Check if a second word has been send too and check if the item is eatable.
+     * If it is eatable, heal the player if their hp isn't full, and remove the item and its weight from the player.
+     * 
+     * @param command The command entered in the Parser.
+     */
     private void eatItem(Command command) {
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to eat...
@@ -379,15 +417,18 @@ public class Game {
             return;
         }
         String itemToBeEaten = command.getSecondWord();
+        Item selectedItem = new Item(); //setting the new item..
+        selectedItem.setItemVariables(itemToBeEaten); //.. and getting all variables
 
         if (player.getPlayerInventory().contains(itemToBeEaten)) { // check if item is in your inventory
             switch (itemToBeEaten) {
                 case "bread":
                 if((player.getHealth())<=(20)) {
                     System.out.println("You eat the bread. It heals 2 HP.");
-                    player.addHealth(2);
-                    player.removeItemFromInventory(itemToBeEaten);
-                    System.out.println("Your HP is now " + player.getHealth() + ".");
+                    player.healPlayer(2); // heal the player a selected amount
+                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
+                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                    System.out.println("Your HP is now " + player.getHP() + ".");
                 }
                 else {
                     System.out.println("Your HP is full!");
@@ -397,9 +438,10 @@ public class Game {
                 case "steak":
                 if((player.getHealth())<=(20)) {
                     System.out.println("You eat the steak. It heals 5 HP.");
-                    player.addHealth(5);
-                    player.removeItemFromInventory(itemToBeEaten);
-                    System.out.println("Your HP is now " + player.getHealth() + ".");
+                    player.healPlayer(5); // heal the player a selected amount
+                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
+                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                    System.out.println("Your HP is now " + player.getHP() + ".");
                 }
                 else {
                     System.out.println("Your HP is full!");
