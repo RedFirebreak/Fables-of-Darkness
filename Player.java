@@ -37,6 +37,10 @@ public class Player {
         maxHP = HPsetter;
     }
     
+    public void setHP(int HPsetter) {
+        HP = HPsetter;
+    }
+    
     public int getMaxHP() {
         return maxHP;
     }
@@ -72,6 +76,10 @@ public class Player {
     
     public void addToCarryWeight(int carryWeight) {
         this.carryWeight += carryWeight;
+    }
+    
+    public void setCarryWeight(int carryWeight) {
+        this.carryWeight = carryWeight;
     }
     
     public int getCarryWeight() {

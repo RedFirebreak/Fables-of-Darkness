@@ -9,7 +9,7 @@ import java.util.*;
 public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
-    private Stack<Item> randomItems = new Stack<Item>();
+    private Stack<String> randomItems = new Stack<String>();
 
     private int totalRooms = 0;
 
@@ -103,21 +103,14 @@ public class Levels {
         totalRooms = roomid; // copy the max amount of rooms (is 25 for the first level)
 
         // Add items to the random-stack
-        Item bread, jug_of_water, steak, dagger, cloak, unlit_torch;
-        bread = new Item("bread", "A nice loaf of bread. Not warm though. Can be eaten to heal 2 hp.", 1, 1);
-        jug_of_water = new Item("jug_of_water", "", 0, 0);
-        steak = new Item("steak", "", 0, 0);
-        dagger = new Item("dagger", "", 0, 0);
-        cloak = new Item("cloak", "", 0, 0);
-        unlit_torch = new Item("unlit_torch", "", 0, 0);
-        
-        randomItems.push(bread);
-        randomItems.push(bread);
-        randomItems.push(jug_of_water);
-        randomItems.push(steak);
-        randomItems.push(dagger);
-        randomItems.push(cloak);
-        randomItems.push(unlit_torch);
+
+        randomItems.push("bread");
+        randomItems.push("bread");
+        randomItems.push("jug_of_water");
+        randomItems.push("steak");
+        randomItems.push("dagger");
+        randomItems.push("cloak");
+        randomItems.push("unlit_torch");
         room1.setRoomInventory("bread");
 
         // Get a random String-number based on the max of the roomcount 
@@ -127,11 +120,10 @@ public class Levels {
         while (randomItemsIterator.hasNext()) {
             int randomNumber = randomize.getRandomNumber(totalRooms); // get a random number (int)
             String randomRoomID = Integer.toString(randomNumber); // convert the int to string
-            String item = randomItems.peek().getItemName();
 
             Room roomToAddItem = allroomIDs.get(randomRoomID); // load the room based on string-ID
             if (roomToAddItem.canRoomHoldItems()) { // check if the room may hold items, if not the getting of the rooms is done again  
-                roomToAddItem.setRoomInventory(item); // add the top-most item to the room we just loaded.
+                roomToAddItem.setRoomInventory(randomItems.peek()); // add the top-most item to the room we just loaded.
                 randomItems.pop();
             }
         } 

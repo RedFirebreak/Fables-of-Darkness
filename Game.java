@@ -69,7 +69,9 @@ public class Game {
                 backList = player.getBack();
 
                 player.setMaxHP(20); // set player's max HP
+                player.setHP(player.getMaxHP());
                 player.setMaxCarryWeight(50); // set playerś max carryweight
+                player.setCarryWeight(0);
 
                 parser = new Parser(); // start the game-listener
 
@@ -283,8 +285,7 @@ public class Game {
     }
 
     /**
-     * Try to go in one direction. If there is an exit, enter the new room,
-     * otherwise print an error message.
+     * 
      */
     private void pickupItem(Command command) {
         if (!command.hasSecondWord()) {
@@ -293,11 +294,12 @@ public class Game {
             return;
         }
         String itemToBeAdded = command.getSecondWord();
+        Item i = new Item();
 
         if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
             player.addItemToInventory(itemToBeAdded);
             currentRoom.removeRoomInventory(itemToBeAdded);
-            //player.addToCarryWeight(items.getItemWeight(itemToBeAdded)); FIX DIT, DIT LAAT HET GAME CRASHEN
+            player.addToCarryWeight(items.getItemWeight(itemToBeAdded));
             System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
         }
         else {
