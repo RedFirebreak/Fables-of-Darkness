@@ -10,7 +10,7 @@ public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
     private Stack<String> randomItems = new Stack<String>();
-
+    private List<String> lockedRoomList = new ArrayList<String>();
     private int totalRooms = 0;
 
     private HashMap<String, Room> allroomIDs; // stores ids of ALL rooms.
@@ -38,7 +38,7 @@ public class Levels {
 
         // Open the connection to the randomizer. as this level requires it
         Randomizer randomize = new Randomizer();
-        
+
         // First, create a roomname, then calculate the next ID, provide a  "short description
         // (shows when you move into the
         // room)", "long description (shows when you seach the room)", boolean true or
@@ -106,11 +106,23 @@ public class Levels {
 
         allroomIDs.put(bossRoom.getRoomID(), bossRoom);
 
-        // Set the items in this level
-        totalRooms = roomid; // copy the max amount of rooms (is 25 for the first level)
+        //Set key-items
+        room2.setRoomInventory("torch");
+        room9.setRoomInventory("health_potion");
+        room10.setRoomInventory("shortsword");
+        room10.setRoomInventory("brass_key"); // used to unlock room 9
+        room13.setRoomInventory("mysterious_key"); // used to unlock bossroom
+        String keyForC3 = "bronze_key";
+
+        int tempRoomForItem;
+        Room roomToAddItem;
+
+        //randomizer for keyForC3 DOE DIT OOK VOOR DE ANDERE ITEMS
+        tempRoomForItem = 2 + randomize.getRandomNumber(6); // will return 3, 4, 5, 6, 7 or 8
+        roomToAddItem = allroomIDs.get(Integer.toString(tempRoomForItem)); // load the room based on string-ID
+        roomToAddItem.setRoomInventory(keyForC3);
 
         // Add items to the random-stack
-
         randomItems.push("bread");
         randomItems.push("bread");
         randomItems.push("jug_of_water");
@@ -118,20 +130,31 @@ public class Levels {
         randomItems.push("dagger");
         randomItems.push("cloak");
         randomItems.push("unlit_torch");
-        room1.setRoomInventory("bread");
-
+        randomItems.push("boulder");
         // Get a random String-number based on the max of the roomcount 
+        totalRooms = roomid; // copy the max amount of rooms (is 25 for the first level)
         Iterator randomItemsIterator = randomItems.iterator(); // Create a iterator to loop trough all the random items 
         while (randomItemsIterator.hasNext()) {
             int randomNumber = randomize.getRandomNumber(totalRooms); // get a random number (int)
             String randomRoomID = Integer.toString(randomNumber); // convert the int to string
 
-            Room roomToAddItem = allroomIDs.get(randomRoomID); // load the room based on string-ID
-            if (roomToAddItem.canRoomHoldItems()) { // check if the room may hold items, if not the getting of the rooms is done again  
-                roomToAddItem.setRoomInventory(randomItems.peek()); // add the top-most item to the room we just loaded.
+            Room roomToAddRandomItem = allroomIDs.get(randomRoomID); // load the room based on string-ID
+            if (roomToAddRandomItem.canRoomHoldItems()) { // check if the room may hold items, if not the getting of the rooms is done again  
+                roomToAddRandomItem.setRoomInventory(randomItems.peek()); // add the top-most item to the room we just loaded.
                 randomItems.pop();
             }
         } 
+
+        // set locked rooms
+        c1.setIsLocked(true);
+        c3.setIsLocked(true);
+        room9.setIsLocked(true);
+        bossRoom.setIsLocked(true);
+        // set the list
+        lockedRoomList.add(c1.getRoomID()); 
+        lockedRoomList.add(c3.getRoomID()); 
+        lockedRoomList.add(room9.getRoomID()); 
+        lockedRoomList.add(bossRoom.getRoomID()); 
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);
@@ -209,23 +232,27 @@ public class Levels {
         // Add the enemy to specifed, random room
         int tempRoomNumber;
         Room roomToAddEnemy;
-        
+
         tempRoomNumber = 4 + randomize.getRandomNumber(4); // will return 5,6,7 or 8
         roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
         roomToAddEnemy.addEnemy(goblin1);
-        
-        tempRoomNumber = 10 +randomize.getRandomNumber(3); // will return 11, 12 or 13
+
+        tempRoomNumber = 10 + randomize.getRandomNumber(3); // will return 11, 12 or 13
         roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
         roomToAddEnemy.addEnemy(goblin2);
-        
-        tempRoomNumber = 8 +randomize.getRandomNumber(2); // will return 9 or 10
+
+        tempRoomNumber = 8 + randomize.getRandomNumber(2); // will return 9 or 10
         roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
         roomToAddEnemy.addEnemy(human1);
-        
+
         // add the boss room
         bossRoom.addEnemy(boss);
-        
+
         currentRoom = room1;
+    }
+    
+    public List<String> getLockedRoomList() {
+        return lockedRoomList;
     }
 
     public Stack getItemStack() {

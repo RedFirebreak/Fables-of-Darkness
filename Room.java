@@ -19,6 +19,7 @@ public class Room {
     private String longDescription;
     private String roomID;
     private boolean canHoldItem;
+    private boolean isLocked;
 
     private boolean hasEnemy;
 
@@ -38,10 +39,23 @@ public class Room {
         this.longDescription = longDescription;
         this.roomID = ID;
         this.canHoldItem = canHoldItem;
+        isLocked = false;
 
         this.roomInventory = new ArrayList<String>();
         exits = new HashMap<>();
         hasEnemy = false;
+    }
+    
+    public void setIsLocked(boolean isIt) {
+        isLocked = isIt;
+    }
+    
+    public boolean getIsLocked() {
+        return isLocked;
+    }
+    
+    public void unlockRoom() {
+        setIsLocked(false);
     }
 
     public boolean canRoomHoldItems() {
