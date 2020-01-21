@@ -107,8 +107,8 @@ public class Game {
         boolean finished = false;
         boolean gameover = false;
         while (!finished) {
-            int playerHealt = player.getHealth();
-            if (playerHealt == 0){
+            int playerHealth = player.getHealth();
+            if (playerHealth == 0){
                 gameover = true;
             }
 

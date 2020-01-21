@@ -20,11 +20,9 @@ public class Player {
      */
     public Player() {
         playerInventory = new ArrayList<String>();
-        // om items toe te voegen: playerInventory.add("itemname");
-        // view command met: System.out.println(inv);
     }
 
-    // Room
+    // room
     public void setCurrentRoom(Room room) {
         currentRoom = room;
     }
@@ -33,7 +31,7 @@ public class Player {
         return currentRoom;
     }
 
-    // Health
+    // health
     public int getHealth() {
         return healthPoints;
     }
@@ -52,7 +50,7 @@ public class Player {
         }
     }
 
-    // Back
+    // back
     /**
      * [[ENTER JAVADOC]]
      */
@@ -75,7 +73,7 @@ public class Player {
         return back;
     }
 
-    //Start of player inventory section
+    // inventory
     /**
      * @param The item to be added to the player's inventory.
      */
@@ -97,7 +95,7 @@ public class Player {
         return playerInventory;
     }
 
-    //Start of player's carryweight section
+    // carryweight
     /**
      * @param Add the carryweight of the new item to the current carryweight.
      */
