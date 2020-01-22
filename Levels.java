@@ -172,11 +172,17 @@ public class Levels {
             }
         } 
 
-        // set locked rooms
+        // set locked rooms, and the rooms to unlock them
         c1.setIsLocked(true);
+        
         c3.setIsLocked(true);
+        room8.setUnlockRoom(true, "bronze_key", c3.getRoomID());
+        
         room9.setIsLocked(true);
+        room10.setUnlockRoom(true, "brass_key", room9.getRoomID());
+        
         bossRoom.setIsLocked(true);
+        c3.setUnlockRoom(true, "mysterious_key", bossRoom.getRoomID());
         
         // set the rooms that can be burned
         room1.setCanBeBurned(true);

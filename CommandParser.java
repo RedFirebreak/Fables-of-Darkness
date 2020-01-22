@@ -276,42 +276,28 @@ public class CommandParser {
             return;
         }
         String itemToBeUsed = command.getSecondWord();
-        String correctRoom;
+        String unlockItem;
         HashMap<String, Room> allroomIDs = level.getAllroomIDs();
         Room roomToUnlock;
         Item selectedItem = new Item(); //setting the new item..
         selectedItem.setItemVariables(itemToBeUsed); //.. and getting all variables
 
         if (player.getPlayerInventory().contains(itemToBeUsed)) { // check if item is in your inventory
-            correctRoom = currentRoom.getRoomID();
-            switch (correctRoom) {
-                case "8": //room 8, to unlock c3
-                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
-                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
-                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                roomToUnlock = allroomIDs.get("16"); //16 is c3
-                roomToUnlock.unlockRoom();
-                break;
-
-                case "10": //room 10, to unlock room9
-                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
-                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
-                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                roomToUnlock = allroomIDs.get("9");
-                roomToUnlock.unlockRoom();
-                break;
-
-                case "16": //c3. to unlock bossRoom
-                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
-                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
-                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                roomToUnlock = allroomIDs.get("24");
-                roomToUnlock.unlockRoom();
-                break;
-
-                default:
+            if (currentRoom.getUnlockRoom()) {
+                unlockItem = currentRoom.getUnlockItem();
+                if (itemToBeUsed.equals(unlockItem)) {
+                    System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                    player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
+                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                    roomToUnlock = allroomIDs.get(currentRoom.getUnlocksRoomID()); 
+                    roomToUnlock.unlockRoom();
+                }
+                else {
+                    System.out.println("This is not the place to use the key!");
+                }
+            }
+            else {
                 System.out.println("You cannot use this item here.");
-                break;
             }
         }
         else {
