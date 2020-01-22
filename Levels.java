@@ -63,8 +63,8 @@ public class Levels {
         room13 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         c1 = new Room(Integer.toString(roomid++), "In a crossroad",
             "You can see a long corridor. It smells kind of damp.", true);
-        c2 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        c3 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
+        c2 = new Room(Integer.toString(roomid++), "In a crossroad", "In a damp crossroad", true);
+        c3 = new Room(Integer.toString(roomid++), "In a crossroad", "In a hot crossroad", true);
         c4 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         c5 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
         c6 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);

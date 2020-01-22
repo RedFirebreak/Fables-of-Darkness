@@ -313,6 +313,12 @@ public class Game {
             System.out.println("You can't go that way!");
         } 
         else {
+            if (nextRoom.getIsLocked() && nextRoom == trapdoor1 || nextRoom.getIsLocked() && nextRoom == trapdoor1){
+                System.out.println("This is the corridor where the trapdoor was.");
+                System.out.println("You don't want to go in here again so you stay where you are.");
+                return;
+            }
+
             if (nextRoom.getIsLocked()){
                 System.out.println("This door seems to be locked. It won't open."); //[[FIX]] dit doet hij nu ook bij trapdoors
                 return;
@@ -324,6 +330,8 @@ public class Game {
                 //[[FIX]] remove the backstack
                 currentRoom = nextRoom; // go to the next room
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
+                player.removeHealth(1);
+                System.out.println("You take 1 damage because you hurt your leg after the fall.");
                 return;
             }
 
@@ -333,6 +341,8 @@ public class Game {
                 //[[FIX]] remove the backstack
                 currentRoom = nextRoom; // go to the next room
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
+                player.removeHealth(1);
+                System.out.println("You take 1 damage because you bruise your feet after the fall.");
                 return;
             }
 
@@ -367,19 +377,19 @@ public class Game {
         Item selectedItem = new Item(); //setting the new item..
         selectedItem.setItemVariables(itemToBeAdded); //.. and getting all variables
 
-        if(selectedItem.getItemPickupAble()) {
-            if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
+        if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
+            if(selectedItem.getItemPickupAble()) {
                 player.addItemToInventory(itemToBeAdded);
                 currentRoom.removeRoomInventory(itemToBeAdded);
                 player.addToCarryWeight(selectedItem.getItemWeight());
                 System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
             }
             else {
-                System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
+                System.out.println("The " + itemToBeAdded + " cannot be picked up as it is way to heavy to be picked up.");
             }
         }
         else {
-            System.out.println("The " + itemToBeAdded + " cannot be picked up as it is way to heavy to be picked up.");
+            System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
         }
     }
 
