@@ -26,7 +26,7 @@ public class Room {
     private boolean hasEnemy;
 
     private HashMap<String, Room> exits; // stores exits of this room.
-    private ArrayList<String> roomInventory; // stores items of this room.
+    private ArrayList<Item> roomInventory; // stores items of this room.
 
     private Stack<Enemy> enemies;
 
@@ -44,7 +44,7 @@ public class Room {
         isLocked = false;
         isTrapRoom = false;
 
-        this.roomInventory = new ArrayList<String>();
+        this.roomInventory = new ArrayList<Item>();
         exits = new HashMap<>();
         hasEnemy = false;
         canBeBurned= false;
@@ -93,11 +93,11 @@ public class Room {
     /**
      * Add something to the current room inventory
      */
-    public void setRoomInventory(String itemToBeAdded) {
+    public void setRoomInventory(Item itemToBeAdded) {
         roomInventory.add(itemToBeAdded);
     }
 
-    public void removeRoomInventory(String itemToBeRemoved) {
+    public void removeRoomInventory(Item itemToBeRemoved) {
         if (roomInventory.contains(itemToBeRemoved)) {
             roomInventory.remove(itemToBeRemoved);
         }
@@ -138,7 +138,7 @@ public class Room {
     /**
      * Get the current room inventory
      */
-    public ArrayList getRoomInventory() {
+    public ArrayList<Item> getRoomInventory() {
         return roomInventory;
     }
 

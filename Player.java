@@ -9,11 +9,14 @@ import java.util.*;
 public class Player {
     private Stack<String> back = new Stack<String>();
     private Room currentRoom;
-    private List<String> playerInventory;
+    private List<Item> playerInventory;
 
     private int carryWeight = 0;
     private int maxCarryWeight = 50;
     private int healthPoints = 20;
+
+    private Item playerWeapon;
+    private Item playerArmor;
 
     private int maxHit = 3;
     private int minHit = 1;
@@ -22,7 +25,35 @@ public class Player {
      * Create a player for player management, initialize the inventory and the hp.
      */
     public Player() {
-        playerInventory = new ArrayList<String>();
+        playerInventory = new ArrayList<Item>();
+    }
+
+    public void setArmor(Item armorPiece){
+        String category = armorPiece.getItemCategory();
+        if (category == "armor") {
+            // Check for currently equipped weapon
+            // Place currently equipped weapon in inventory
+            // Reset base armor
+            // Equip new weapon
+            // Update armor
+            // inform user
+        } else {
+        System.out.println("You cant equip " + armorPiece.getItemName() + " as it is not a armor piece.");
+        }
+    }
+
+    public void setWeapon(Item weaponPiece){
+        String category = weaponPiece.getItemCategory();
+        if (category == "weapon") {
+            // Check for currently equipped weapon
+            // Place currently equipped weapon in inventory
+            // Reset base damage
+            // Equip new weapon
+            // Update damage
+            // inform user
+        } else {
+        System.out.println("You cant equip " + weaponPiece.getItemName() + " as it is not a weapon.");
+        }
     }
 
     //Adders
@@ -44,7 +75,7 @@ public class Player {
     /**
      * @param The item to be added to the player's inventory.
      */
-    public void addItemToInventory(String itemName) {
+    public void addItemToInventory(Item itemName) {
         playerInventory.add(itemName);
     }
 
@@ -83,7 +114,7 @@ public class Player {
     public void removeFromCarryWeight(int carryWeight) {
         this.carryWeight -= carryWeight;
     }
-    
+
     /**
      * Clears the entire back stack
      */
@@ -122,7 +153,7 @@ public class Player {
     /**
      * @return The player's current inventory.
      */
-    public List<String> getPlayerInventory() {
+    public List<Item> getPlayerInventory() {
         return playerInventory;
     }
 

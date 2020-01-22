@@ -9,8 +9,9 @@ import java.util.*;
 public class Levels {
     // instance variables - replace the example below with your own
     private Room currentRoom;
-    private Stack<String> randomItems = new Stack<String>();
+    private Stack<Item> randomItems = new Stack<Item>();
     private List<String> lockedRoomList = new ArrayList<String>();
+    private List<String> allItemsList = new ArrayList<String>();
     private int totalRooms = 0;
 
     private HashMap<String, Room> allroomIDs; // stores ids of ALL rooms.
@@ -35,6 +36,11 @@ public class Levels {
         // enemies
         Enemy goblin1, goblin2, human1;
         Enemy boss;
+        
+        // items
+        Item bread, bread2, jug_of_water, steak, dagger, cloak, unlit_torch, torch, health_biscuit, shortsword, boulder;
+        // key items
+        Item brass_key, bronze_key, mysterious_key;
 
         // Open the connection to the randomizer. as this level requires it
         Randomizer randomize = new Randomizer();
@@ -105,32 +111,53 @@ public class Levels {
         allroomIDs.put(t2.getRoomID(), t2);
 
         allroomIDs.put(bossRoom.getRoomID(), bossRoom);
+        
+        // Generate all items needed for this level
+        // (required input) String itemname, String itemDescription,String itemCategory,int itemHealAmount,
+        // int itemMinDamage,int itemMaxDamage,int itemArmorRating,int itemWeight,
+        // int itemValue,boolean itemPickupAble
+        //
 
-        //Set key-items
-        room2.setRoomInventory("torch");
-        room9.setRoomInventory("health_biscuit");
-        room10.setRoomInventory("shortsword");
-        room10.setRoomInventory("brass_key"); // used to unlock room 9
-        room13.setRoomInventory("mysterious_key"); // used to unlock bossroom
-        String keyForC3 = "bronze_key";
+        bread = new Item("bread","A nice loaf of bread. Not warm though. Can be eaten to heal 2 health points.","food",0,0,0,2,1,1,true);
+        bread2 = new Item("bread","A nice loaf of bread. Not warm though. Can be eaten to heal 2 health points.","food",0,0,0,2,1,1,true);
+        jug_of_water = new Item("jug_of_water","A jug. it contains water.","food",0,0,0,1,2,1,true);
+        steak = new Item("steak","A healthy-sized steak. It looks like Gandhi's flipflop. Can be eaten to heal 5 health points.","food",0,0,0,5,3,1,true);
+        dagger = new Item("dagger","A sharp weapon, relatively small. Good for stabby jabbies.","weapon",3,5,0,0,2,5,true);
+        cloak = new Item("cloak","A cloak. Protects from rain and gives warmth. Not much use in here.","armor",0,0,1,0,3,1,true);
+        unlit_torch = new Item("unlit_torch","An unlit torch, how useless!","generic",0,0,0,0,0,1,true);
+        health_biscuit = new Item("health_biscuit","A life elixer, health potion, red pot or whatever you want to name it, but it is in biscuit form. Can be eaten for 10 health points.","food",0,0,0,10,3,1,true);
+        shortsword = new Item("shortsword","A shortsword, things will get more 'ouch' with this.","weapon",5,9,0,0,5,1,true);
+        boulder = new Item("boulder","It is heavy. Way. Too. Heavy.","wtf",5000,10000,2000,0,10000,9001,false);
+        
+        // Generate all KEY items needed for this level
+        torch = new Item("torch","A flame on a stick, lights up the area around you so mobs don't spawn. Can burn stuff.","keyItem",0,0,0,0,5,1,true);
+        brass_key = new Item("brass_key","A brass key, probably used for unlocking something. Why is it always brass though?","keyItem",0,0,0,0,5,1,true);
+        bronze_key = new Item("bronze_key","A bronze key, useful for unlocking things.","keyItem",0,0,0,0,5,1,true);
+        mysterious_key = new Item("mysterious_key","This key glows a little and you can feel its warmth. Must unlock something powerful.","keyItem",0,0,0,0,5,1,true);
 
-        int tempRoomForItem;
-        Room roomToAddItem;
+        //Set key-items in their rooms
+        room2.setRoomInventory(torch);
+        room9.setRoomInventory(health_biscuit);
+        room10.setRoomInventory(shortsword);
+        room10.setRoomInventory(brass_key); // used to unlock room 9
+        room13.setRoomInventory(mysterious_key); // used to unlock bossroom
 
         //randomizer for keyForC3 DOE DIT OOK VOOR DE ANDERE ITEMS
-        tempRoomForItem = 2 + randomize.getRandomNumber(6); // will return 3, 4, 5, 6, 7 or 8
-        roomToAddItem = allroomIDs.get(Integer.toString(tempRoomForItem)); // load the room based on string-ID
-        roomToAddItem.setRoomInventory(keyForC3);
+        
+        int tempRoomForItem = 2 + randomize.getRandomNumber(6); // will return 3, 4, 5, 6, 7 or 8
+        Room roomToAddItem = allroomIDs.get(Integer.toString(tempRoomForItem)); // load the room based on string-ID
+        roomToAddItem.setRoomInventory(bronze_key);
 
-        // Add items to the random-stack
-        randomItems.push("bread");
-        randomItems.push("bread");
-        randomItems.push("jug_of_water");
-        randomItems.push("steak");
-        randomItems.push("dagger");
-        randomItems.push("cloak");
-        randomItems.push("unlit_torch");
-        randomItems.push("boulder");
+        // Add the rest of the items to be randomized, completely random over the entire map
+        randomItems.push(bread);
+        randomItems.push(bread);
+        randomItems.push(jug_of_water);
+        randomItems.push(steak);
+        randomItems.push(dagger);
+        randomItems.push(cloak);
+        randomItems.push(unlit_torch);
+        randomItems.push(boulder);
+        
         // Get a random String-number based on the max of the roomcount 
         totalRooms = roomid; // copy the max amount of rooms (is 25 for the first level)
         Iterator randomItemsIterator = randomItems.iterator(); // Create a iterator to loop trough all the random items 

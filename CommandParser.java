@@ -7,14 +7,14 @@ import java.util.*;
  */
 public class CommandParser {
     private Parser parser;
-    
+
     private Levels level;
-    
+
     private Room currentRoom;
     private Player player;
     private Stack backList;
     private Item items;
-    
+
     public CommandParser(Player player, Room room, Levels level) {
         this.level = level;
         this.currentRoom = room;
@@ -175,22 +175,41 @@ public class CommandParser {
             System.out.println("Take what?");
             return;
         }
-        String itemToBeAdded = command.getSecondWord();
-        Item selectedItem = new Item(); //setting the new item..
-        selectedItem.setItemVariables(itemToBeAdded); //.. and getting all variables
+        String itemToBeAdded = command.getSecondWord(); // hold the item name we are looking for
+        ArrayList<Item> currentRoomInventory = currentRoom.getRoomInventory(); // load the inventory of the room
+        // check if the second words matches an itemname in this room
+        boolean somethingInThisRoom = false;
+        int notThisItem;
+        int loop;
 
-        if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
-            if(selectedItem.getItemPickupAble()) {
-                player.addItemToInventory(itemToBeAdded);
-                currentRoom.removeRoomInventory(itemToBeAdded);
-                player.addToCarryWeight(selectedItem.getItemWeight());
-                System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
-            }
-            else {
-                System.out.println("The " + itemToBeAdded + " cannot be picked up as it is way to heavy to be picked up.");
-            }
+        for (loop = 0; loop < currentRoomInventory.size(); loop++) {
+            Item currentItem = currentRoomInventory.get(loop);
+            if (itemToBeAdded == currentItem.getItemName() ){ // get the item name, then check if thats something
+                // item name matches the player-provided name
+                // pick it up! (add to player inv, remove from room)
+                if(currentItem.getItemPickupAble()) {
+                    player.addItemToInventory(currentItem); // add to player inventory 
+                    currentRoom.removeRoomInventory(currentItem); // remove from room
+                    System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
+                }
+                else {
+                    System.out.println("The " + itemToBeAdded + " cannot be picked up as it is way to heavy to be picked up.");
+                }
+
+            } else {
+                // the item did not match the player provided name
+                notThisItem++;
+            };
+            somethingInThisRoom = true;
         }
-        else {
+        //errors afvangen
+
+        if (!somethingInThisRoom) {
+            System.out.println("There is nothing in this room to pick up!");
+        }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
             System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
         }
     }
@@ -399,6 +418,5 @@ public class CommandParser {
             System.out.println(itemToBeEaten + " can't be eaten because you don't have it in your inventory!");
         }
     }
-
 
 }
