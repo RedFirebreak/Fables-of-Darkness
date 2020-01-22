@@ -231,6 +231,14 @@ public class Game {
             }
             break;
 
+            case USE:
+            useItem(command);
+            break;
+
+            case BURN:
+            burnItem(command);
+            break;
+
             case INSPECT:
             getItemInformation(command);
             break;
@@ -296,10 +304,47 @@ public class Game {
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
 
+        HashMap<String, Room> allroomIDs = level.getAllroomIDs();
+        Room trapdoor1 = allroomIDs.get("22");
+        Room trapdoor2 = allroomIDs.get("23");
+
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
         } else {
             boolean goToNextRoom = true;
+            if (nextRoom.getIsLocked() && nextRoom == trapdoor1 || nextRoom.getIsLocked() && nextRoom == trapdoor1){
+                System.out.println("This is the corridor where the trapdoor was.");
+                System.out.println("You don't want to go in here again so you stay where you are.");
+                return;
+            }
+
+            if (nextRoom.getIsLocked()){
+                System.out.println("This door seems to be locked. It won't open."); //[[FIX]] dit doet hij nu ook bij trapdoors
+                return;
+            }
+
+            if (nextRoom == trapdoor1) {
+                System.out.println("You fell into a trapdoor!");
+                trapdoor1.lockRoom();
+                //[[FIX]] remove the backstack
+                currentRoom = nextRoom; // go to the next room
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
+                player.removeHealth(1);
+                System.out.println("You take 1 damage because you hurt your leg after the fall.");
+                return;
+            }
+
+            if (nextRoom == trapdoor2) {
+                System.out.println("You fell into a trapdoor!");
+                trapdoor2.lockRoom();
+                //[[FIX]] remove the backstack
+                currentRoom = nextRoom; // go to the next room
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
+                player.removeHealth(1);
+                System.out.println("You take 1 damage because you bruise your feet after the fall.");
+                return;
+            }
+
             // Check if there is an enemy in the room
             if (nextRoom.hasEnemy()) {
                 Battle battle = new Battle(player, nextRoom.getEnemy());
@@ -353,19 +398,19 @@ public class Game {
         Item selectedItem = new Item(); //setting the new item..
         selectedItem.setItemVariables(itemToBeAdded); //.. and getting all variables
 
-        if(selectedItem.getItemPickupAble()) {
-            if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
+        if (currentRoom.getRoomInventory().contains(itemToBeAdded)) {
+            if(selectedItem.getItemPickupAble()) {
                 player.addItemToInventory(itemToBeAdded);
                 currentRoom.removeRoomInventory(itemToBeAdded);
                 player.addToCarryWeight(selectedItem.getItemWeight());
                 System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
             }
             else {
-                System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
+                System.out.println("The " + itemToBeAdded + " cannot be picked up as it is way to heavy to be picked up.");
             }
         }
         else {
-            System.out.println("The " + itemToBeAdded + " cannot be picked up as it is stuck to the floor.");
+            System.out.println("You cannot take " + itemToBeAdded + " because it does not exist!");
         }
     }
 
@@ -424,6 +469,82 @@ public class Game {
 
     }
 
+    private void useItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to use...
+            System.out.println("Use what?");
+            return;
+        }
+        String itemToBeUsed = command.getSecondWord();
+        String correctRoom;
+        HashMap<String, Room> allroomIDs = level.getAllroomIDs();
+        Room roomToUnlock;
+        Item selectedItem = new Item(); //setting the new item..
+        selectedItem.setItemVariables(itemToBeUsed); //.. and getting all variables
+
+        if (player.getPlayerInventory().contains(itemToBeUsed)) { // check if item is in your inventory
+            correctRoom = currentRoom.getRoomID();
+            switch (correctRoom) {
+                case "8": //room 8, to unlock c3
+                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
+                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                roomToUnlock = allroomIDs.get("16"); //16 is c3
+                roomToUnlock.unlockRoom();
+                break;
+
+                case "10": //room 10, to unlock room9
+                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
+                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                roomToUnlock = allroomIDs.get("9");
+                roomToUnlock.unlockRoom();
+                break;
+
+                case "16": //c3. to unlock bossRoom
+                System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
+                player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                roomToUnlock = allroomIDs.get("24");
+                roomToUnlock.unlockRoom();
+                break;
+
+                default:
+                System.out.println("You cannot use this item here.");
+                break;
+            }
+        }
+        else {
+            System.out.println(itemToBeUsed + "can't be used because you don't have it in your inventory!");
+        }
+    }
+
+    private void burnItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to burn...
+            System.out.println("Burn what?");
+            return;
+        }
+        String whatToBurn = command.getSecondWord();
+        String currentRoomid = currentRoom.getRoomID();
+        HashMap<String, Room> allroomIDs = level.getAllroomIDs();
+        Room roomToUnlock;
+
+        if (player.getPlayerInventory().contains("torch")) { // check if item is in your inventory
+            if(whatToBurn.equals("door")) {
+                System.out.println("You burn the door with your torch, the way is now free!");
+                roomToUnlock = allroomIDs.get("14"); //14 is c1
+                roomToUnlock.unlockRoom();
+            }
+            else {
+                System.out.println("You cannot burn this.");
+            }
+        }
+        else {
+            System.out.println("You have nothing to burn " + whatToBurn + " with!");
+        }
+    }
+
     /**
      * "eat" was entered. Check if a second word has been send too and check if the item is eatable.
      * If it is eatable, heal the player if their hp isn't full, and remove the item and its weight from the player.
@@ -468,6 +589,19 @@ public class Game {
                 }
                 break;
 
+                case "health_biscuit":
+                if((player.getHealth())<=(20)) {
+                    System.out.println("You eat the biscuit. It heals 10 HP.");
+                    player.addHealth(10); // heal the player a selected amount
+                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
+                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                    System.out.println("Your HP is now " + player.getHealth() + ".");
+                }
+                else {
+                    System.out.println("Your HP is full!");
+                }
+                break;
+
                 default:
                 System.out.println("You cannot eat this item.");
                 break;
@@ -475,7 +609,7 @@ public class Game {
             }
         }
         else {
-            System.out.println(itemToBeEaten + "can't be eaten because its non-eatable or you don't have it in your inventory!");
+            System.out.println(itemToBeEaten + " can't be eaten because you don't have it in your inventory!");
         }
     }
 

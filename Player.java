@@ -23,8 +23,6 @@ public class Player {
      */
     public Player() {
         playerInventory = new ArrayList<String>();
-        // om items toe te voegen: playerInventory.add("itemname");
-        // view command met: System.out.println(inv);
     }
 
     //Adders
