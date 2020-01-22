@@ -7,32 +7,18 @@ import java.util.*;
  */
 public class CommandParser {
     private Parser parser;
+    
     private Levels level;
+    
     private Room currentRoom;
     private Player player;
     private Stack backList;
     private Item items;
     
-    public CommandParser() {
-        level = new Levels();
-        currentRoom = level.getStartRoom();
-        player = new Player(); 
-        player.setCurrentRoom(currentRoom);
-        backList = player.getBack();
-        parser = new Parser();
-        
-    }
-    
-    /**
-     * Print out some help information. Here we print some stupid, cryptic message
-     * and a list of the command words.
-     */
-    public void printHelp() {
-        System.out.println("Somehow you ended up in this underground building.");
-        System.out.println("You are alone. Or are you?...");
-        System.out.println();
-        System.out.println("Your command words are:");
-        parser.showCommands();
+    public CommandParser(Player player, Room room, Levels level) {
+        this.level = level;
+        this.currentRoom = room;
+        this.player = player;
     }
 
     /**
@@ -53,8 +39,6 @@ public class CommandParser {
         Room nextRoom = currentRoom.getExit(direction);
 
         HashMap<String, Room> allroomIDs = level.getAllroomIDs();
-        Room trapdoor1 = allroomIDs.get("22");
-        Room trapdoor2 = allroomIDs.get("23");
 
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
@@ -413,18 +397,5 @@ public class CommandParser {
         }
     }
 
-    /**
-     * "Quit" was entered. Check the rest of the command to see whether we really
-     * quit the game.
-     * 
-     * @return true, if this command quits the game, false otherwise.
-     */
-    public boolean quit(Command command) {
-        if (command.hasSecondWord()) {
-            System.out.println("Quit what?");
-            return false;
-        } else {
-            return true; // signal that we want to quit
-        }
-    }
+
 }

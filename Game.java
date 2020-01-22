@@ -25,11 +25,12 @@ import java.util.concurrent.TimeUnit;
 public class Game {
     private Parser parser;
     private Levels level;
+    private CommandParser commandParser;
+    
     private Room currentRoom;
     private Player player;
     private Stack backList;
     private Item items;
-    private CommandParser commandParser;
 
     /**
      * Getting everything ready to start the game
@@ -72,7 +73,8 @@ public class Game {
 
             backList = player.getBack();
             parser = new Parser(); // start the game-listener
-            commandParser = new CommandParser();
+            
+            commandParser = new CommandParser(player, currentRoom, level);
 
             System.out.println("");
 
@@ -164,7 +166,7 @@ public class Game {
             break;
 
             case HELP:
-            commandParser.printHelp();
+            printHelp();
             break;
 
             case GO:
@@ -218,7 +220,7 @@ public class Game {
             break;
 
             case QUIT:
-            wantToQuit = commandParser.quit(command);
+            wantToQuit = quit(command);
             break;
 
             // Now come the aliasses of commands. This list MIGHT get long lol.
@@ -236,5 +238,32 @@ public class Game {
             break;*/
         }
         return wantToQuit;
+    }
+    
+    /**
+     * Print out some help information. Here we print some stupid, cryptic message
+     * and a list of the command words.
+     */
+    public void printHelp() {
+        System.out.println("Somehow you ended up in this underground building.");
+        System.out.println("You are alone. Or are you?...");
+        System.out.println();
+        System.out.println("Your command words are:");
+        parser.showCommands();
+    }
+    
+        /**
+     * "Quit" was entered. Check the rest of the command to see whether we really
+     * quit the game.
+     * 
+     * @return true, if this command quits the game, false otherwise.
+     */
+    public boolean quit(Command command) {
+        if (command.hasSecondWord()) {
+            System.out.println("Quit what?");
+            return false;
+        } else {
+            return true; // signal that we want to quit
+        }
     }
 }
