@@ -47,7 +47,11 @@ public class Room {
         this.roomInventory = new ArrayList<String>();
         exits = new HashMap<>();
         hasEnemy = false;
-        canBeBurned = false;
+        canBeBurned= false;
+    }
+    
+    public void setHasEnemy(boolean hasEnemy) {
+        this.hasEnemy = hasEnemy;
     }
     
     public void setCanBeBurned(boolean canBurn) {
