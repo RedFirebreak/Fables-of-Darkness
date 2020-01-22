@@ -108,7 +108,7 @@ public class Levels {
 
         //Set key-items
         room2.setRoomInventory("torch");
-        room9.setRoomInventory("health_potion");
+        room9.setRoomInventory("health_biscuit");
         room10.setRoomInventory("shortsword");
         room10.setRoomInventory("brass_key"); // used to unlock room 9
         room13.setRoomInventory("mysterious_key"); // used to unlock bossroom
@@ -151,9 +151,12 @@ public class Levels {
         room9.setIsLocked(true);
         bossRoom.setIsLocked(true);
         
+        // set the rooms that can be burned
+        room1.setCanBeBurned(true);
+        
         // set the trap rooms
-        t1.setIsTrapRoom();
-        t2.setIsTrapRoom();
+        t1.setIsTrapRoom(true);
+        t2.setIsTrapRoom(true);
 
         // initialise room exits, roomname.setExit("direction", room_to_exit_to)
         room1.setExit("north", room2);

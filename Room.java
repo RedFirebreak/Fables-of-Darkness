@@ -21,6 +21,7 @@ public class Room {
     private boolean canHoldItem;
     private boolean isLocked;
     private boolean isTrapRoom;
+    private boolean canBeBurned;
 
     private boolean hasEnemy;
 
@@ -46,28 +47,41 @@ public class Room {
         this.roomInventory = new ArrayList<String>();
         exits = new HashMap<>();
         hasEnemy = false;
+        canBeBurned= false;
     }
     
+    public void setHasEnemy(boolean hasEnemy) {
+        this.hasEnemy = hasEnemy;
+    }
+    
+    public void setCanBeBurned(boolean canBurn) {
+        canBeBurned = canBurn;
+    }
+    
+    public boolean getCanBeBurned() {
+        return canBeBurned;
+    }
+
     public boolean getIsTrapRoom() {
         return isTrapRoom;
     }
-    
-    public void setIsTrapRoom() {
-        isTrapRoom = true;
+
+    public void setIsTrapRoom(boolean isTrapRoom) {
+        this.isTrapRoom = isTrapRoom;
     }
-    
-    public void setIsLocked(boolean isIt) {
-        isLocked = isIt;
+
+    public void setIsLocked(boolean isLocked) {
+        this.isLocked = isLocked;
     }
-    
+
     public boolean getIsLocked() {
         return isLocked;
     }
-    
+
     public void unlockRoom() {
         setIsLocked(false);
     }
-    
+
     public void lockRoom() {
         setIsLocked(true);
     }
@@ -178,7 +192,7 @@ public class Room {
     public Room getExit(String direction) {
         return exits.get(direction);
     }
-    
+
     public boolean hasEnemy(){
         return hasEnemy;
     }
@@ -189,7 +203,7 @@ public class Room {
         hasEnemy = true;
         enemies.push(enemy); // Add something to the stack
     }
-    
+
     public Enemy getEnemy(){
         Enemy enemy = null;
         if (hasEnemy) {
@@ -197,7 +211,7 @@ public class Room {
         }
         return enemy;
     }
-    
+
     public void removeEnemy() {   
         enemies.pop();
         Enemy moreEnemies = enemies.peek(); // check if there are more enemies in the room.
@@ -205,5 +219,5 @@ public class Room {
             hasEnemy = false;
         }
     }
-    
+
 }
