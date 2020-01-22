@@ -103,10 +103,8 @@ public class Battle
             // calculate the damage this enemy will do
 
             int playerDifferenceHit = player.getMaxHit() - player.getMinHit(); // 5 - 3 = 2. 
-            playerDifferenceHit++; // +1 as we want "0" an option too  = 3
-            int playerMinimumDamage = randomize.getRandomNumber(playerDifferenceHit); // returns 1-3
-            playerMinimumDamage--; // -1 as so "0" is an option.
-            int damage = player.getMinHit() + playerMinimumDamage; // add the minimum damage, to random hit damage.
+            int playerMinimumDamage = randomize.getRandomDamage(playerDifferenceHit); // returns 1-3
+            int damage = playerDifferenceHit + playerMinimumDamage; // add the minimum damage, to random hit damage.
 
             System.out.println("You deal " +damage+ " damage!");
             enemy.removeHealth(damage);
@@ -130,7 +128,10 @@ public class Battle
 
             case INSPECT:
             System.out.println("You have a good look at the enemy:");
-            System.out.println(enemy.getDescription());
+            System.out.println(enemy.getDescription() + " The enemy has " + enemy.getHealth() + " health left.");
+            System.out.println("You have a good look at yourself:");
+            System.out.println("You have " + player.getHealth() + " health left.");
+            round--;
             break;
 
             case RUN:
@@ -165,11 +166,9 @@ public class Battle
             System.out.println(enemy.getName() + " attacks you!");
 
             // calculate the damage this enemy will do
-            int differenceHit = enemy.getMaxHit() - enemy.getMinHit(); // difference will be 1-3. But plus 1 (as the result will ALWAYS be +1 in the randomizer so a "0" will not happen.
-            differenceHit++;
-            int minimumDamage = randomize.getRandomNumber(differenceHit); // for example, will return 0-4 if the min and max hit was 4-7. Then do a -1. Making it a 0-3 chance.
-            minimumDamage--;
-            int damage = enemy.getMinHit() + minimumDamage; // add the minimum damage, to random hit damage.
+            int differenceHit = enemy.getMaxHit() - enemy.getMinHit(); // difference will be 0-3. But plus 1 (as the result will ALWAYS be +1 in the randomizer so a "0" will not happen.
+            int minimumDamage = randomize.getRandomDamage(differenceHit); // for example, will return 0-4 if the min and max hit was 4-7. Then do a -1. Making it a 0-3 chance.
+            int damage = differenceHit + minimumDamage; // add the minimum damage, to random hit damage.
 
             System.out.println("You take " + damage + " damage!");
             player.removeHealth(damage);

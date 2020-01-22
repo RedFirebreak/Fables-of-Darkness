@@ -76,16 +76,19 @@ public class CommandParser {
                 switch (result) {
                     case 0:
                     goToNextRoom = true;
+                    nextRoom.setHasEnemy(false); // player defeated the enemy, mark the room as safe for next time the player is here
                     break;
 
                     case 1:
                     goToNextRoom = false;
                     System.out.println("You ran out of the room with the enemy! The enemy did not follow you.");
+                    nextRoom.setHasEnemy(true); // player has not defeated monster
                     break;
 
                     case 2:
                     goToNextRoom = false; // player died and has 0 hp. Next iteration, the game will end automatically.
-                    player.removeHealth(20);
+                    nextRoom.setHasEnemy(true); // player has not defeated monster
+                    player.removeHealth(20); // [FIX] kinda hardcoded.... but kinda not.
                     break;
 
                 }

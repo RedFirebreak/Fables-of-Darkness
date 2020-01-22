@@ -22,6 +22,13 @@ public class Randomizer
         }
         return randomNumber;
     }
+    
+        public int getRandomDamage(int maxNumber) {
+        Random randomMethod = new Random();
+        int randomNumber = randomMethod.nextInt(maxNumber);
+        return randomNumber;
+    }
+    
 
    public void addItemToRandomRoom(String item) {
 
