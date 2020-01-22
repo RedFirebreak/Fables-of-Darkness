@@ -353,6 +353,7 @@ public class Game {
                 // 0 = player won, continue, 1 = player ran! dont go to next room, 2 = player died
                 switch (result) {
                     case 0:
+                    nextRoom.setHasEnemy(false);
                     goToNextRoom = true;
                     break;
 

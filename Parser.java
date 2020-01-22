@@ -41,7 +41,7 @@ public class Parser {
         // Find up to two words on the line.
 
         Scanner tokenizer = new Scanner(inputLine);
-        
+
         return tokenizer;
     }
 
@@ -64,4 +64,5 @@ public class Parser {
     public void showCommands() {
         commands.showAll();
     }
+
 }
