@@ -130,7 +130,7 @@ public class Battle
 
             case INSPECT:
             System.out.println("You have a good look at the enemy:");
-            enemy.getDescription();
+            System.out.println(enemy.getDescription());
             break;
 
             case RUN:
@@ -161,7 +161,8 @@ public class Battle
 
         if (enemy.getAlive()) {
             // time to fuck the players day up
-            System.out.println(enemy.getName() + "attacks you!");
+            System.out.println("");//formatting
+            System.out.println(enemy.getName() + " attacks you!");
 
             // calculate the damage this enemy will do
             int differenceHit = enemy.getMaxHit() - enemy.getMinHit(); // difference will be 1-3. But plus 1 (as the result will ALWAYS be +1 in the randomizer so a "0" will not happen.
@@ -170,7 +171,7 @@ public class Battle
             minimumDamage--;
             int damage = enemy.getMinHit() + minimumDamage; // add the minimum damage, to random hit damage.
 
-            System.out.println("You take " +damage+ " damage!");
+            System.out.println("You take " + damage + " damage!");
             player.removeHealth(damage);
         } else {
             System.out.println("The enemy has no chance to fight back. As your final blow killed the enemy.");

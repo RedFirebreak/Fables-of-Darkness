@@ -55,8 +55,8 @@ public class Game {
         // Switch construct
         //try {
 
-        switch (in.nextInt()) {
-            case 1:
+        switch (in.nextLine()) {
+            case "1":
             System.out.println("");
             System.out.println("Level 1 selected: The Cyst of Elemental Worms");
 
@@ -77,10 +77,10 @@ public class Game {
             printWelcome(); // welcome the player
             playloop(); // start the game
             break;
-            case 2:
+            case "2":
             System.out.println("Level 2 selected: NoName.");
             break;
-            case 3:
+            case "3":
             System.out.println("Exit selected!");
             System.out.println("");
             goodbyeMessage();
@@ -319,14 +319,14 @@ public class Game {
             }
 
             if (nextRoom.getIsLocked()){
-                System.out.println("This door seems to be locked. It won't open."); //[[FIX]] dit doet hij nu ook bij trapdoors
+                System.out.println("This door seems to be locked. It won't open.");
                 return;
             }
 
-            if (nextRoom == trapdoor1) {
+            if (nextRoom == trapdoor1) { // [FIX] HARDCODED
                 System.out.println("You fell into a trapdoor!");
                 trapdoor1.lockRoom();
-                //[[FIX]] remove the backstack
+                player.clearBack(); // clears the entire back command
                 currentRoom = nextRoom; // go to the next room
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
                 player.removeHealth(1);
@@ -337,7 +337,7 @@ public class Game {
             if (nextRoom == trapdoor2) {
                 System.out.println("You fell into a trapdoor!");
                 trapdoor2.lockRoom();
-                //[[FIX]] remove the backstack
+                player.clearBack(); // clears the entire back command
                 currentRoom = nextRoom; // go to the next room
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
                 player.removeHealth(1);
