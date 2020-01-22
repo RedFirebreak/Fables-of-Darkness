@@ -22,6 +22,10 @@ public class Room {
     private boolean isLocked;
     private boolean isTrapRoom;
     private boolean canBeBurned;
+    
+    private boolean unlockRoom;
+    private String unlockItem;
+    private String unlocksRoomID;
 
     private boolean hasEnemy;
 
@@ -48,6 +52,26 @@ public class Room {
         exits = new HashMap<>();
         hasEnemy = false;
         canBeBurned= false;
+        unlockRoom = false;
+        unlockItem = "item_does_not_exist";
+    }
+    
+    public void setUnlockRoom(boolean unlockRoom, String unlockItem, String unlocksRoomID) {
+        this.unlockRoom = unlockRoom;
+        this.unlockItem = unlockItem;
+        this.unlocksRoomID = unlocksRoomID;
+    }
+    
+    public boolean getUnlockRoom() {
+        return unlockRoom;
+    }
+    
+    public String getUnlockItem() {
+        return unlockItem;
+    }
+    
+    public String getUnlocksRoomID() {
+        return unlocksRoomID;
     }
     
     public void setHasEnemy(boolean hasEnemy) {
