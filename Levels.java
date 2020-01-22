@@ -36,7 +36,7 @@ public class Levels {
         // enemies
         Enemy goblin1, goblin2, human1;
         Enemy boss;
-        
+
         // items
         Item bread, bread2, jug_of_water, steak, dagger, cloak, unlit_torch, torch, health_biscuit, shortsword, boulder;
         // key items
@@ -111,7 +111,7 @@ public class Levels {
         allroomIDs.put(t2.getRoomID(), t2);
 
         allroomIDs.put(bossRoom.getRoomID(), bossRoom);
-        
+
         // Generate all items needed for this level
         // (required input) String itemname, String itemDescription,String itemCategory,int itemHealAmount,
         // int itemMinDamage,int itemMaxDamage,int itemArmorRating,int itemWeight,
@@ -128,7 +128,7 @@ public class Levels {
         health_biscuit = new Item("health_biscuit","A life elixer, health potion, red pot or whatever you want to name it, but it is in biscuit form. Can be eaten for 10 health points.","food",0,0,0,10,3,1,true);
         shortsword = new Item("shortsword","A shortsword, things will get more 'ouch' with this.","weapon",5,9,0,0,5,1,true);
         boulder = new Item("boulder","It is heavy. Way. Too. Heavy.","wtf",5000,10000,2000,0,10000,9001,false);
-        
+
         // Generate all KEY items needed for this level
         torch = new Item("torch","A flame on a stick, lights up the area around you so mobs don't spawn. Can burn stuff.","keyItem",0,0,0,0,5,1,true);
         brass_key = new Item("brass_key","A brass key, probably used for unlocking something. Why is it always brass though?","keyItem",0,0,0,0,5,1,true);
@@ -143,21 +143,21 @@ public class Levels {
         room13.setRoomInventory(mysterious_key); // used to unlock bossroom
 
         //randomizer for keyForC3 DOE DIT OOK VOOR DE ANDERE ITEMS
-        
+
         int tempRoomForItem = 2 + randomize.getRandomNumber(6); // will return 3, 4, 5, 6, 7 or 8
         Room roomToAddItem = allroomIDs.get(Integer.toString(tempRoomForItem)); // load the room based on string-ID
         roomToAddItem.setRoomInventory(bronze_key);
 
         // Add the rest of the items to be randomized, completely random over the entire map
         randomItems.push(bread);
-        randomItems.push(bread);
+        randomItems.push(bread2);
         randomItems.push(jug_of_water);
         randomItems.push(steak);
         randomItems.push(dagger);
         randomItems.push(cloak);
         randomItems.push(unlit_torch);
         randomItems.push(boulder);
-        
+
         // Get a random String-number based on the max of the roomcount 
         totalRooms = roomid; // copy the max amount of rooms (is 25 for the first level)
         Iterator randomItemsIterator = randomItems.iterator(); // Create a iterator to loop trough all the random items 
@@ -174,19 +174,19 @@ public class Levels {
 
         // set locked rooms, and the rooms to unlock them
         c1.setIsLocked(true);
-        
+
         c3.setIsLocked(true);
         room8.setUnlockRoom(true, "bronze_key", c3.getRoomID());
-        
+
         room9.setIsLocked(true);
         room10.setUnlockRoom(true, "brass_key", room9.getRoomID());
-        
+
         bossRoom.setIsLocked(true);
         c3.setUnlockRoom(true, "mysterious_key", bossRoom.getRoomID());
-        
+
         // set the rooms that can be burned
         room1.setCanBeBurned(true);
-        
+
         // set the trap rooms
         t1.setIsTrapRoom(true);
         t2.setIsTrapRoom(true);
@@ -215,7 +215,7 @@ public class Levels {
         c2.setExit("west", t1);
 
         room6.setExit("south", room5);
-        
+
         t1.setExit("west", room3);
 
         room7.setExit("north", room8);
@@ -253,7 +253,7 @@ public class Levels {
         c6.setExit("north", room13);
         c6.setExit("west", t2);
         c6.setExit("south", c5);
-        
+
         t2.setExit("west", room10);
 
         room13.setExit("north", c6);
@@ -289,7 +289,7 @@ public class Levels {
 
         currentRoom = room1;
     }
-    
+
     public List<String> getLockedRoomList() {
         return lockedRoomList;
     }

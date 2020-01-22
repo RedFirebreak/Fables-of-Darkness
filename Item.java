@@ -24,7 +24,7 @@ public class Item {
     /**
      * Setting initial values for every item created, just in case
      */
-    public Item(String itemname, String itemDescription,String itemCategory,int itemHealAmount,int itemMinDamage,int itemMaxDamage,int itemArmorRating,int itemWeight,int itemValue,boolean itemPickupAble) {
+    public Item(String itemName, String itemDescription,String itemCategory,int itemMinDamage,int itemMaxDamage,int itemArmorRating,int itemHealAmount,int itemWeight,int itemValue,boolean itemPickupAble) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemCategory = itemCategory;
@@ -223,6 +223,13 @@ public class Item {
      */
     public String getItemName() {
         return itemName;
+    }
+    
+    /**
+     * @return The heal amount of the item set in setItemVariables()
+     */
+    public int getHealAmount() {
+        return itemHealAmount;
     }
 
     /**

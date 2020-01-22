@@ -1,3 +1,4 @@
+
 import java.util.*;
 /**
  * Write a description of class CommandParser here.
@@ -42,6 +43,7 @@ public class CommandParser {
 
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
+            System.out.println(currentRoom.getRoomDescription());
         } else {
             boolean goToNextRoom = true;
             if (nextRoom.getIsLocked() && nextRoom.getIsTrapRoom()){
@@ -129,10 +131,10 @@ public class CommandParser {
     public void lookInventory() {
         if(!player.getPlayerInventory().isEmpty()) {
             System.out.println("Your look in your backpack and find the following items: ");
-            Iterator printInventoryList=player.getPlayerInventory().iterator();
-            while(printInventoryList.hasNext()) {
-                String nextItem = printInventoryList.next().toString();
-                System.out.println(nextItem);
+            List<Item> playerInventory = player.getPlayerInventory(); // load the inventory of the room
+            for (int loop = 0; loop < playerInventory.size(); loop++) {
+                Item currentItem = playerInventory.get(loop);
+                System.out.println(currentItem.getItemName() + " ");
             }
         }
         else {
@@ -143,10 +145,10 @@ public class CommandParser {
     public void searchRoom() {
         if (currentRoom.doesRoomContainItems()){
             System.out.println("You search the room and find the following items: ");
-            Iterator printList=currentRoom.getRoomInventory().iterator();
-            while(printList.hasNext()) {
-                String nextItem = printList.next().toString();
-                System.out.println(nextItem);
+            ArrayList<Item> currentRoomInventory = currentRoom.getRoomInventory(); // load the inventory of the room
+            for (int loop = 0; loop < currentRoomInventory.size(); loop++) {
+                Item currentItem = currentRoomInventory.get(loop);
+                System.out.println(currentItem.getItemName() + " ");
             }
         }
         else {
@@ -179,16 +181,16 @@ public class CommandParser {
         ArrayList<Item> currentRoomInventory = currentRoom.getRoomInventory(); // load the inventory of the room
         // check if the second words matches an itemname in this room
         boolean somethingInThisRoom = false;
-        int notThisItem;
+        int notThisItem = 0;
         int loop;
 
         for (loop = 0; loop < currentRoomInventory.size(); loop++) {
             Item currentItem = currentRoomInventory.get(loop);
-            if (itemToBeAdded == currentItem.getItemName() ){ // get the item name, then check if thats something
+            if (itemToBeAdded.equals(currentItem.getItemName() ) ){ // get the item name, then check if thats something
                 // item name matches the player-provided name
                 // pick it up! (add to player inv, remove from room)
                 if(currentItem.getItemPickupAble()) {
-                    player.addItemToInventory(currentItem); // add to player inventory 
+                    player.addItemToInventory(currentItem); // add to player inventory [FIX] WEIGHT 
                     currentRoom.removeRoomInventory(currentItem); // remove from room
                     System.out.println("You take the " + itemToBeAdded + " and put it in your backpack.");
                 }
@@ -227,18 +229,36 @@ public class CommandParser {
             System.out.println("Drop what?");
             return;
         }
-        String itemToBeDropped = command.getSecondWord();
-        Item selectedItem = new Item(); //setting the new item..
-        selectedItem.setItemVariables(itemToBeDropped); //.. and getting all variables
+        String itemToBeDropped = command.getSecondWord(); // hold the item name we are looking for
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the room
+        // check if the second words matches an itemname in this room
+        boolean somethingToDrop = false;
+        int notThisItem = 0;
+        int loop;
 
-        if (player.getPlayerInventory().contains(itemToBeDropped)) {
-            player.removeItemFromInventory(itemToBeDropped);
-            player.removeFromCarryWeight(selectedItem.getItemWeight());
-            currentRoom.setRoomInventory(itemToBeDropped);
-            System.out.println("You drop the " + itemToBeDropped + " and put it on the ground.");
+        for (loop = 0; loop < playerInventory.size(); loop++) {
+            Item currentItem = playerInventory.get(loop);
+            if (itemToBeDropped.equals(currentItem.getItemName()) ){ // get the item name, then check if thats something
+                // item name matches the player-provided name
+                // pick it up! (add to player inv, remove from room)
+                player.removeItemFromInventory(currentItem); // remove from player inventory [FIX] WEIGHT
+                currentRoom.setRoomInventory(currentItem); // add to room
+                System.out.println("You drop the " + itemToBeDropped + " and put it on the ground.");
+            } else {
+                // the item did not match the player provided name
+                notThisItem++;
+            };
+            somethingToDrop = true;
         }
-        else {
-            System.out.println("You cannot drop " + itemToBeDropped + " because you don't have it in your inventory!");
+
+        //errors afvangen
+        if (!somethingToDrop) {
+            System.out.println("You don't have any items!");
+        }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
+            System.out.println("You cannot drop " + itemToBeDropped + " because you dont have it in your backpack!");
         }
     }
 
@@ -254,16 +274,33 @@ public class CommandParser {
             System.out.println("Inspect what?");
             return;
         }
-        String itemToBeInspected = command.getSecondWord();
-        Item selectedItem = new Item(); //setting the new item..
-        selectedItem.setItemVariables(itemToBeInspected); //.. and getting all variables
+        String itemToBeInspected = command.getSecondWord(); // hold the item name we are looking for
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
+        // check if the second words matches an itemname in this room
+        boolean somethingToInspect = false;
+        int notThisItem = 0;
+        int loop;
 
-        if (player.getPlayerInventory().contains(itemToBeInspected)) {
-            System.out.println(itemToBeInspected + "'s description: " + selectedItem.getItemDescription());
-            System.out.println(itemToBeInspected + "'s weight: " + selectedItem.getItemWeight());
-            System.out.println(itemToBeInspected + "'s value: " + selectedItem.getItemValue());
+        for (loop = 0; loop < playerInventory.size(); loop++) {
+            Item currentItem = playerInventory.get(loop);
+            if (itemToBeInspected.equals(currentItem.getItemName()) ){ // get the item name, then check if thats something
+                System.out.println(itemToBeInspected + "'s description: " + currentItem.getItemDescription());
+                System.out.println(itemToBeInspected + "'s weight: " + currentItem.getItemWeight());
+                System.out.println(itemToBeInspected + "'s value: " + currentItem.getItemValue());
+            } else {
+                // the item did not match the player provided name
+                notThisItem++;
+            };
+            somethingToInspect = true;
         }
-        else {
+
+        //errors afvangen
+        if (!somethingToInspect) {
+            System.out.println("You can't inspect that!");
+        }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
             System.out.println("You cannot inspect " + itemToBeInspected + " because you don't have it in your inventory!");
         }
 
@@ -276,64 +313,103 @@ public class CommandParser {
             return;
         }
         String itemToBeUsed = command.getSecondWord();
-        String unlockItem;
         HashMap<String, Room> allroomIDs = level.getAllroomIDs();
-        Room roomToUnlock;
-        Item selectedItem = new Item(); //setting the new item..
-        selectedItem.setItemVariables(itemToBeUsed); //.. and getting all variables
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
 
-        if (player.getPlayerInventory().contains(itemToBeUsed)) { // check if item is in your inventory
-            if (currentRoom.getUnlockRoom()) {
-                unlockItem = currentRoom.getUnlockItem();
-                if (itemToBeUsed.equals(unlockItem)) {
-                    System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
-                    player.removeItemFromInventory(itemToBeUsed); // remove item from inventory
-                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    roomToUnlock = allroomIDs.get(currentRoom.getUnlocksRoomID()); 
-                    roomToUnlock.unlockRoom();
+        String unlockItem;
+        Room roomToUnlock;
+        boolean somethingToUse = false;
+        int notThisItem = 0;
+        int loop;
+
+        for (loop = 0; loop < playerInventory.size(); loop++) {
+            Item currentItem = playerInventory.get(loop);
+            if (itemToBeUsed.equals(currentItem.getItemName()) ){ // get the item name, then check if thats something
+                if (currentRoom.getUnlockRoom()) {
+
+                    unlockItem = currentRoom.getUnlockItem();
+                    if (itemToBeUsed.equals(unlockItem)) {
+                        System.out.println("You unlock the door. The key is stuck in the door, so you lose it.");
+                        player.removeItemFromInventory(currentItem); // remove item from inventory [FIX] itemweight
+                        roomToUnlock = allroomIDs.get(currentRoom.getUnlocksRoomID()); 
+                        roomToUnlock.unlockRoom();
+                    }
+                    else {
+                        System.out.println("This is not the place to use the key!");
+                    }
                 }
                 else {
-                    System.out.println("This is not the place to use the key!");
+                    System.out.println("You cannot use this item here.");
                 }
-            }
-            else {
-                System.out.println("You cannot use this item here.");
-            }
+
+            } else {
+                // the item did not match the player provided name
+                notThisItem++;
+            };
+            somethingToUse = true;
         }
-        else {
-            System.out.println(itemToBeUsed + " can't be used because you don't have it in your inventory!");
+
+        //errors afvangen
+        if (!somethingToUse) {
+            System.out.println("You can't inspect that!");
         }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
+            System.out.println("You cannot use " + itemToBeUsed + " because you don't have it in your inventory!");
+        }
+
     }
 
-    public void burnItem(Command command) {
+    public void burnItem(Command command) { //[FIX] HARDCODED
         if (!command.hasSecondWord()) {
             // if there is no second word, we don't know what to burn...
             System.out.println("Burn what?");
             return;
         }
         String whatToBurn = command.getSecondWord();
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
         String currentRoomid = currentRoom.getRoomID();
         HashMap<String, Room> allroomIDs = level.getAllroomIDs();
-        Room roomToUnlock;
 
-        if (player.getPlayerInventory().contains("torch")) { // check if item is in your inventory
-            if (currentRoom.getCanBeBurned()) {
-                if (whatToBurn.equals("door")) {
-                    System.out.println("You burn the door with your torch, the way is now free!");
-                    roomToUnlock = allroomIDs.get("14"); //14 is c1
-                    roomToUnlock.unlockRoom();
-                    currentRoom.setCanBeBurned(false);
+        Room roomToUnlock;
+        String unlockItem;
+        boolean somethingToUse = false;
+        int notThisItem = 0;
+        int loop;
+
+        for (loop = 0; loop < playerInventory.size(); loop++) {
+            Item currentItem = playerInventory.get(loop);
+            String tempname = currentItem.getItemName();
+            if (tempname.equals("torch")) { // check if item is in your inventory
+                if (currentRoom.getCanBeBurned()) {
+                    if (whatToBurn.equals("door")) {
+                        System.out.println("You burn the door with your torch, the way is now free!");
+                        roomToUnlock = allroomIDs.get("14"); //14 is c1
+                        roomToUnlock.unlockRoom();
+                        currentRoom.setCanBeBurned(false);
+                    } else {
+                        System.out.println("You cannot burn this.");
+                    }
+                } else{ 
+                    System.out.println("You can't burn " + whatToBurn + " in this room.");
                 }
-                else {
-                    System.out.println("You cannot burn this.");
-                }
+            } else {
+                notThisItem++;
             }
-            else{
-                System.out.println("There is no " + whatToBurn + " to burn in this room.");
-            }
+            // the item did not match the player provided name
+
+            somethingToUse = true;
         }
-        else {
-            System.out.println("You have nothing to burn " + whatToBurn + " with!");
+
+        //errors afvangen
+        if (!somethingToUse) {
+            System.out.println("You can't burn");
+        }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
+            System.out.println("You cannot burn " + whatToBurn + " because you don't have it in your inventory!");
         }
     }
 
@@ -350,59 +426,44 @@ public class CommandParser {
             return;
         }
         String itemToBeEaten = command.getSecondWord();
-        Item selectedItem = new Item(); //setting the new item..
-        selectedItem.setItemVariables(itemToBeEaten); //.. and getting all variables
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
 
-        if (player.getPlayerInventory().contains(itemToBeEaten)) { // check if item is in your inventory
-            switch (itemToBeEaten) {
-                case "bread":
-                if((player.getHealth())<=(20)) {
-                    System.out.println("You eat the bread. It heals 2 HP.");
-                    player.addHealth(2); // heal the player a selected amount
-                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
-                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    System.out.println("Your HP is now " + player.getHealth() + ".");
-                }
-                else {
-                    System.out.println("Your HP is full!");
-                }
-                break;
+        String unlockItem;
+        Room roomToUnlock;
+        boolean somethingToUse = false;
+        int notThisItem = 0;
+        int loop;
 
-                case "steak":
-                if((player.getHealth())<=(20)) {
-                    System.out.println("You eat the steak. It heals 5 HP.");
-                    player.addHealth(5); // heal the player a selected amount
-                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
-                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    System.out.println("Your HP is now " + player.getHealth() + ".");
+        for (loop = 0; loop < playerInventory.size(); loop++) {
+            Item currentItem = playerInventory.get(loop);
+            if (itemToBeEaten.equals(currentItem.getItemName()) ){ // get the item name, then check if thats something
+                if (currentItem.getItemCategory().equals("food")){
+                    if((player.getHealth())<(20)) {
+                        player.addHealth(currentItem.getHealAmount());
+                        player.removeItemFromInventory(currentItem); // remove item from inventory
+                        System.out.println("You eat the " + itemToBeEaten + ". It heals for " + currentItem.getHealAmount()+".");
+                    } else {
+                        System.out.println("Your HP is full!");
+                    }
+                } else {
+                    System.out.println("You can't eat that item!");
                 }
-                else {
-                    System.out.println("Your HP is full!");
-                }
-                break;
 
-                case "health_biscuit":
-                if((player.getHealth())<=(20)) {
-                    System.out.println("You eat the biscuit. It heals 10 HP.");
-                    player.addHealth(10); // heal the player a selected amount
-                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
-                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
-                    System.out.println("Your HP is now " + player.getHealth() + ".");
-                }
-                else {
-                    System.out.println("Your HP is full!");
-                }
-                break;
-
-                default:
-                System.out.println("You cannot eat this item.");
-                break;
-
-            }
+            } else {
+                // the item did not match the player provided name
+                notThisItem++;
+            };
+            somethingToUse = true;
         }
-        else {
-            System.out.println(itemToBeEaten + " can't be eaten because you don't have it in your inventory!");
+
+        //errors afvangen
+        if (!somethingToUse) {
+            System.out.println("You can't inspect that!");
+        }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
+            System.out.println("You cannot eat " + itemToBeEaten + " because you don't have it in your inventory!");
         }
     }
-
 }

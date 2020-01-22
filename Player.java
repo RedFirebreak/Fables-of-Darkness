@@ -104,7 +104,7 @@ public class Player {
     /**
      * @param The item to be removed from the player's inventory.
      */
-    public void removeItemFromInventory(String itemName) {
+    public void removeItemFromInventory(Item itemName) {
         playerInventory.remove(itemName);
     }
 
