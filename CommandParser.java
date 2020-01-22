@@ -53,8 +53,6 @@ public class CommandParser {
         Room nextRoom = currentRoom.getExit(direction);
 
         HashMap<String, Room> allroomIDs = level.getAllroomIDs();
-        Room trapdoor1 = allroomIDs.get("22");
-        Room trapdoor2 = allroomIDs.get("23");
 
         if (nextRoom == null) {
             System.out.println("You can't go that way!");
