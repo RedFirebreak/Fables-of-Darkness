@@ -66,7 +66,7 @@ public class Player {
     }
 
     /**
-     * [[ENTER JAVADOC]]
+     * Remove the latest item from the back stack
      */
     public void removeBack() {
         back.pop();
@@ -84,6 +84,13 @@ public class Player {
      */
     public void removeFromCarryWeight(int carryWeight) {
         this.carryWeight -= carryWeight;
+    }
+    
+    /**
+     * Clears the entire back stack
+     */
+    public void clearBack() {
+        back.clear();
     }
 
     // Setters

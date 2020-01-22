@@ -117,8 +117,7 @@ public class Battle
             case EAT: // reach out to the main game again, then parse the command as usual
             // [FIX] broken
             int tempHealth = player.getHealth();
-            Game game = new Game(); // Open up game again to check the commands
-            game.eatItem(command);
+            eatItem(command);
 
             if (tempHealth == player.getHealth()) {
                 // The player failed to eat something. Decrease the round
@@ -177,5 +176,60 @@ public class Battle
             System.out.println("The enemy has no chance to fight back. As your final blow killed the enemy.");
         }
 
+    }
+    
+    /**
+     * "eat" was entered. Check if a second word has been send too and check if the item is eatable.
+     * If it is eatable, heal the player if their hp isn't full, and remove the item and its weight from the player.
+     * 
+     * @param command The command entered in the Parser.
+     */
+    public void eatItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to eat...
+            System.out.println("Eat what?");
+            return;
+        }
+        String itemToBeEaten = command.getSecondWord();
+        Item selectedItem = new Item(); //setting the new item..
+        selectedItem.setItemVariables(itemToBeEaten); //.. and getting all variables
+
+        if (player.getPlayerInventory().contains(itemToBeEaten)) { // check if item is in your inventory
+            switch (itemToBeEaten) {
+                case "bread":
+                if((player.getHealth())<=(20)) {
+                    System.out.println("You eat the bread. It heals 2 HP.");
+                    player.addHealth(2); // heal the player a selected amount
+                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
+                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                    System.out.println("Your HP is now " + player.getHealth() + ".");
+                }
+                else {
+                    System.out.println("Your HP is full!");
+                }
+                break;
+
+                case "steak":
+                if((player.getHealth())<=(20)) {
+                    System.out.println("You eat the steak. It heals 5 HP.");
+                    player.addHealth(5); // heal the player a selected amount
+                    player.removeItemFromInventory(itemToBeEaten); // remove item from inventory
+                    player.removeFromCarryWeight(selectedItem.getItemWeight()); // remove the item weight from carryWeight
+                    System.out.println("Your HP is now " + player.getHealth() + ".");
+                }
+                else {
+                    System.out.println("Your HP is full!");
+                }
+                break;
+
+                default:
+                System.out.println("You cannot eat this item.");
+                break;
+
+            }
+        }
+        else {
+            System.out.println(itemToBeEaten + " can't be eaten because its non-eatable or you don't have it in your inventory!");
+        }
     }
 }
