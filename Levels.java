@@ -31,7 +31,7 @@ public class Levels {
         Room c1, c2, c3, c4, c5, c6;
         Room de1, de2;
         Room t1, t2;
-        Room bossRoom;
+        Room bossRoom, winRoom;
 
         // enemies
         Enemy goblin1, goblin2, human1;
@@ -79,6 +79,7 @@ public class Levels {
         t1 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
         t2 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
         bossRoom = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
+        winRoom = new Room(Integer.toString(roomid++), "a grass patch. You are outside!", "You breath the fresh air! You are free.", false);
 
         // Set the roomID in the room, then add it to the level-map
         allroomIDs = new HashMap<>();
@@ -124,7 +125,7 @@ public class Levels {
         cloak = new Item("cloak","A cloak. Protects from rain and gives warmth.","armor",0,0,1,0,3,1,true);
         chainmail = new Item("chainmail","A piece of chainmail armor. Protects the body when equipped.","armor",0,0,3,0,20,10,true);
         unlit_torch = new Item("unlit_torch","An unlit torch, how useless!","generic",0,0,0,0,0,1,true);
-        health_biscuit = new Item("health_biscuit","A life elixer, health potion, red pot or whatever you want to name it, but it is in biscuit form. Can be eaten for 10 health points.","food",0,0,0,10,3,1,true);
+        health_biscuit = new Item("health_biscuit","A life elixer, health potion, red pot or whatever you want to name it, but it is in biscuit form. It smells really good! Can be eaten for 10 health points.","food",0,0,0,10,3,1,true);
         shortsword = new Item("shortsword","A shortsword, things will get more 'ouch' with this.","weapon",5,9,0,0,5,1,true);
         boulder = new Item("boulder","It is heavy. Way. Too. Heavy.","wtf",5000,10000,2000,0,10000,9001,false);
 
@@ -134,10 +135,12 @@ public class Levels {
         bronze_key = new Item("bronze_key","A bronze key, useful for unlocking things.","keyItem",0,0,0,0,5,1,true);
         mysterious_key = new Item("mysterious_key","This key glows a little and you can feel its warmth. Must unlock something powerful.","keyItem",0,0,0,0,5,1,true);
 
-        //test
+        //test fix
         room1.setRoomInventory(cloak);
         room1.setRoomInventory(chainmail);
-        //test end
+        room1.setRoomInventory(dagger);
+        room1.setRoomInventory(shortsword);
+        //test end fix
         
         
         //Set key-items in their rooms
@@ -145,6 +148,7 @@ public class Levels {
         room9.setRoomInventory(health_biscuit);
         room10.setRoomInventory(shortsword);
         room10.setRoomInventory(brass_key); // used to unlock room 9
+        de1.setRoomInventory(chainmail);
         room13.setRoomInventory(mysterious_key); // used to unlock bossroom
 
         //randomizer for keyForC3 DOE DIT OOK VOOR DE ANDERE ITEMS
@@ -264,6 +268,9 @@ public class Levels {
         room13.setExit("north", c6);
 
         de2.setExit("east", t2);
+        
+        bossRoom.setExit("west", c3);
+        bossRoom.setExit("south", winRoom);
 
         // Create enemies and the boss monster
         // Name, max health, description, minimum damage, maximum damage

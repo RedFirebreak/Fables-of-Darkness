@@ -61,7 +61,7 @@ public class CommandWords {
             System.out.print(command);
             switch(command) { // add a description for the commands, so players know what they mean
                 case "go":
-                description = "......Accepts a second input word. Move the player in th";
+                description = "......Accepts a second input word. Move the player in that direction.";
                 break;
                 
                 case "search":
@@ -93,7 +93,7 @@ public class CommandWords {
                 break;
                 
                 case "inspect":
-                description = ".Accepts a second input word. Inspects an item that is in your inventory. \n         Can be used in battle to inspect your opponent.";
+                description = ".Accepts a second input word. Inspects an item that is in your inventory. \n        Can be used in battle to inspect your opponent.";
                 break;
                 
                 case "info":
@@ -129,7 +129,7 @@ public class CommandWords {
                 break;
                 
                 case "unequip":
-                description = "...Accepts a second input word. Unequips a weapon or armor that is already on the player.";
+                description = ".Accepts a second input word. Unequips a weapon or armor that is already on the player.";
                 break;
                   
                 default:
