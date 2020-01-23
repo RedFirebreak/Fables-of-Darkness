@@ -113,6 +113,7 @@ public class Levels {
         allroomIDs.put(t2.getRoomID(), t2);
 
         allroomIDs.put(bossRoom.getRoomID(), bossRoom);
+        allroomIDs.put(winRoom.getRoomID(), winRoom);
 
         // Generate all items needed for this level
         // (required input) String itemname, String itemDescription,String itemCategory,int itemHealAmount,
@@ -168,7 +169,7 @@ public class Levels {
             String randomRoomID = Integer.toString(randomNumber); // convert the int to string
 
             Room roomToAddRandomItem = allroomIDs.get(randomRoomID); // load the room based on string-ID
-            if (roomToAddRandomItem.canRoomHoldItems()) { // check if the room may hold items, if not the getting of the rooms is done again  
+            if (roomToAddRandomItem.canRoomHoldItems()) { // check if the room may hold items, if not the getting of the rooms is done again  [FIX] geeft me nu al 2 x een nullpointer (scared);
                 roomToAddRandomItem.setRoomInventory(randomItems.peek()); // add the top-most item to the room we just loaded.
                 randomItems.pop();
             }
@@ -264,11 +265,11 @@ public class Levels {
 
         // Create enemies and the boss monster
         // Name, max health, description, minimum damage, maximum damage
-        goblin1 = new Enemy("Heasdasz", 5, "A small but angry looking goblin! He's holding a stick!", 2, 3); // found in room 5,6,7 or 8
-        goblin2 = new Enemy("Trorzegs", 5, "A small but angry looking goblin!", 1, 3); // found in room 11, 12 or 13
-        human1 = new Enemy("Arlin", 10, "A fit looking human. He's holding a small dagger.", 2, 3); // found in room 9 or 10
+        goblin1 = new Enemy("Heasdasz", 5, "A small but angry looking wyrm! It looks like he has some sharp fangs!", 2, 3); // found in room 5,6,7 or 8
+        goblin2 = new Enemy("Trorzegs", 8, "A angry looking fire wyrm! He breathes fire!", 2, 5); // found in room 11, 12 or 13
+        human1 = new Enemy("Arlin", 10, "A fit looking human. He's holding a small dagger.", 3, 5); // found in room 9 or 10
 
-        boss = new Enemy("Drace Grim", 30, "A VERY strong looking human! He's holding a giant axe.", 3, 5); // found ALWAYS in boss-room
+        boss = new Enemy("Drace Grim", 20, "A VERY strong looking human! He's holding a giant axe.", 3, 7); // found ALWAYS in boss-room
 
         // Add the enemy to specifed, random room
         int tempRoomNumber;

@@ -1,10 +1,5 @@
 import java.util.*;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 /**
  * This class is the main class of the "World of Zuul" application. "World of
  * Zuul" is a very simple, text based adventure game. Users can walk around some
@@ -26,7 +21,7 @@ public class Game {
     private Parser parser;
     private Levels level;
     private CommandParser commandParser;
-    
+
     private Room currentRoom;
     private Player player;
     private Stack backList;
@@ -51,7 +46,7 @@ public class Game {
         System.out.println("|        3. Exit           |");
         System.out.println("|__________________________|");
         System.out.println("");
-        System.out.println("1) Level 1\n2) Level 2\n3) Exit");
+        System.out.println("1) Level 1\n2) Level 2\n3) About\n4) Exit");
         System.out.print("> ");
 
         // Switch construct
@@ -73,7 +68,7 @@ public class Game {
 
             backList = player.getBack();
             parser = new Parser(); // start the game-listener
-            
+
             commandParser = new CommandParser(player, currentRoom, level);
 
             System.out.println("");
@@ -82,16 +77,27 @@ public class Game {
             playloop(); // start the game
             break;
             case "2":
-            System.out.println("Level 2 selected: NoName.");
+            System.out.println("");
+            System.out.println("Level 2 selected: This level has not been made yet!");
+            waitForKeyPress();
             break;
             case "3":
+            System.out.println("");
+            System.out.println("Fables of Darkness");
+            System.out.println("A game made by Stefan Kuppen and Stefan Jilderda");
+            System.out.println("We spent alot of time making this game for a school project, and hope you will enjoy all its glory. Even thought its only a text-adventure game.");
+            waitForKeyPress();
+            play();
+            break;
+            case "4":
+            System.out.println("");
             System.out.println("Exit selected!");
             System.out.println("");
             goodbyeMessage();
             break;
             default:
             System.out.println("That option does not exist! Please try again.");
-            System.out.println("");
+            waitForKeyPress();
             play();
             break;
         }
@@ -102,6 +108,15 @@ public class Game {
         System.out.println("");
         play();
         }*/
+    }
+
+    public void waitForKeyPress(){
+        Scanner in = new Scanner(System.in);
+        System.out.println("");
+        System.out.println("Press any key to continue....");
+        switch (in.nextLine()) {
+            // nothing. Any input works 
+        }
     }
 
     public void playloop() {
@@ -159,6 +174,8 @@ public class Game {
         boolean wantToQuit = false;
 
         CommandWord commandWord = command.getCommandWord();
+
+        currentRoom.getRoomID();
 
         switch (commandWord) {
             case UNKNOWN:
@@ -239,7 +256,7 @@ public class Game {
         }
         return wantToQuit;
     }
-    
+
     /**
      * Print out some help information. Here we print some stupid, cryptic message
      * and a list of the command words.
@@ -251,8 +268,8 @@ public class Game {
         System.out.println("Your command words are:");
         parser.showCommands();
     }
-    
-        /**
+
+    /**
      * "Quit" was entered. Check the rest of the command to see whether we really
      * quit the game.
      * 

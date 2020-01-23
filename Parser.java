@@ -50,12 +50,61 @@ public class Parser {
         String word2 = null;
         if (tokenizer.hasNext()) {
             word1 = tokenizer.next(); // get first word
+            word1 = word1.toLowerCase(); // formatting
             if (tokenizer.hasNext()) {
                 word2 = tokenizer.next(); // get second word
+                word2 = word2.toLowerCase(); // formatting
                 // note: we just ignore the rest of the input line.
             }
         }
-        return new Command(commands.getCommandWord(word1), word2);
+
+        if(word1==null){
+            // do nothing
+        } else {
+            // check if there's a synonym in place
+            switch (word1) {
+                case "north":
+                word1 = "go";
+                word2 = "north";
+                break;
+                case "east":
+                word1 = "go";
+                word2 = "east";
+                break;
+                case "south":
+                word1 = "go";
+                word2 = "south";
+                break;
+                case "west":
+                word1 = "go";
+                word2 = "west";
+                case "view":
+                word1 = "look";
+                case "pickup":
+                word1 = "take";
+                break;
+                default: // do nothing with the input
+                word1 = word1;
+                word2 = word2;
+
+            }
+        }
+
+        if(word2==null){
+            // do nothing
+        } else {
+            // check if there's a synonym in place
+            switch (word1) {
+                case "yeet":
+                word2 = "YEEEEEEEEEEET";
+                break;
+                default: // do nothing with the input
+                word2 = word2;
+
+            }
+        }
+
+        return new Command(commands.getCommandWord(word1), word2); // make a "command" out of it
     }
 
     /**
@@ -64,5 +113,4 @@ public class Parser {
     public void showCommands() {
         commands.showAll();
     }
-
 }

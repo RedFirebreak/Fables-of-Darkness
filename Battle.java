@@ -170,14 +170,22 @@ public class Battle
             int minimumDamage = randomize.getRandomDamage(differenceHit); // for example, will return 0-4 if the min and max hit was 4-7. Then do a -1. Making it a 0-3 chance.
             int damage = differenceHit + minimumDamage; // add the minimum damage, to random hit damage.
 
-            System.out.println("You take " + damage + " damage!");
-            player.removeHealth(damage);
+            // calculate the players armor
+            damage = damage - player.getPlayerArmorRating();
+            if (damage <= 0){
+                System.out.println("... but you dont take any damage because of your armor!");
+            } else {
+
+                System.out.println("You take " + damage + " damage!");
+                player.removeHealth(damage);
+            }
+
         } else {
             System.out.println("The enemy has no chance to fight back. As your final blow killed the enemy.");
         }
 
     }
-    
+
     /**
      * "eat" was entered. Check if a second word has been send too and check if the item is eatable.
      * If it is eatable, heal the player if their hp isn't full, and remove the item and its weight from the player.
@@ -185,7 +193,51 @@ public class Battle
      * @param command The command entered in the Parser.
      */
     public void eatItem(Command command) {
-            System.out.println("YEET");
-     
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to eat...
+            System.out.println("Eat what?");
+            return;
+        }
+        String itemToBeEaten = command.getSecondWord();
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
+
+        String unlockItem;
+        Room roomToUnlock;
+        boolean somethingToUse = false;
+        int notThisItem = 0;
+        int loop;
+
+        for (loop = 0; loop < playerInventory.size(); loop++) {
+            Item currentItem = playerInventory.get(loop);
+            if (itemToBeEaten.equals(currentItem.getItemName()) ){ // get the item name, then check if thats something
+                if (currentItem.getItemCategory().equals("food")){
+                    if((player.getHealth())<(20)) {
+                        player.addHealth(currentItem.getHealAmount());
+                        player.removeItemFromInventory(currentItem); // remove item from inventory
+                        System.out.println("You eat the " + itemToBeEaten + ". It heals for " + currentItem.getHealAmount()+".");
+                    } else {
+                        System.out.println("Your HP is full!");
+                    }
+                } else {
+                    System.out.println("You can't eat that item!");
+                }
+
+            } else {
+                // the item did not match the player provided name
+                notThisItem++;
+            };
+            somethingToUse = true;
+        }
+
+        //errors afvangen
+        if (!somethingToUse) {
+            System.out.println("You can't inspect that!");
+        }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
+            System.out.println("You cannot eat " + itemToBeEaten + " because you don't have it in your inventory!");
+        }
+
     }
 }

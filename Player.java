@@ -38,7 +38,7 @@ public class Player {
             // Update armor
             // inform user
         } else {
-        System.out.println("You cant equip " + armorPiece.getItemName() + " as it is not a armor piece.");
+            System.out.println("You cant equip " + armorPiece.getItemName() + " as it is not a armor piece.");
         }
     }
 
@@ -52,7 +52,7 @@ public class Player {
             // Update damage
             // inform user
         } else {
-        System.out.println("You cant equip " + weaponPiece.getItemName() + " as it is not a weapon.");
+            System.out.println("You cant equip " + weaponPiece.getItemName() + " as it is not a weapon.");
         }
     }
 
@@ -150,6 +150,19 @@ public class Player {
     }
 
     // Getters
+    /**
+     * @return The player's current armorrating.
+     */
+    public int getPlayerArmorRating() {
+        int armorRating = 0;
+        if (playerArmor == null) {
+            armorRating = 0;
+        } else {
+            armorRating = playerArmor.getItemArmorRating();// een int is altijd 0 als die nog niet bestaat. dus geen "NULL"
+        }
+        return armorRating;
+    }
+
     /**
      * @return The player's current inventory.
      */
