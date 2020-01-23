@@ -38,7 +38,7 @@ public class Levels {
         Enemy boss;
 
         // items
-        Item bread, bread2, jug_of_water, steak, dagger, cloak, unlit_torch, torch, health_biscuit, shortsword, boulder;
+        Item bread, bread2, jug_of_water, steak, dagger, cloak, chainmail, unlit_torch, torch, health_biscuit, shortsword, boulder;
         // key items
         Item brass_key, bronze_key, mysterious_key;
 
@@ -113,17 +113,16 @@ public class Levels {
         allroomIDs.put(bossRoom.getRoomID(), bossRoom);
 
         // Generate all items needed for this level
-        // (required input) String itemname, String itemDescription,String itemCategory,int itemHealAmount,
-        // int itemMinDamage,int itemMaxDamage,int itemArmorRating,int itemWeight,
-        // int itemValue,boolean itemPickupAble
-        //
+        // (required input) String itemname, String itemDescription, String itemCategory, int itemMinDamage, int itemMaxDamage, int itemArmorRating,
+        // int itemHealAmount, int itemWeight, int itemValue, boolean itemPickupAble
 
         bread = new Item("bread","A nice loaf of bread. Not warm though. Can be eaten to heal 2 health points.","food",0,0,0,2,1,1,true);
         bread2 = new Item("bread","A nice loaf of bread. Not warm though. Can be eaten to heal 2 health points.","food",0,0,0,2,1,1,true);
         jug_of_water = new Item("jug_of_water","A jug. it contains water.","food",0,0,0,1,2,1,true);
         steak = new Item("steak","A healthy-sized steak. It looks like Gandhi's flipflop. Can be eaten to heal 5 health points.","food",0,0,0,5,3,1,true);
         dagger = new Item("dagger","A sharp weapon, relatively small. Good for stabby jabbies.","weapon",3,5,0,0,2,5,true);
-        cloak = new Item("cloak","A cloak. Protects from rain and gives warmth. Not much use in here.","armor",0,0,1,0,3,1,true);
+        cloak = new Item("cloak","A cloak. Protects from rain and gives warmth.","armor",0,0,1,0,3,1,true);
+        chainmail = new Item("chainmail","A piece of chainmail armor. Protects the body when equipped.","armor",0,0,3,0,20,10,true);
         unlit_torch = new Item("unlit_torch","An unlit torch, how useless!","generic",0,0,0,0,0,1,true);
         health_biscuit = new Item("health_biscuit","A life elixer, health potion, red pot or whatever you want to name it, but it is in biscuit form. Can be eaten for 10 health points.","food",0,0,0,10,3,1,true);
         shortsword = new Item("shortsword","A shortsword, things will get more 'ouch' with this.","weapon",5,9,0,0,5,1,true);
@@ -135,6 +134,12 @@ public class Levels {
         bronze_key = new Item("bronze_key","A bronze key, useful for unlocking things.","keyItem",0,0,0,0,5,1,true);
         mysterious_key = new Item("mysterious_key","This key glows a little and you can feel its warmth. Must unlock something powerful.","keyItem",0,0,0,0,5,1,true);
 
+        //test
+        room1.setRoomInventory(cloak);
+        room1.setRoomInventory(chainmail);
+        //test end
+        
+        
         //Set key-items in their rooms
         room2.setRoomInventory(torch);
         room9.setRoomInventory(health_biscuit);

@@ -17,42 +17,52 @@ public class Player {
 
     private Item playerWeapon;
     private Item playerArmor;
+    private Item unarmed;
+    private Item naked;
 
     private int maxHit = 3;
     private int minHit = 1;
+    private int armorCount = 0;
 
     /**
      * Create a player for player management, initialize the inventory and the hp.
      */
     public Player() {
         playerInventory = new ArrayList<Item>();
+        unarmed = new Item("unarmed","Nothing in your hands equipped.","weapon",1,3,0,0,0,0,false);
+        naked = new Item("naked","Nothing is on your body.","armor",0,0,0,0,0,0,false);
+        playerWeapon = unarmed;
+        playerArmor = naked;
     }
 
     public void setArmor(Item armorPiece){
         String category = armorPiece.getItemCategory();
-        if (category == "armor") {
-            // Check for currently equipped weapon
-            // Place currently equipped weapon in inventory
-            // Reset base armor
-            // Equip new weapon
-            // Update armor
-            // inform user
+        if (category.equals("armor")) {
+            if (playerArmor != naked) {
+                Item currentlyEquippedArmor = playerArmor; // Check for currently equipped armor
+                addItemToInventory(playerArmor); // Place currently equipped armor in inventory
+            }
+            this.playerArmor = armorPiece; // Equip new armor
+            armorCount = armorPiece.getItemArmorRating(); // Update armor
+            System.out.println("You equip the " + armorPiece.getItemName() + ". Your armor value is now: " + armorCount); // inform user
         } else {
-        System.out.println("You cant equip " + armorPiece.getItemName() + " as it is not a armor piece.");
+            System.out.println("You cant equip " + armorPiece.getItemName() + " as it is not an armor piece.");
         }
     }
 
     public void setWeapon(Item weaponPiece){
         String category = weaponPiece.getItemCategory();
-        if (category == "weapon") {
-            // Check for currently equipped weapon
-            // Place currently equipped weapon in inventory
-            // Reset base damage
-            // Equip new weapon
-            // Update damage
-            // inform user
+        if (category.equals("weapon")) {
+            if (playerWeapon != unarmed) {
+                Item currentlyEquippedWeapon = playerWeapon; // Check for currently equipped weapon
+                addItemToInventory(playerWeapon); // Place currently equipped weapon in inventory
+            }
+            this.playerWeapon = weaponPiece; // Equip new weapon
+            minHit = weaponPiece.getItemMinDamage();
+            maxHit = weaponPiece.getItemMaxDamage();
+            System.out.println("You equip the " + weaponPiece.getItemName() + ". Your min damage is now: " + minHit + " and your max damage is now: " + maxHit + "."); // inform user
         } else {
-        System.out.println("You cant equip " + weaponPiece.getItemName() + " as it is not a weapon.");
+            System.out.println("You cant equip " + weaponPiece.getItemName() + " as it is not a weapon.");
         }
     }
 
@@ -192,5 +202,17 @@ public class Player {
 
     public int getMaxHit() {
         return maxHit;
+    }
+    
+    public int getArmorCount() {
+        return armorCount;
+    }
+    
+    public Item getPlayerWeapon() {
+        return playerWeapon;
+    }
+    
+    public Item getPlayerArmor() {
+        return playerArmor;
     }
 }

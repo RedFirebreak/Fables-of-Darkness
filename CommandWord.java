@@ -10,14 +10,15 @@ import java.util.*;
 public enum CommandWord {
     // A value for each command word along with its
     // corresponding user interface string.
-    GO("go"), SEARCH("search"), LOOK("look"), TAKE("take"), DROP("drop"),  INV("inv"), USE("use"), BURN("burn"), INSPECT("inspect"), INFO("info"), EAT("eat"), BACK("back"), QUIT("quit"), HELP("help"),
+    GO("go"), SEARCH("search"), LOOK("look"), TAKE("take"), DROP("drop"),  INV("inv"), USE("use"), BURN("burn"), 
+    INSPECT("inspect"), INFO("info"), EAT("eat"), EQUIP("equip"), UNEQUIP("unequip"), BACK("back"), QUIT("quit"), HELP("help"),
     UNKNOWN("?"),
     
     // Extra Battle commands
-    ATTACK("attack"), RUN("run"),
+    ATTACK("attack"), RUN("run");
     
     // Aliasses for commands
-    NORTH("north"), EAST("east"), SOUTH("south"), WEST("west");
+    //NORTH("north"), EAST("east"), SOUTH("south"), WEST("west"); [[FIX]]
 
     // The command string.
     private String commandString;
