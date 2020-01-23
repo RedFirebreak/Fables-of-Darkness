@@ -31,7 +31,7 @@ public class Levels {
         Room c1, c2, c3, c4, c5, c6;
         Room de1, de2;
         Room t1, t2;
-        Room bossRoom;
+        Room bossRoom, winRoom;
 
         // enemies
         Enemy goblin1, goblin2, human1;
@@ -50,35 +50,37 @@ public class Levels {
         // room)", "long description (shows when you seach the room)", boolean true or
         // false (checks whether the room can have an item or not)
         int roomid = 1;
+        // short description = "you are standing in "
         room1 = new Room(Integer.toString(roomid++), "a dark storage room",
-            "This is the storage room you woke up in! You see some crates in the corner, A small opening to another room and a sturdy looking wooden door",
+            "This is the storage room you woke up in! You see some crates in the corner and some neatly stacked boxes.",
             true);
         room2 = new Room(Integer.toString(roomid++), "a storage room",
-            "You see some neatly stacked boxes. A little puddle of water and a very bright torch on the wall.(CHANGE IF TORCH IS PICKED UP)",
+            "You see some boxes all over the place. Some are even completely drenched in the little puddle of water that is on the floor.",
             true);
-        room3 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room4 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room5 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room6 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room7 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room8 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room9 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room10 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room11 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room12 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        room13 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        c1 = new Room(Integer.toString(roomid++), "In a crossroad",
-            "You can see a long corridor. It smells kind of damp.", true);
-        c2 = new Room(Integer.toString(roomid++), "In a crossroad", "In a damp crossroad", true);
-        c3 = new Room(Integer.toString(roomid++), "In a crossroad", "In a hot crossroad", true);
-        c4 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        c5 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        c6 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", true);
-        de1 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
-        de2 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
-        t1 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
-        t2 = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
-        bossRoom = new Room(Integer.toString(roomid++), "SHORT_DESC", "LONG_DESC", false);
+        room3 = new Room(Integer.toString(roomid++), "a bloody empty room", "You see some bloody scratch marks and a crack in the wall. Looks ominous. The only way out is south.", true);
+        room4 = new Room(Integer.toString(roomid++), "a room with some greens.", "This room has some little bushes with some light coming from above. You see a door to the southwest, and a small opening to the southeast.", true);
+        room5 = new Room(Integer.toString(roomid++), "a large decorated room", "It looks like somebody has been living here. The ground looks slimy and some candles are lit. You can go north, southwest and southeast.", true);
+        room6 = new Room(Integer.toString(roomid++), "a odd looking sleeping room", "There are some cocoons hanging from the walls. It looks like something was sleeping here recently. You can only go south from here.", true);
+        room7 = new Room(Integer.toString(roomid++), "a empty looking slimy room", "Yeez! Is this a stockpile for all their slime or something! A lot of light is radiating in the room from the north. There's a way into a long hallway to the south, there are some blood splatters on the ground.", true);
+        room8 = new Room(Integer.toString(roomid++), "a very brighly lit room", "Something or someone lit over a hundred candles in this room! The ground is still slimy and slippery. A sturdy looking bronze door is on the north, a passage-way on the east, it looks like there is another room on the south.", true);
+        room9 = new Room(Integer.toString(roomid++), "a tiny kitchen", "This kitchen looks like its been used to cook something delicious, there's a very nice smell coming from the kitchen. To the west there's a door. To the east is a large brass door.", true);
+        room10 = new Room(Integer.toString(roomid++), "a type of jail", "You see some shackles protruding from the wall. and wait, is that a skeleton hanging from the ceiling?.... There's a door to the west. ", true);
+        room11 = new Room(Integer.toString(roomid++), "a black room with alot of scorch marks", "Wow! Has a dragon been here or something! The whole room looks black from burn marks! There's a nice lookin corridor on the east and a door the south. You can hear some static noise.", true);
+        room12 = new Room(Integer.toString(roomid++), "a decent looking room", "Wait, is that a television? And why is it on static... There is also a very worn out couch made of silk. There's a badly burned door do the north and passage way to the south.", true);
+        room13 = new Room(Integer.toString(roomid++), "a nicely looking sleeping room", "There's a slimy bed in the room. Also a small night-stand next to it with a small jewelery box. To the north there is a dimly lit corridor.", true);
+        c1 = new Room(Integer.toString(roomid++), " in a small cavern ",
+            "You can see a long corridor going three ways. One way leads back to the room you woke up in.  It smells kind of damp.", true);
+        c2 = new Room(Integer.toString(roomid++), "a fork form the long hallway", "You see some light coming from the north. Some bloody scratches on the wall on the left. South doesn't seem all that interesting.", true);
+        c3 = new Room(Integer.toString(roomid++), "a round room", "There's a nice looking corridor to the west. You can also spot a red light coming from a mysterious glowing door to the east. To the south is a opened bronze door.", true);
+        c4 = new Room(Integer.toString(roomid++), "a nice looking corridor", "This is a nice looking corridor! There are alot of shiny decorations on the walls! The corridor continues to the south, There's a brass door to the west and there's a faint glow coming from the north.", true);
+        c5 = new Room(Integer.toString(roomid++), "a fork in the path!", "There's nothing special looking in this crossroad. You can hear some static noise coming from the north. On the west, there's a small candle on the wall in a corner. It's dark on the east.  ", true);
+        c6 = new Room(Integer.toString(roomid++), "a dimly lit hallway", "You can barely see here. However, there's a nice smell coming from the west. A faint light is coming from the south and a passage way to the north.", true);
+        de1 = new Room(Integer.toString(roomid++), "in a dead end", "Why are you looking around in a dead end?... Wait, is that something shiny? You can only go back to the west.", false);
+        de2 = new Room(Integer.toString(roomid++), "a crossroad that isn't possible to get to.", "You will literally die if you stay here. Wtf.", false);
+        t1 = new Room(Integer.toString(roomid++), "a room with some rocks.", "Why did I land DIRECTLY on these rocks? Lets never do that again. You see a small stairway leading up to a very small hole in the wall to the west. ", false);
+        t2 = new Room(Integer.toString(roomid++), "a small puddle of blood", "Okay, that hurt. you see a faint glow of light coming from the hole you just fell trough. To the west is a small pathway leading up to a crack in the wall. There is a nice smell coming from the crack. You wonder if you can squeeze trough it.", false);
+        bossRoom = new Room(Integer.toString(roomid++), "a very large battle arena", "You smell fresh air coming from the stairway on the south. To the east is the horrible cyst.", false);
+        winRoom = new Room(Integer.toString(roomid++), "a grass patch. You are outside!", "You breath the fresh air! You are free.", false);
 
         // Set the roomID in the room, then add it to the level-map
         allroomIDs = new HashMap<>();
