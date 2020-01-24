@@ -1,10 +1,11 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.List;
 
 /**
- * Write a description of class Battle here.
+ * Battle creates an instance in which the player battles with an enemy.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Stefan Jilderda and Stefan Kuppen
+ * @version 24.01.2020
  */
 public class Battle
 {
@@ -81,6 +82,9 @@ public class Battle
         return returncode;
     }
 
+    /** 
+     * Prints out the menu of what the player sees, and gives him/her/it the available commands.
+     */
     private void menu(){
         System.out.println("");
         System.out.println("Round: "+round);
@@ -92,6 +96,11 @@ public class Battle
 
     }
 
+    /**
+     * Processes the command the user inputs.
+     * 
+     * @param command is the command the user has input.
+     */
     private void processCommand(Command command) {
         // Switch construct
         System.out.println(); // formatting
@@ -101,7 +110,6 @@ public class Battle
             System.out.println("You attack the monster!");
 
             // calculate the damage this enemy will do
-
             int playerDifferenceHit = player.getMaxHit() - player.getMinHit(); // 5 - 3 = 2. 
             int playerMinimumDamage = randomize.getRandomDamage(playerDifferenceHit); // returns 1-3
             int damage = playerDifferenceHit + playerMinimumDamage; // add the minimum damage, to random hit damage.
@@ -113,7 +121,6 @@ public class Battle
             break;
 
             case EAT: // reach out to the main game again, then parse the command as usual
-            // [FIX] broken
             int tempHealth = player.getHealth();
             eatItem(command);
 
@@ -151,16 +158,19 @@ public class Battle
             System.out.println("Your battle options are: Attack, Eat, Inspect, Run");
             System.out.println("");
             round--;
-            break; // This break is not really necessary
+            break;
         }
     }
 
+    /**
+     * This is the enemies turn. It plays immediately after the player's turn.
+     */
     private void enemyturn() {
-        if (enemy.getHealth() == 0) {
+        if (enemy.getHealth() == 0) { // check if the enemy is still alive
             enemy.setAlive(false);
         }
 
-        if (enemy.getAlive()) {
+        if (enemy.getAlive()) { // if he is alive
             // time to fuck the players day up
             System.out.println("");//formatting
             System.out.println(enemy.getName() + " attacks you!");
@@ -180,64 +190,57 @@ public class Battle
                 player.removeHealth(damage);
             }
 
-        } else {
+        } else { // when ded
             System.out.println("The enemy has no chance to fight back. As your final blow killed the enemy.");
         }
-
     }
 
     /**
-     * "eat" was entered. Check if a second word has been send too and check if the item is eatable.
-     * If it is eatable, heal the player if their hp isn't full, and remove the item and its weight from the player.
+     * "eat" was entered. Check if a second word has been sent too and check if the item is food.
+     * If it is a food item, heal the player if their health isn't full, and remove the item and its weight from the player inventory.
      * 
      * @param command The command entered in the Parser.
      */
     public void eatItem(Command command) {
-        if (!command.hasSecondWord()) {
-            // if there is no second word, we don't know what to eat...
+        if (!command.hasSecondWord()) { // check if there's a second word
             System.out.println("Eat what?");
             return;
         }
         String itemToBeEaten = command.getSecondWord();
         List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
 
-        String unlockItem;
-        Room roomToUnlock;
         boolean somethingToUse = false;
         int notThisItem = 0;
         int loop;
 
-        for (loop = 0; loop < playerInventory.size(); loop++) {
-            Item currentItem = playerInventory.get(loop);
-            if (itemToBeEaten.equals(currentItem.getItemName()) ){ // get the item name, then check if thats something
-                if (currentItem.getItemCategory().equals("food")){
-                    if((player.getHealth())<(20)) {
-                        player.addHealth(currentItem.getHealAmount());
+        for (loop = 0; loop < playerInventory.size(); loop++) { // loop through the player inventory
+            Item currentItem = playerInventory.get(loop); // set currentitem on the item that is currently in the loop
+            if (itemToBeEaten.equals(currentItem.getItemName()) ){ // get the item name, then check if that matches the secondWord
+                if (currentItem.getItemCategory().equals("food")){ // check if the item used is an item in the "food" category
+                    if((player.getHealth())<(20)) { // check if the player's health is full
+                        player.addHealth(currentItem.getHealAmount()); // heal the player
                         player.removeItemFromInventory(currentItem); // remove item from inventory
                         System.out.println("You eat the " + itemToBeEaten + ". It heals for " + currentItem.getHealAmount()+".");
-                    } else {
-                        System.out.println("Your HP is full!");
+                    } else { // the player's health is full
+                        System.out.println("Your are at full health!");
                     }
-                } else {
+                } else { // item is not a food item
                     System.out.println("You can't eat that item!");
                 }
-
-            } else {
-                // the item did not match the player provided name
+            } else { // the item did not match the player provided name
                 notThisItem++;
-            };
+            }
             somethingToUse = true;
         }
 
         //errors afvangen
-        if (!somethingToUse) {
-            System.out.println("You can't inspect that!");
+        if (!somethingToUse) { // the item is not found in the player inventory
+            System.out.println("You can't eat that!");
         }
 
-        if (loop == notThisItem) {
+        if (loop == notThisItem) { // the player has nothing to burn secondWord with
             //ThisItem is the same amount as loop. Then the player put something in that is not in the room
             System.out.println("You cannot eat " + itemToBeEaten + " because you don't have it in your inventory!");
         }
-
     }
 }
