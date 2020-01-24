@@ -52,7 +52,7 @@ public class Game {
         switch (in.nextLine()) { //check what the player has entered
             case "1":
             System.out.println("");
-            System.out.println("Level 1 selected: The Cyst of Elemental Worms");
+            System.out.println("Level 1 selected: The Cyst of Elemental Wyrms");
 
             // load the level
             level = new Levels(); // make connection with the levels
@@ -189,6 +189,7 @@ public class Game {
 
             case LOOK:
             System.out.println(currentRoom.getlongDescription());
+            System.out.println(currentRoom.getExitString());
             break;
 
             case SEARCH:
