@@ -34,7 +34,7 @@ public class Levels {
         Room bossRoom, winRoom;
 
         // enemies
-        Enemy goblin1, goblin2, human1;
+        Enemy wyrm1, wyrm2, human1;
         Enemy boss;
 
         // items
@@ -136,14 +136,6 @@ public class Levels {
         brass_key = new Item("brass_key","A brass key, probably used for unlocking something. Why is it always brass though?","keyItem",0,0,0,0,5,1,true);
         bronze_key = new Item("bronze_key","A bronze key, useful for unlocking things.","keyItem",0,0,0,0,5,1,true);
         mysterious_key = new Item("mysterious_key","This key glows a little and you can feel its warmth. Must unlock something powerful.","keyItem",0,0,0,0,5,1,true);
-
-        //test fix
-        room1.setRoomInventory(cloak);
-        room1.setRoomInventory(chainmail);
-        room1.setRoomInventory(dagger);
-        room1.setRoomInventory(shortsword);
-        //test end fix
-        
         
         //Set key-items in their rooms
         room2.setRoomInventory(torch);
@@ -276,8 +268,8 @@ public class Levels {
 
         // Create enemies and the boss monster
         // Name, max health, description, minimum damage, maximum damage
-        goblin1 = new Enemy("Heasdasz", 5, "A small but angry looking wyrm! It looks like he has some sharp fangs!", 2, 3); // found in room 5,6,7 or 8
-        goblin2 = new Enemy("Trorzegs", 8, "A angry looking fire wyrm! He breathes fire!", 2, 5); // found in room 11, 12 or 13
+        wyrm1 = new Enemy("Heasdasz", 5, "A small but angry looking wyrm! It looks like he has some sharp fangs!", 2, 3); // found in room 5,6,7 or 8
+        wyrm2 = new Enemy("Trorzegs", 8, "A angry looking fire wyrm! He breathes fire!", 2, 5); // found in room 11, 12 or 13
         human1 = new Enemy("Arlin", 10, "A fit looking human. He's holding a small dagger.", 3, 5); // found in room 9 or 10
 
         boss = new Enemy("Drace Grim", 20, "A VERY strong looking human! He's holding a giant axe.", 3, 7); // found ALWAYS in boss-room
@@ -288,11 +280,11 @@ public class Levels {
 
         tempRoomNumber = 4 + randomize.getRandomNumber(4); // will return 5,6,7 or 8
         roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
-        roomToAddEnemy.addEnemy(goblin1);
+        roomToAddEnemy.addEnemy(wyrm1);
 
         tempRoomNumber = 10 + randomize.getRandomNumber(3); // will return 11, 12 or 13
         roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID
-        roomToAddEnemy.addEnemy(goblin2);
+        roomToAddEnemy.addEnemy(wyrm2);
 
         tempRoomNumber = 8 + randomize.getRandomNumber(2); // will return 9 or 10
         roomToAddEnemy = allroomIDs.get(Integer.toString(tempRoomNumber)); // load the room based on string-ID

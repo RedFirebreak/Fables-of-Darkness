@@ -54,6 +54,8 @@ public class Room {
         canBeBurned= false;
         unlockRoom = false;
         unlockItem = "item_does_not_exist";
+        
+        //System.out.println("DEBUG NEW ROOM CREATED: " + ID + " - " + shortDescription + " - " + LongDescription + " - " + canHoldItem);
     }
     
     public void setUnlockRoom(boolean unlockRoom, String unlockItem, String unlocksRoomID) {
@@ -222,7 +224,6 @@ public class Room {
     }
 
     public void addEnemy(Enemy enemy) {
-        System.out.println("DEBUG: ADDED ENEMY TO ROOM ID"+ getRoomID());
         enemies = new Stack<Enemy>(); // make a new stack for "all" the enemies.
         hasEnemy = true;
         enemies.push(enemy); // Add something to the stack

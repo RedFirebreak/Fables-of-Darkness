@@ -73,7 +73,7 @@ public class Game {
 
             System.out.println("");
 
-            printWelcome(); // welcome the player
+            printWelcomeLevel1(); // welcome the player
             playloop(); // start the game
             break;
             case "2":
@@ -154,11 +154,11 @@ public class Game {
     /**
      * Print the opening message for the player.
      */
-    private void printWelcome() {
+    private void printWelcomeLevel1() {
         System.out.println("You wake up in a dimly lit storage room.");
         System.out.println("The room is lit by a torch in the distance.");
         System.out.println("Your command words are:");
-        parser.showCommands();
+        System.out.println("You can type 'help' at any time to see your command words.");
 
         System.out.println("");
         System.out.println(currentRoom.getRoomDescription());
@@ -171,6 +171,8 @@ public class Game {
      * @return true If the command ends the game, false otherwise.
      */
     public boolean processCommand(Command command) {
+        // update current room first
+        currentRoom = player.getCurrentRoom();
         boolean wantToQuit = false;
 
         CommandWord commandWord = command.getCommandWord();
@@ -247,20 +249,6 @@ public class Game {
             case QUIT:
             wantToQuit = quit(command);
             break;
-
-            // Now come the aliasses of commands. This list MIGHT get long lol.
-            /*case NORTH:
-             * goRoom(command);(go north);
-            break;
-            case EAST:
-            processCommand(go east);
-            break;
-            case SOUTH:
-            processCommand(go south);
-            break;
-            case WEST:
-            processCommand(go west);
-            break;*/
         }
         return wantToQuit;
     }
@@ -274,7 +262,6 @@ public class Game {
         System.out.println("You have the feeling that you better get out of here, it's so dark here.");
         System.out.println("You can hear some sounds in the distance.. Hopefully that isn't trouble.");
         System.out.println("");
-        System.out.println("Your command words are:");
         parser.showCommands();
     }
 
