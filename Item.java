@@ -1,22 +1,18 @@
-import java.util.*;
-
 /**
- * Write a description of class Items here.
+ * Items is used to generate all iteams within the constructor.
+ * All variables are set in the constructor.
  *
- * @author (your name)
- * @version (a version number or a date)
+ * @author Stefan Jilderda and Stefan Kuppen
+ * @version 24.01.2020
  */
 public class Item {
     private String itemName;
     private String itemDescription;
     private String itemCategory;
-
     private int itemHealAmount;
-
     private int itemMinDamage;
     private int itemMaxDamage;
     private int itemArmorRating;
-
     private int itemWeight;
     private int itemValue;
     private boolean itemPickupAble;
@@ -25,18 +21,14 @@ public class Item {
     /**
      * Setting initial values for every item created, just in case
      */
-    public Item(String itemName, String itemDescription, String itemCategory, int itemMinDamage, int itemMaxDamage, 
-    int itemArmorRating, int itemHealAmount, int itemWeight, int itemValue, boolean itemPickupAble, boolean canItemBurn) {
+    public Item(String itemName, String itemDescription, String itemCategory, int itemMinDamage, int itemMaxDamage, int itemArmorRating, int itemHealAmount, int itemWeight, int itemValue, boolean itemPickupAble, boolean canItemBurn) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemCategory = itemCategory;
-
         this.itemHealAmount = itemHealAmount;
-
         this.itemMinDamage = itemMinDamage;
         this.itemMaxDamage = itemMaxDamage;
         this.itemArmorRating = itemArmorRating;
-
         this.itemWeight = itemWeight;
         this.itemValue = itemValue;
         this.itemPickupAble = itemPickupAble;
@@ -98,15 +90,24 @@ public class Item {
     public boolean getItemPickupAble() {
         return itemPickupAble;
     }
-    
+
+    /**
+     * @return The boolean wheather or not the item can be used in the "burn" command, to burn stuff.
+     */
     public boolean getCanItemBurn() {
         return canItemBurn;
     }
 
+    /**
+     * @return The int of the min damage the item can deal.
+     */
     public int getItemMinDamage() {
         return itemMinDamage;
     }
 
+    /**
+     * @return The int of the max damage the item can deal.
+     */
     public int getItemMaxDamage() {
         return itemMaxDamage;
     }
