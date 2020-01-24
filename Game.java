@@ -231,6 +231,14 @@ public class Game {
             case EAT:
             commandParser.eatItem(command);
             break;
+            
+            case EQUIP:
+            commandParser.equipItem(command);
+            break;
+            
+            case UNEQUIP:
+            commandParser.unequipItem(command);
+            break;
 
             case INFO:
             commandParser.getInfo();
@@ -262,9 +270,10 @@ public class Game {
      * and a list of the command words.
      */
     public void printHelp() {
-        System.out.println("Somehow you ended up in this underground building.");
-        System.out.println("You are alone. Or are you?...");
-        System.out.println();
+        System.out.println("You have woken up inside of a cave, you do not know how you got here.");
+        System.out.println("You have the feeling that you better get out of here, it's so dark here.");
+        System.out.println("You can hear some sounds in the distance.. Hopefully that isn't trouble.");
+        System.out.println("");
         System.out.println("Your command words are:");
         parser.showCommands();
     }

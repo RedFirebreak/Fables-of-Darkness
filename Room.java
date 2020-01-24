@@ -183,10 +183,10 @@ public class Room {
     }
 
     /**
-     * Return a description of the room in the form: You are in the kitchen. Exits:
-     * north west
+     * Return a description of the room in the form: You are in the kitchen. 
+     * Exits: north west
      * 
-     * @return A long description of this room
+     * @return A short description of this room with the exits
      */
     public String getRoomDescription() {
         return "You are standing in " + shortDescription + ".\n" + getExitString();
@@ -197,7 +197,7 @@ public class Room {
      * 
      * @return Details of the room's exits.
      */
-    private String getExitString() {
+    public String getExitString() {
         String returnString = "Exits:";
         Set<String> keys = exits.keySet();
         for (String exit : keys) {

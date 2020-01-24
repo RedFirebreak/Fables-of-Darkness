@@ -38,7 +38,7 @@ public class Levels {
         Enemy boss;
 
         // items
-        Item bread, bread2, jug_of_water, steak, dagger, cloak, unlit_torch, torch, health_biscuit, shortsword, boulder;
+        Item bread, bread2, jug_of_water, steak, dagger, cloak, chainmail, unlit_torch, torch, health_biscuit, shortsword, boulder;
         // key items
         Item brass_key, bronze_key, mysterious_key;
 
@@ -116,19 +116,18 @@ public class Levels {
         allroomIDs.put(winRoom.getRoomID(), winRoom);
 
         // Generate all items needed for this level
-        // (required input) String itemname, String itemDescription,String itemCategory,int itemHealAmount,
-        // int itemMinDamage,int itemMaxDamage,int itemArmorRating,int itemWeight,
-        // int itemValue,boolean itemPickupAble
-        //
+        // (required input) String itemname, String itemDescription, String itemCategory, int itemMinDamage, int itemMaxDamage, int itemArmorRating,
+        // int itemHealAmount, int itemWeight, int itemValue, boolean itemPickupAble
 
         bread = new Item("bread","A nice loaf of bread. Not warm though. Can be eaten to heal 2 health points.","food",0,0,0,2,1,1,true);
         bread2 = new Item("bread","A nice loaf of bread. Not warm though. Can be eaten to heal 2 health points.","food",0,0,0,2,1,1,true);
         jug_of_water = new Item("jug_of_water","A jug. it contains water.","food",0,0,0,1,2,1,true);
         steak = new Item("steak","A healthy-sized steak. It looks like Gandhi's flipflop. Can be eaten to heal 5 health points.","food",0,0,0,5,3,1,true);
         dagger = new Item("dagger","A sharp weapon, relatively small. Good for stabby jabbies.","weapon",3,5,0,0,2,5,true);
-        cloak = new Item("cloak","A cloak. Protects from rain and gives warmth. Not much use in here.","armor",0,0,1,0,3,1,true);
-        unlit_torch = new Item("unlit_torch","An unlit torch, how useless!","generic",0,0,0,0,0,1,true);
-        health_biscuit = new Item("health_biscuit","A life elixer, health potion, red pot or whatever you want to name it, but it is in biscuit form. Can be eaten for 10 health points.","food",0,0,0,10,3,1,true);
+        cloak = new Item("cloak","A cloak. Protects from rain and gives warmth.","armor",0,0,1,0,3,1,true);
+        chainmail = new Item("chainmail","A piece of chainmail armor. Protects the body when equipped.","armor",0,0,3,0,20,10,true);
+        unlit_torch = new Item("unlit_torch","An unlit torch, how useless!","generic",0,0,0,0,5,1,true);
+        health_biscuit = new Item("health_biscuit","A life elixer, health potion, red pot or whatever you want to name it, but it is in biscuit form. It smells really good! Can be eaten for 10 health points.","food",0,0,0,10,3,1,true);
         shortsword = new Item("shortsword","A shortsword, things will get more 'ouch' with this.","weapon",5,9,0,0,5,1,true);
         boulder = new Item("boulder","It is heavy. Way. Too. Heavy.","wtf",5000,10000,2000,0,10000,9001,false);
 
@@ -138,11 +137,20 @@ public class Levels {
         bronze_key = new Item("bronze_key","A bronze key, useful for unlocking things.","keyItem",0,0,0,0,5,1,true);
         mysterious_key = new Item("mysterious_key","This key glows a little and you can feel its warmth. Must unlock something powerful.","keyItem",0,0,0,0,5,1,true);
 
+        //test fix
+        room1.setRoomInventory(cloak);
+        room1.setRoomInventory(chainmail);
+        room1.setRoomInventory(dagger);
+        room1.setRoomInventory(shortsword);
+        //test end fix
+        
+        
         //Set key-items in their rooms
         room2.setRoomInventory(torch);
         room9.setRoomInventory(health_biscuit);
         room10.setRoomInventory(shortsword);
         room10.setRoomInventory(brass_key); // used to unlock room 9
+        de1.setRoomInventory(chainmail);
         room13.setRoomInventory(mysterious_key); // used to unlock bossroom
 
         //randomizer for keyForC3 DOE DIT OOK VOOR DE ANDERE ITEMS
@@ -262,6 +270,9 @@ public class Levels {
         room13.setExit("north", c6);
 
         de2.setExit("east", t2);
+        
+        bossRoom.setExit("west", c3);
+        bossRoom.setExit("south", winRoom);
 
         // Create enemies and the boss monster
         // Name, max health, description, minimum damage, maximum damage

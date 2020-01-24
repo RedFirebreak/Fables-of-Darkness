@@ -1,5 +1,5 @@
-
 import java.util.*;
+
 /**
  * Write a description of class CommandParser here.
  *
@@ -38,6 +38,7 @@ public class CommandParser {
 
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
+        Room previousRoom = currentRoom;
 
         HashMap<String, Room> allroomIDs = level.getAllroomIDs();
 
@@ -46,18 +47,18 @@ public class CommandParser {
             System.out.println(currentRoom.getRoomDescription());
         } else {
             boolean goToNextRoom = true;
-            if (nextRoom.getIsLocked() && nextRoom.getIsTrapRoom()){
+            if (nextRoom.getIsLocked() && nextRoom.getIsTrapRoom()){ // check if the trapdoor was activated before now, and don't go that direction
                 System.out.println("This is the corridor where the trapdoor was.");
                 System.out.println("You don't want to go in here again so you stay where you are.");
                 return;
             }
 
-            if (nextRoom.getIsLocked()){
+            if (nextRoom.getIsLocked()){ // if the room is locked, we cannot go there
                 System.out.println("This door seems to be locked. It won't open.");
                 return;
             }
 
-            if (nextRoom.getIsTrapRoom()) {
+            if (nextRoom.getIsTrapRoom()) { // check if the room is a trapdoor.
                 System.out.println("You fell into a trapdoor!");
                 nextRoom.lockRoom();
                 player.clearBack(); // clears the entire back command
@@ -66,6 +67,8 @@ public class CommandParser {
                 player.removeHealth(1);
                 System.out.println("You take 1 damage because you hurt your leg after the fall.");
                 System.out.println("The hole is too deep so you cannot climb back up if you tried.");
+                System.out.println("You see a small crevice you could climb through... You probbly cannot get back here though.");
+                System.out.println(currentRoom.getExitString()); // Print out the current description
                 return;
             }
 
@@ -97,12 +100,19 @@ public class CommandParser {
             }
 
             if (goToNextRoom) {
-                player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
-                currentRoom = nextRoom; // go to the next room
-                player.setCurrentRoom(currentRoom); // save the current room in the player class
-                System.out.println("");
-
-                System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+                if (previousRoom.getIsTrapRoom()) { // check if the previous room was a trapdoor room, so we dont add it to the backstack
+                    currentRoom = nextRoom; // go to the next room
+                    player.setCurrentRoom(currentRoom); // save the current room in the player class
+                    System.out.println("");
+                    System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+                    System.out.println("You don't think you can manage to go back to that horrible room.");
+                }else{ // normal room movement
+                    player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
+                    currentRoom = nextRoom; // go to the next room
+                    player.setCurrentRoom(currentRoom); // save the current room in the player class
+                    System.out.println("");
+                    System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+                }
             }
 
         }
@@ -160,8 +170,8 @@ public class CommandParser {
     public void getInfo() {
         System.out.println("Your current hp is: " + player.getHealth() + ".");
         System.out.println("Your current carry weight is: " + player.getCarryWeight() + "/" + player.getMaxCarryWeight() + "KGs.");
-        System.out.println("You can deal " + player.getMinHit() + " to " + player.getMaxHit() + " damage.");
-        System.out.println("The deal the damage with: " + "[[FIX]] ENTER ITEM TO DEAL DAMAGE WITH");
+        System.out.println("Your equipped weapon: " + player.getPlayerWeapon().getItemName() + ". Your equipped armor: " + player.getPlayerArmor().getItemName() + ".");
+        System.out.println("You can deal " + player.getMinHit() + " to " + player.getMaxHit() + " damage. Your armor rating is: " + player.getArmorCount() + ".");
     }
 
     /**
@@ -290,7 +300,7 @@ public class CommandParser {
             } else {
                 // the item did not match the player provided name
                 notThisItem++;
-            };
+            }
             somethingToInspect = true;
         }
 
@@ -345,7 +355,7 @@ public class CommandParser {
             } else {
                 // the item did not match the player provided name
                 notThisItem++;
-            };
+            }
             somethingToUse = true;
         }
 
@@ -428,8 +438,6 @@ public class CommandParser {
         String itemToBeEaten = command.getSecondWord();
         List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
 
-        String unlockItem;
-        Room roomToUnlock;
         boolean somethingToUse = false;
         int notThisItem = 0;
         int loop;
@@ -452,18 +460,114 @@ public class CommandParser {
             } else {
                 // the item did not match the player provided name
                 notThisItem++;
-            };
+            }
             somethingToUse = true;
         }
 
         //errors afvangen
         if (!somethingToUse) {
-            System.out.println("You can't inspect that!");
+            System.out.println("You can't eat that!");
         }
 
         if (loop == notThisItem) {
             //ThisItem is the same amount as loop. Then the player put something in that is not in the room
             System.out.println("You cannot eat " + itemToBeEaten + " because you don't have it in your inventory!");
+        }
+    }
+
+    public void equipItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to equip...
+            System.out.println("Equip what?");
+            return;
+        }
+        String itemToBeEquipped = command.getSecondWord();
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
+
+        Item currentlyEquippedArmor = player.getPlayerArmor(); // get the current armor
+        Item currentlyEquippedWeapon = player.getPlayerWeapon(); // get the current weapon
+
+        boolean somethingToUse = false;
+        int notThisItem = 0;
+        int loop;
+        for (loop = 0; loop < playerInventory.size(); loop++) {
+            Item currentItem = playerInventory.get(loop);
+            if (itemToBeEquipped.equals(currentItem.getItemName()) ){ // get the item name, then check if thats something
+                if (currentItem.getItemCategory().equals("armor") || currentItem.getItemCategory().equals("weapon")) {
+                    if (currentItem.getItemCategory().equals("armor")){ // check if the item is armor
+                        if (!currentlyEquippedArmor.getItemName().equals("naked")) {
+                            player.addItemToInventory(currentlyEquippedArmor); // Place currently equipped armor in inventory
+                        }
+                        currentlyEquippedArmor = currentItem; // Equip new armor
+                        player.setArmor(currentlyEquippedArmor);
+                        player.setArmorCount(currentlyEquippedArmor.getItemArmorRating()); // Update armor
+                        player.removeItemFromInventory(currentlyEquippedArmor);
+                        System.out.println("You equip the " + currentlyEquippedArmor.getItemName() + ". Your armor value is now: " + player.getArmorCount()); // inform user
+                    }
+                    if (currentItem.getItemCategory().equals("weapon")){ // check if the item is a weapon
+                        if (!currentlyEquippedWeapon.getItemName().equals("unarmed")) {
+                            player.addItemToInventory(currentlyEquippedWeapon);
+                        }
+                        currentlyEquippedWeapon = currentItem; // Equip new weapon
+                        player.setWeapon(currentlyEquippedWeapon);
+                        player.setMinHit(currentlyEquippedWeapon.getItemMinDamage()); // Update min damage
+                        player.setMaxHit(currentlyEquippedWeapon.getItemMaxDamage()); // Update max damage
+                        player.removeItemFromInventory(currentlyEquippedWeapon);
+                        System.out.println("You equip the " + currentlyEquippedWeapon.getItemName() + ".\n"); // inform user
+                        System.out.println("Your min damage is: " + player.getMinHit() + " and your max damage is: " + player.getMaxHit() + ".");
+                    }
+                } else {
+                    // the item did not match the player provided name
+                    notThisItem++;
+                }
+                somethingToUse = true;
+            }
+        }
+
+        //errors afvangen
+        if (!somethingToUse) {
+            System.out.println("You can't equip that!");
+        }
+
+        if (loop == notThisItem) {
+            //ThisItem is the same amount as loop. Then the player put something in that is not in the room
+            System.out.println("You cannot equip " + itemToBeEquipped + " because you don't have it in your inventory!");
+        }
+    }
+
+    public void unequipItem(Command command) {
+        if (!command.hasSecondWord()) {
+            // if there is no second word, we don't know what to unequip...
+            System.out.println("Unequip what?");
+            return;
+        }
+        String itemToBeUnequipped = command.getSecondWord();
+        List<Item> playerInventory =  player.getPlayerInventory(); // load the inventory of the player
+        Item currentlyEquippedArmor = player.getPlayerArmor(); // get the current armor
+        Item currentlyEquippedWeapon = player.getPlayerWeapon(); // get the current weapon
+        Item unarmed = new Item("unarmed","Nothing in your hands equipped.","weapon",1,3,0,0,0,0,false);
+        Item naked = new Item("naked","Nothing is on your body.","armor",0,0,0,0,0,0,false);
+
+        if (itemToBeUnequipped.equals(currentlyEquippedArmor.getItemName()) || itemToBeUnequipped.equals(currentlyEquippedWeapon.getItemName())) {
+            if (itemToBeUnequipped.equals(currentlyEquippedArmor.getItemName()) ){ // check if the item is the currently equipped armor
+                player.addItemToInventory(currentlyEquippedArmor);
+                currentlyEquippedArmor = naked;
+                player.setArmor(naked);
+                player.setArmorCount(currentlyEquippedArmor.getItemArmorRating()); // Update armor
+                System.out.println("You unequip the " + itemToBeUnequipped + ".");
+                System.out.println("Your armor rating is now: " + player.getArmorCount() + ".");
+            }
+            if (itemToBeUnequipped.equals(currentlyEquippedWeapon.getItemName()) ){ // check if the item is the currently equipped weapon
+                player.addItemToInventory(currentlyEquippedWeapon);
+                currentlyEquippedWeapon = unarmed;
+                player.setWeapon(unarmed);
+                player.setMinHit(currentlyEquippedWeapon.getItemMinDamage()); // Update min damage
+                player.setMaxHit(currentlyEquippedWeapon.getItemMaxDamage()); // Update max damage
+                System.out.println("You unequip the " + itemToBeUnequipped + ".");
+                System.out.println("Your min damage is now: " + player.getMinHit() + " and your max damage is now: " + player.getMaxHit() + ".");
+            }
+        }else {
+            System.out.println("You can't unequip that item because you are not wearing it!");
         }
     }
 }

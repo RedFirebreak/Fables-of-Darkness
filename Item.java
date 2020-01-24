@@ -46,7 +46,7 @@ public class Item {
     public String getItemName() {
         return itemName;
     }
-    
+
     /**
      * @return The heal amount of the item set in setItemVariables()
      */
@@ -100,5 +100,17 @@ public class Item {
 
     public boolean getItemPickupAble() {
         return itemPickupAble;
+    }
+    
+    public int getItemMinDamage() {
+        return itemMinDamage;
+    }
+    
+    public int getItemMaxDamage() {
+        return itemMaxDamage;
+    }
+    
+    public int getItemArmorRating() {
+        return itemArmorRating;
     }
 }

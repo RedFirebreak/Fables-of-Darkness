@@ -17,43 +17,34 @@ public class Player {
 
     private Item playerWeapon;
     private Item playerArmor;
+    private Item unarmed;
+    private Item naked;
 
     private int maxHit = 3;
     private int minHit = 1;
+    private int armorCount = 0;
 
     /**
      * Create a player for player management, initialize the inventory and the hp.
      */
     public Player() {
         playerInventory = new ArrayList<Item>();
+        unarmed = new Item("unarmed","Nothing in your hands equipped.","weapon",1,3,0,0,0,0,false);
+        naked = new Item("naked","Nothing is on your body.","armor",0,0,0,0,0,0,false);
+        playerWeapon = unarmed;
+        playerArmor = naked;
+    }
+    
+    public void setArmorCount(int armorCount) {
+        this.armorCount = armorCount;
     }
 
     public void setArmor(Item armorPiece){
-        String category = armorPiece.getItemCategory();
-        if (category == "armor") {
-            // Check for currently equipped weapon
-            // Place currently equipped weapon in inventory
-            // Reset base armor
-            // Equip new weapon
-            // Update armor
-            // inform user
-        } else {
-            System.out.println("You cant equip " + armorPiece.getItemName() + " as it is not a armor piece.");
-        }
+        this.playerArmor = armorPiece;
     }
 
     public void setWeapon(Item weaponPiece){
-        String category = weaponPiece.getItemCategory();
-        if (category == "weapon") {
-            // Check for currently equipped weapon
-            // Place currently equipped weapon in inventory
-            // Reset base damage
-            // Equip new weapon
-            // Update damage
-            // inform user
-        } else {
-            System.out.println("You cant equip " + weaponPiece.getItemName() + " as it is not a weapon.");
-        }
+        this.playerWeapon = weaponPiece;
     }
 
     //Adders
@@ -205,5 +196,17 @@ public class Player {
 
     public int getMaxHit() {
         return maxHit;
+    }
+    
+    public int getArmorCount() {
+        return armorCount;
+    }
+    
+    public Item getPlayerWeapon() {
+        return playerWeapon;
+    }
+    
+    public Item getPlayerArmor() {
+        return playerArmor;
     }
 }
