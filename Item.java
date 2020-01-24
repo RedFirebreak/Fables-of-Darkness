@@ -109,8 +109,4 @@ public class Item {
     public int getItemMaxDamage() {
         return itemMaxDamage;
     }
-    
-    public int getItemArmorRating() {
-        return itemArmorRating;
-    }
 }
