@@ -5,7 +5,7 @@ import java.util.HashMap;
  * used to recognise commands as they are typed in.
  *
  * @author Stefan Jilderda and Stefan Kuppen
- * @version 24-01-2020
+ * @version 24.01.2020
  */
 
 public class CommandWords {

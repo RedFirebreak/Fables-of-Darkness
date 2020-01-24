@@ -4,8 +4,8 @@ import java.util.*;
  * Representations for all the valid command words for the game along with a
  * string in a particular language.
  * 
- * @author Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author Stefan Jilderda and Stefan Kuppen
+ * @version 24.01.2020
  */
 public enum CommandWord {
     // A value for each command word along with its
