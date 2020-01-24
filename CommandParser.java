@@ -106,6 +106,7 @@ public class CommandParser {
                     System.out.println("");
                     System.out.println(currentRoom.getRoomDescription()); // Print out the current description
                     System.out.println("You don't think you can manage to go back to that horrible room.");
+                    System.out.println(currentRoom.getlongDescription()); // Print out the current long description
                 }else{ // normal room movement
                     player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
                     currentRoom = nextRoom; // go to the next room

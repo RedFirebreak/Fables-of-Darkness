@@ -270,10 +270,10 @@ public class Levels {
         // Create enemies and the boss monster
         // Name, max health, description, minimum damage, maximum damage
         wyrm1 = new Enemy("Heasdasz", 5, "A small but angry looking wyrm! It looks like he has some sharp fangs!", 2, 3); // found in room 5,6,7 or 8
-        wyrm2 = new Enemy("Trorzegs", 8, "A angry looking fire wyrm! He breathes fire!", 2, 5); // found in room 11, 12 or 13
-        human1 = new Enemy("Arlin", 10, "A fit looking human. He's holding a small dagger.", 3, 5); // found in room 9 or 10
+        wyrm2 = new Enemy("Trorzegs", 7, "A angry looking fire wyrm! He breathes fire!", 2, 5); // found in room 11, 12 or 13
+        human1 = new Enemy("Arlin", 11, "A fit looking human. He's holding a dagger!", 4, 5); // found in room 9 or 10
 
-        boss = new Enemy("Drace Grim", 20, "A VERY strong looking human! He's holding a giant axe.", 3, 7); // found ALWAYS in boss-room
+        boss = new Enemy("Drace Wyrnh", 26, "A VERY strong looking wyrm! He has massive spikes on his back!", 4, 8); // found ALWAYS in boss-room
 
         // Add the enemy to specifed, random room
         int tempRoomNumber;

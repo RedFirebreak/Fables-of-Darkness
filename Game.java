@@ -49,9 +49,6 @@ public class Game {
         System.out.println("1) Level 1\n2) Level 2\n3) About\n4) Exit");
         System.out.print("> ");
 
-        // Switch construct
-        //try {
-
         switch (in.nextLine()) {
             case "1":
             System.out.println("");
@@ -101,13 +98,6 @@ public class Game {
             play();
             break;
         }
-        /*}[FIX][FIX]
-        catch (Exception e) {
-        // Someone probably entered a string instead of a number. Inform the user and try again
-        System.out.println("Please put in a number.");
-        System.out.println("");
-        play();
-        }*/
     }
 
     public void waitForKeyPress(){
@@ -124,10 +114,7 @@ public class Game {
         // execute them until the game is over.
         boolean finished = false;
         boolean gameover = false;
-
-        // update the currentRoom and check if this is the winroom
-
-        
+       
         while (!finished) {
             currentRoom = player.getCurrentRoom();
             int playerHealth = player.getHealth();
@@ -140,11 +127,13 @@ public class Game {
                 System.out.println("You won the game! Congratulations! Did you know that enemies, items and damage is completely random?");
                 System.out.println("Play again to get a completely different expierence!");
                 System.out.println("");
+                waitForKeyPress();
 
             } else {
                 if (gameover){
                     System.out.println("Game over! Want to try again?");
                     finished = true;
+                    waitForKeyPress();
                     play();
                 } else {
                     Scanner tokenizer = parser.getCommand(); // prompt the user to put a new command in
@@ -153,10 +142,7 @@ public class Game {
                 }
             }
         }
-        // if you get here, you pressed quit.
-        goodbyeMessage();
         // check if currentroom = the winroom
-        waitForKeyPress();
         play(); // back to the menu!
     }
 

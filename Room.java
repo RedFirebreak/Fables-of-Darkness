@@ -201,7 +201,7 @@ public class Room {
      * @return A short description of this room with the exits
      */
     public String getRoomDescription() {
-        return "You are standing in " + shortDescription + ".\n" + getExitString();
+        return "You are standing in " + shortDescription + ".\n" + getlongDescription() + ".\n" +getExitString();
     }
 
     /**
