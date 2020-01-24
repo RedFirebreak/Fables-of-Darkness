@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Commands entered in parser are checked in Game, then the commands are processed here.
  *
  * @author Stefan Jilderda and Stefan Kuppen
- * @version 24-01-2020
+ * @version 24.01.2020
  */
 
 public class CommandParser {
