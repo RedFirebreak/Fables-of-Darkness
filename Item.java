@@ -20,11 +20,13 @@ public class Item {
     private int itemWeight;
     private int itemValue;
     private boolean itemPickupAble;
+    private boolean canItemBurn;
 
     /**
      * Setting initial values for every item created, just in case
      */
-    public Item(String itemName, String itemDescription,String itemCategory,int itemMinDamage,int itemMaxDamage,int itemArmorRating,int itemHealAmount,int itemWeight,int itemValue,boolean itemPickupAble) {
+    public Item(String itemName, String itemDescription, String itemCategory, int itemMinDamage, int itemMaxDamage, 
+    int itemArmorRating, int itemHealAmount, int itemWeight, int itemValue, boolean itemPickupAble, boolean canItemBurn) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemCategory = itemCategory;
@@ -38,6 +40,7 @@ public class Item {
         this.itemWeight = itemWeight;
         this.itemValue = itemValue;
         this.itemPickupAble = itemPickupAble;
+        this.canItemBurn = canItemBurn;
     }
 
     /**
@@ -57,7 +60,6 @@ public class Item {
     /**
      * @return The description of the item set in setItemVariables()
      */
-
     public String getItemDescription() {
         return itemDescription;
     }
@@ -65,15 +67,13 @@ public class Item {
     /**
      * @return The category of the item set in setItemVariables()
      */
-
     public String getItemCategory() {
         return itemCategory;
     }
-    
+
     /**
      * @return The armorrating of the item set in setItemVariables()
      */
-
     public int getItemArmorRating() {
         return itemArmorRating;
     }
@@ -81,7 +81,6 @@ public class Item {
     /**
      * @return The weight of the item set in setItemVariables()
      */
-
     public int getItemWeight() {
         return itemWeight;
     }
@@ -89,7 +88,6 @@ public class Item {
     /**
      * @return The value of the item set in setItemVariables()
      */
-
     public int getItemValue() {
         return itemValue;
     }
@@ -97,15 +95,18 @@ public class Item {
     /**
      * @return The boolean if the item is pickup able or not of set in setItemVariables()
      */
-
     public boolean getItemPickupAble() {
         return itemPickupAble;
     }
     
+    public boolean getCanItemBurn() {
+        return canItemBurn;
+    }
+
     public int getItemMinDamage() {
         return itemMinDamage;
     }
-    
+
     public int getItemMaxDamage() {
         return itemMaxDamage;
     }

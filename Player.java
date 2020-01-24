@@ -3,8 +3,8 @@ import java.util.*;
 /**
  * The player class contains everything that is dedicated to the player.
  *
- * @author (Stefan Kuppen / Stefan Jilderda)
- * @version (14-01-2020)
+ * @author Stefan Kuppen / Stefan Jilderda
+ * @version 14-01-2020
  */
 public class Player {
     private Stack<String> back = new Stack<String>();
@@ -29,12 +29,12 @@ public class Player {
      */
     public Player() {
         playerInventory = new ArrayList<Item>();
-        unarmed = new Item("unarmed","Nothing in your hands equipped.","weapon",1,3,0,0,0,0,false);
-        naked = new Item("naked","Nothing is on your body.","armor",0,0,0,0,0,0,false);
+        unarmed = new Item("unarmed","Nothing in your hands equipped.","weapon",1,3,0,0,0,0,false,false);
+        naked = new Item("naked","Nothing is on your body.","armor",0,0,0,0,0,0,false,false);
         playerWeapon = unarmed;
         playerArmor = naked;
     }
-    
+
     public void setArmorCount(int armorCount) {
         this.armorCount = armorCount;
     }
@@ -64,10 +64,25 @@ public class Player {
     }
 
     /**
-     * @param The item to be added to the player's inventory.
+     * @param  itemName The item to be added to the player's inventory.
+     * @return          The boolean whether the item will be picked up or not.
      */
-    public void addItemToInventory(Item itemName) {
-        playerInventory.add(itemName);
+    public boolean addItemToInventory(Item itemName) {
+        boolean canPickup = false;
+        int itemWeight = itemName.getItemWeight();
+        int currentCarryWeight = carryWeight;
+
+        if (itemName.getItemPickupAble()) {
+            int checkWeight = currentCarryWeight + itemWeight;
+            if(checkWeight>maxCarryWeight) {
+                canPickup = false;
+            } else {
+                carryWeight = checkWeight;
+                playerInventory.add(itemName);
+                canPickup = true;
+            }
+        }
+        return canPickup;
     }
 
     /**
@@ -97,6 +112,7 @@ public class Player {
      */
     public void removeItemFromInventory(Item itemName) {
         playerInventory.remove(itemName);
+        removeFromCarryWeight(itemName.getItemWeight());
     }
 
     /**
@@ -197,15 +213,15 @@ public class Player {
     public int getMaxHit() {
         return maxHit;
     }
-    
+
     public int getArmorCount() {
         return armorCount;
     }
-    
+
     public Item getPlayerWeapon() {
         return playerWeapon;
     }
-    
+
     public Item getPlayerArmor() {
         return playerArmor;
     }

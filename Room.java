@@ -21,6 +21,7 @@ public class Room {
     private boolean canHoldItem;
     private boolean isLocked;
     private boolean isTrapRoom;
+    
     private boolean canBeBurned;
     
     private boolean unlockRoom;
@@ -50,12 +51,14 @@ public class Room {
 
         this.roomInventory = new ArrayList<Item>();
         exits = new HashMap<>();
+        
         hasEnemy = false;
+        
         canBeBurned= false;
+        
         unlockRoom = false;
         unlockItem = "item_does_not_exist";
-        
-        //System.out.println("DEBUG NEW ROOM CREATED: " + ID + " - " + shortDescription + " - " + LongDescription + " - " + canHoldItem);
+        unlocksRoomID = "0";
     }
     
     public void setUnlockRoom(boolean unlockRoom, String unlockItem, String unlocksRoomID) {
