@@ -1,26 +1,23 @@
-import java.util.*;
+import java.util.HashMap;
 
 /**
- * This class is part of the "World of Zuul" application. "World of Zuul" is a
- * very simple, text based adventure game.
- * 
  * This class holds an enumeration of all command words known to the game. It is
  * used to recognise commands as they are typed in.
  *
- * @author Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author Stefan Jilderda and Stefan Kuppen
+ * @version 24-01-2020
  */
 
 public class CommandWords {
     private HashMap<String, CommandWord> validCommands; // a mapping between a command word and the CommandWord associated with it.
-    private String description;
+    private String description; // description of the command
     
     /**
      * Constructor - initialise the command words.
      */
     public CommandWords() {
         validCommands = new HashMap<>();
-        description = "description not found.";
+        description = "description not found."; // standard description
         for (CommandWord command : CommandWord.values()) {
             if (command != CommandWord.UNKNOWN) {
                 validCommands.put(command.toString(), command);
@@ -31,9 +28,8 @@ public class CommandWords {
     /**
      * Find the CommandWord associated with a command word.
      * 
-     * @param commandWord The word to look up.
-     * @return The CommandWord correspondng to commandWord, or UNKNOWN if it is not
-     *         a valid command word.
+     * @param  commandWord The word to look up.
+     * @return The CommandWord correspondng to commandWord, or UNKNOWN if it is not a valid command word.
      */
     public CommandWord getCommandWord(String commandWord) {
         CommandWord command = validCommands.get(commandWord);
@@ -133,7 +129,7 @@ public class CommandWords {
                 break;
                   
                 default:
-                description = "Some description broke ^_^";
+                description = "Some description broke ^_^ ERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERRORERROR";
                 break;
             }
             System.out.println(description);
