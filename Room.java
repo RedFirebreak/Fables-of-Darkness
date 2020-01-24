@@ -61,7 +61,7 @@ public class Room {
         unlockItem = "item_does_not_exist";
         unlocksRoomID = "0";
     }
-    
+
     //Adders
     /**
      * Add something to the current room inventory
@@ -78,7 +78,7 @@ public class Room {
         hasEnemy = true;
         enemies.push(enemy); // Add something to the stack
     }
-    
+
     //Removers
     /**
      * @param itemToBeRemoved Removes an item from the current room inventory.
@@ -99,7 +99,7 @@ public class Room {
             hasEnemy = false;
         }
     }
-    
+
     //Setters
     /**
      * @param unlockRoom    Whether or not the room is an unlockroom.
@@ -121,7 +121,7 @@ public class Room {
     public void setExit(String direction, Room neighbor) {
         exits.put(direction, neighbor);
     }
-    
+
     /**
      * @param hasEnemy Sets if the room has an enemy or not.
      */
@@ -170,7 +170,7 @@ public class Room {
     public void setRoomID(String ID) {
         this.roomID = ID;
     }
-    
+
     //Getters
     /**
      * @return Returns whether or not the room is an unlockRoom.
