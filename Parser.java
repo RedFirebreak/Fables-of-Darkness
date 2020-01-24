@@ -1,20 +1,16 @@
-import java.util.*;
+import java.util.Scanner;
 
 /**
- * This class is part of the "World of Zuul" application. "World of Zuul" is a
- * very simple, text based adventure game.
- * 
- * This parser reads user input and tries to interpret it as an "Adventure"
- * command. Every time it is called it reads a line from the terminal and tries
- * to interpret the line as a two-word command. It returns the command as an
- * object of class Command.
+ * This parser reads user inputs and tries to interpret it as an "Adventure"command.
+ * Every time it is called it reads a line from the terminal and tries to interpret the line as a two-word command. 
+ * It returns the command as an object of class Command.
  *
  * The parser has a set of known command words. It checks user input against the
  * known commands, and if the input is not one of the known commands, it returns
  * a command object that is marked as an unknown command.
  * 
- * @author Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author Stefan Jilderda and Stefan Kuppen
+ * @version 24.01.2020
  */
 public class Parser {
     private CommandWords commands; // holds all valid command words
@@ -29,22 +25,26 @@ public class Parser {
     }
 
     /**
+     * Gets the command to use.
+     * 
      * @return The next command from the user.
      */
     public Scanner getCommand() {
         String inputLine; // will hold the full input line
-
         System.out.print("> "); // print prompt
 
-        inputLine = reader.nextLine();
-
-        // Find up to two words on the line.
-
+        inputLine = reader.nextLine(); // Find up to two words on the line.
         Scanner tokenizer = new Scanner(inputLine);
 
         return tokenizer;
     }
 
+    /**
+     * This parses the command. It gets the words from the scanner and puts them into a Command.
+     * 
+     * @param tokenizer The scanner from above.
+     * @return give the command back as a Command class.
+     */
     public Command parseCommand(Scanner tokenizer) {
         String word1 = null;
         String word2 = null;
@@ -58,53 +58,46 @@ public class Parser {
             }
         }
 
-        if(word1==null){
+        if(word1==null){ // check if user gave input
             // do nothing
-        } else {
-            // check if there's a synonym in place
+        } else { // check if there's a synonym in place
             switch (word1) {
                 case "north":
                 word1 = "go";
                 word2 = "north";
                 break;
+
                 case "east":
                 word1 = "go";
                 word2 = "east";
                 break;
+
                 case "south":
                 word1 = "go";
                 word2 = "south";
                 break;
+
                 case "west":
                 word1 = "go";
                 word2 = "west";
+                break;
+
                 case "view":
                 word1 = "look";
+                break;
+
                 case "pickup":
                 word1 = "take";
                 break;
-                default: // do nothing with the input
+
+                default: // do nothing with the input, no synonyms found
                 word1 = word1;
                 word2 = word2;
-
-            }
-        }
-
-        if(word2==null){
-            // do nothing
-        } else {
-            // check if there's a synonym in place
-            switch (word1) {
-                case "yeet":
-                word2 = "YEEEEEEEEEEET";
                 break;
-                default: // do nothing with the input
-                word2 = word2;
-
             }
         }
 
-        return new Command(commands.getCommandWord(word1), word2); // make a "command" out of it
+        return new Command(commands.getCommandWord(word1), word2); // make a Command" out of it
     }
 
     /**
