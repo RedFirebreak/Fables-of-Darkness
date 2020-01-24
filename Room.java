@@ -22,6 +22,7 @@ public class Room {
     private boolean isLocked;
     private boolean isTrapRoom;
     private boolean canBeBurned;
+    private boolean winRoom;
     
     private boolean unlockRoom;
     private String unlockItem;
@@ -54,6 +55,7 @@ public class Room {
         canBeBurned= false;
         unlockRoom = false;
         unlockItem = "item_does_not_exist";
+        winRoom = false;
         
         //System.out.println("DEBUG NEW ROOM CREATED: " + ID + " - " + shortDescription + " - " + LongDescription + " - " + canHoldItem);
     }
@@ -90,6 +92,14 @@ public class Room {
 
     public boolean getIsTrapRoom() {
         return isTrapRoom;
+    }
+    
+    public boolean getWinRoom() {
+        return winRoom;
+    }
+    
+    public void setWinRoom(boolean isWinRoom){
+        winRoom = isWinRoom;
     }
 
     public void setIsTrapRoom(boolean isTrapRoom) {

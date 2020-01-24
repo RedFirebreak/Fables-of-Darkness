@@ -122,32 +122,49 @@ public class Game {
     public void playloop() {
         // Enter the main command loop. Here we repeatedly read commands and
         // execute them until the game is over.
-
         boolean finished = false;
         boolean gameover = false;
+
+        // update the currentRoom and check if this is the winroom
+
+        
         while (!finished) {
+            currentRoom = player.getCurrentRoom();
             int playerHealth = player.getHealth();
             if (playerHealth == 0){
                 gameover = true;
             }
-
-            if (gameover){
-                System.out.println("The game is over! Want to try again?");
+            if (currentRoom.getWinRoom()) {
+                // player is in the win room! yay!
                 finished = true;
-                play();
+                System.out.println("You won the game! Congratulations! Did you know that enemies, items and damage is completely random?");
+                System.out.println("Play again to get a completely different expierence!");
+                System.out.println("");
+
             } else {
-                Scanner tokenizer = parser.getCommand(); // prompt the user to put a new command in
-                Command command = parser.parseCommand(tokenizer); // send the "scanner" result to 
-                finished = processCommand(command);
+                if (gameover){
+                    System.out.println("Game over! Want to try again?");
+                    finished = true;
+                    play();
+                } else {
+                    Scanner tokenizer = parser.getCommand(); // prompt the user to put a new command in
+                    Command command = parser.parseCommand(tokenizer); // send the "scanner" result to 
+                    finished = processCommand(command);
+                }
             }
         }
+        // if you get here, you pressed quit.
         goodbyeMessage();
+        // check if currentroom = the winroom
+        waitForKeyPress();
+        play(); // back to the menu!
     }
 
     /**
      * Print the goodbye message for the player if quit has been selected.
      */
     private void goodbyeMessage() {
+
         System.out.println("Thank you for playing Fables of Darkness.  Have a nice day and goodbye!");   
     }
 
@@ -233,11 +250,11 @@ public class Game {
             case EAT:
             commandParser.eatItem(command);
             break;
-            
+
             case EQUIP:
             commandParser.equipItem(command);
             break;
-            
+
             case UNEQUIP:
             commandParser.unequipItem(command);
             break;

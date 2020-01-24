@@ -81,7 +81,8 @@ public class Levels {
         t2 = new Room(Integer.toString(roomid++), "a small puddle of blood", "Okay, that hurt. you see a faint glow of light coming from the hole you just fell trough. To the west is a small pathway leading up to a crack in the wall. There is a nice smell coming from the crack. You wonder if you can squeeze trough it.", false);
         bossRoom = new Room(Integer.toString(roomid++), "a very large battle arena", "You smell fresh air coming from the stairway on the south. To the east is the horrible cyst.", false);
         winRoom = new Room(Integer.toString(roomid++), "a grass patch. You are outside!", "You breath the fresh air! You are free.", false);
-
+        winRoom.setWinRoom(true);
+        
         // Set the roomID in the room, then add it to the level-map
         allroomIDs = new HashMap<>();
 

@@ -67,22 +67,28 @@ public class Parser {
                 word1 = "go";
                 word2 = "north";
                 break;
+                
                 case "east":
                 word1 = "go";
                 word2 = "east";
                 break;
+                
                 case "south":
                 word1 = "go";
                 word2 = "south";
                 break;
+                
                 case "west":
                 word1 = "go";
                 word2 = "west";
+                break;
+                
                 case "view":
                 word1 = "look";
                 case "pickup":
                 word1 = "take";
                 break;
+                
                 default: // do nothing with the input
                 word1 = word1;
                 word2 = word2;
