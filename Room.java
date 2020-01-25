@@ -234,6 +234,7 @@ public class Room {
 
     /**
      * Get the current room ID.
+     * @return roomID is the ID of the room.
      */
     public String getRoomID() {
         return roomID;
@@ -295,7 +296,7 @@ public class Room {
     public Room getExit(String direction) {
         return exits.get(direction);
     }
-
+    
     /**
      * @return True if the room has an enemy.
      */

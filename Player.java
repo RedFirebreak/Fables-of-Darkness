@@ -77,6 +77,31 @@ public class Player {
         return canPickup;
     }
 
+    /**
+     * Only used for equip, when inventory is full you dont lose the item.
+     * 
+     * @param  itemName The item to be added to the player's inventory, or room inventory.
+     * @return The boolean whether the item will be picked up or not.
+     */
+    public boolean addItemToInventoryFromEquip(Item itemName) {
+        boolean canPickup = false;
+        int itemWeight = itemName.getItemWeight();
+        int currentCarryWeight = carryWeight;
+        int checkWeight = currentCarryWeight + itemWeight;
+        
+        if(checkWeight>maxCarryWeight) { // check if player carryweight plus the new item does not exceed the maxcarryweight
+            canPickup = false;
+            currentRoom.setRoomInventory(itemName);
+            System.out.println("You drop the item on the floor because you inventory is full.");
+        } else { // add the item to the inventory
+            carryWeight = checkWeight; // set the new carryweight
+            playerInventory.add(itemName); // add the item to the inventory
+            canPickup = true;
+        }
+
+        return canPickup;
+    }
+    
     // Removers
     /**
      * @param amount Removes some health equal to the amount

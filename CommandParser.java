@@ -81,7 +81,7 @@ public class CommandParser {
             player.removeHealth(1); // damage the player by 1, for falling
             System.out.println("You take 1 damage because you hurt your leg after the fall.");
             System.out.println("The hole is too deep so you cannot climb back up if you tried.");
-            System.out.println("You see a small crevice you could climb through... You probbly cannot get back here though.");
+            System.out.println("You see a small crevice you could climb through... You probably cannot get back here though.");
             System.out.println(currentRoom.getExitString()); // print out the current description
             return;
         }
@@ -119,7 +119,8 @@ public class CommandParser {
                 System.out.println(currentRoom.getRoomDescription()); // Print out the current description
                 System.out.println("You don't think you can manage to go back to that horrible room.");
             } else{ // normal room movement
-                player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
+                String roomID = currentRoom.getRoomID(); // get the current room ID
+                player.addBack(roomID); // add the current room to the "back" command
                 currentRoom = nextRoom; // go to the next room
                 player.setCurrentRoom(currentRoom); // save the current room in the player class
                 System.out.println("");
@@ -473,6 +474,7 @@ public class CommandParser {
                         player.addHealth(currentItem.getHealAmount()); // heal the player
                         player.removeItemFromInventory(currentItem); // remove item from inventory
                         System.out.println("You eat the " + itemToBeEaten + ". It heals for " + currentItem.getHealAmount()+".");
+                        System.out.println("Your health is now: " + player.getHealth());
                     } else { // the player's health is full
                         System.out.println("Your are at full health!");
                     }
@@ -523,17 +525,19 @@ public class CommandParser {
                 if (currentItem.getItemCategory().equals("armor") || currentItem.getItemCategory().equals("weapon")) { // the item is in category weapon or armor
                     if (currentItem.getItemCategory().equals("armor")){ // check if the item is armor
                         if (!currentlyEquippedArmor.getItemName().equals("naked")) { // check if the current equipped armor is not "naked"
-                            player.addItemToInventory(currentlyEquippedArmor); // place currently equipped armor in inventory, except for naked
+                            player.addItemToInventoryFromEquip(currentlyEquippedArmor); // place currently equipped armor in inventory, except for naked
+                            System.out.println("You put the " + currentlyEquippedArmor + " back in your inventory.");
                         }
                         currentlyEquippedArmor = currentItem;
                         player.setArmor(currentlyEquippedArmor); // equip new armor
                         player.setArmorCount(currentlyEquippedArmor.getItemArmorRating()); // update armorCount
                         player.removeItemFromInventory(currentlyEquippedArmor); // remove selected item form inventory
-                        System.out.println("You equip the " + currentlyEquippedArmor.getItemName() + ". Your armor value is now: " + player.getArmorCount());
+                        System.out.println("You equip the " + currentlyEquippedArmor.getItemName() + ". \nYour armor value is now: " + player.getArmorCount());
                     }
                     if (currentItem.getItemCategory().equals("weapon")){ // check if the item is a weapon
                         if (!currentlyEquippedWeapon.getItemName().equals("unarmed")) { // check if the current equipped weapon is not "unarmed"
-                            player.addItemToInventory(currentlyEquippedWeapon); // place currently equipped armor in inventory, except for unarmed
+                            player.addItemToInventoryFromEquip(currentlyEquippedWeapon); // place currently equipped armor in inventory, except for unarmed
+                            System.out.println("You put the " + currentlyEquippedWeapon + " back in your inventory.");
                         }
                         currentlyEquippedWeapon = currentItem;
                         player.setWeapon(currentlyEquippedWeapon); // equip new weapon
@@ -543,11 +547,13 @@ public class CommandParser {
                         System.out.println("You equip the " + currentlyEquippedWeapon.getItemName() + ".\n");
                         System.out.println("Your min damage is: " + player.getMinHit() + " and your max damage is: " + player.getMaxHit() + ".");
                     }
-                } else { // the item did not match the player provided name
-                    notThisItem++;
+                } else { // item is not equippable
+                    System.out.println("You can't equip that item!");
                 }
-                somethingToUse = true;
+            }else { // the item did not match the player provided name
+                notThisItem++;
             }
+            somethingToUse = true;
         }
 
         //errors afvangen
