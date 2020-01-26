@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=Parser
+comment0.text=\r\n\ This\ parser\ reads\ user\ inputs\ and\ tries\ to\ interpret\ it\ as\ an\ "Adventure"command.\r\n\ Every\ time\ it\ is\ called\ it\ reads\ a\ line\ from\ the\ terminal\ and\ tries\ to\ interpret\ the\ line\ as\ a\ two-word\ command.\ \r\n\ It\ returns\ the\ command\ as\ an\ object\ of\ class\ Command.\r\n\r\n\ The\ parser\ has\ a\ set\ of\ known\ command\ words.\ It\ checks\ user\ input\ against\ the\r\n\ known\ commands,\ and\ if\ the\ input\ is\ not\ one\ of\ the\ known\ commands,\ it\ returns\r\n\ a\ command\ object\ that\ is\ marked\ as\ an\ unknown\ command.\r\n\ \r\n\ @author\ Stefan\ Jilderda\ and\ Stefan\ Kuppen\r\n\ @version\ 24.01.2020\r\n
+comment1.params=
+comment1.target=Parser()
+comment1.text=\r\n\ Create\ a\ parser\ to\ read\ from\ the\ terminal\ window.\r\n
+comment2.params=
+comment2.target=java.util.Scanner\ getCommand()
+comment2.text=\r\n\ Gets\ the\ command\ to\ use.\r\n\ \r\n\ @return\ The\ next\ command\ from\ the\ user.\r\n
+comment3.params=tokenizer
+comment3.target=Command\ parseCommand(java.util.Scanner)
+comment3.text=\r\n\ This\ parses\ the\ command.\ It\ gets\ the\ words\ from\ the\ scanner\ and\ puts\ them\ into\ a\ Command.\r\n\ \r\n\ @param\ tokenizer\ The\ scanner\ from\ above.\r\n\ @return\ give\ the\ command\ back\ as\ a\ Command\ class.\r\n
+comment4.params=
+comment4.target=void\ showCommands()
+comment4.text=\r\n\ Print\ out\ a\ list\ of\ valid\ command\ words.\r\n
+numComments=5

@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.target=Battle
+comment0.text=\r\n\ Battle\ creates\ an\ instance\ in\ which\ the\ player\ battles\ with\ an\ enemy.\r\n\r\n\ @author\ Stefan\ Jilderda\ and\ Stefan\ Kuppen\r\n\ @version\ 24.01.2020\r\n
+comment1.params=player\ enemy
+comment1.target=Battle(Player,\ Enemy)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ Battle\r\n
+comment2.params=
+comment2.target=int\ play()
+comment2.text=\r\n\ The\ loop\ that\ keeps\ the\ battle\ going\ (or\ ends\ it)\r\n
+comment3.params=
+comment3.target=void\ menu()
+comment3.text=\ \r\n\ Prints\ out\ the\ menu\ of\ what\ the\ player\ sees,\ and\ gives\ him/her/it\ the\ available\ commands.\r\n
+comment4.params=command
+comment4.target=void\ processCommand(Command)
+comment4.text=\r\n\ Processes\ the\ command\ the\ user\ inputs.\r\n\ \r\n\ @param\ command\ is\ the\ command\ the\ user\ has\ input.\r\n
+comment5.params=
+comment5.target=void\ enemyturn()
+comment5.text=\r\n\ This\ is\ the\ enemies\ turn.\ It\ plays\ immediately\ after\ the\ player's\ turn.\r\n
+comment6.params=command
+comment6.target=void\ eatItem(Command)
+comment6.text=\r\n\ "eat"\ was\ entered.\ Check\ if\ a\ second\ word\ has\ been\ sent\ too\ and\ check\ if\ the\ item\ is\ food.\r\n\ If\ it\ is\ a\ food\ item,\ heal\ the\ player\ if\ their\ health\ isn't\ full,\ and\ remove\ the\ item\ and\ its\ weight\ from\ the\ player\ inventory.\r\n\ \r\n\ @param\ command\ The\ command\ entered\ in\ the\ Parser.\r\n
+numComments=7

@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=Randomizer
+comment0.text=\r\n\ Randomizer\ is\ a\ Random\ Number\ Generator,\ generates\ random\ numbers.\r\n\r\n\ @author\ Stefan\ Jilderda\ and\ Stefan\ Kuppen\r\n\ @version\ 24.01.2020\r\n
+comment1.params=
+comment1.target=Randomizer()
+comment1.text=\r\n\ Create\ the\ randomizer.\r\n
+comment2.params=maxNumber
+comment2.target=int\ getRandomNumber(int)
+comment2.text=\r\n\ Get\ a\ random\ number\ between\ 1\ and\ maxNumber.\r\n\ \r\n\ @param\ \ maxNumber\ The\ maximum\ number\ to\ be\ generated.\r\n\ @return\ The\ randomly\ generated\ number\ as\ an\ int.\ (between\ 1\ and\ maxNumber)\r\n
+comment3.params=maxNumber
+comment3.target=int\ getRandomDamage(int)
+comment3.text=\r\n\ Get\ a\ random\ number\ between\ 0\ and\ maxNumber.\r\n\ \r\n\ @param\ \ maxNumber\ The\ maximum\ number\ to\ be\ generated.\r\n\ @return\ The\ randomly\ generated\ number\ as\ an\ int.\ (between\ 0\ and\ maxNumber)\r\n
+numComments=4

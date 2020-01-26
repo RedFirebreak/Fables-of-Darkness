@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.target=Command
+comment0.text=\r\n\ This\ class\ holds\ information\ about\ a\ command\ that\ was\ issued\ by\ the\ user.\r\n\ A\ command\ currently\ consists\ of\ two\ parts\:\ a\ CommandWord\ and\ a\ string\r\n\ (for\ example,\ if\ the\ command\ was\ "take\ torch",\ then\ the\ two\ parts\ are\ TAKE\ and\ "torch").\r\n\ \r\n\ The\ way\ this\ is\ used\ is\:\ Commands\ are\ already\ checked\ for\ being\ valid\ command\ words.\ \r\n\ If\ the\ user\ entered\ an\ invalid\ command\ (a\ word\ that\ is\ not\ known)\ then\ the\ CommandWord\ is\ UNKNOWN.\r\n\r\n\ If\ the\ command\ had\ only\ one\ word,\ then\ the\ second\ word\ is\ <null>.\r\n\ A\ second\ word\ is\ not\ required.\r\n\ \r\n\ @author\ \ Stefan\ Jilderda\ and\ Stefan\ Kuppen\r\n\ @version\ 24.01.2020\r\n
+comment1.params=commandWord\ secondWord
+comment1.target=Command(CommandWord,\ java.lang.String)
+comment1.text=\r\n\ Create\ a\ command\ object.\ First\ and\ second\ words\ must\ be\ supplied,\ but\ the\ second\ may\ be\ null.\r\n\ \r\n\ @param\ commandWord\ The\ CommandWord.\ UNKNOWN\ if\ the\ command\ word\ was\ not\ recognised.\r\n\ @param\ secondWord\ \ The\ second\ word\ of\ the\ command.\ May\ be\ null.\r\n
+comment2.params=
+comment2.target=CommandWord\ getCommandWord()
+comment2.text=\r\n\ Return\ the\ command\ word\ (the\ first\ word)\ of\ this\ command.\r\n\ \r\n\ @return\ The\ command\ word.\r\n
+comment3.params=
+comment3.target=java.lang.String\ getSecondWord()
+comment3.text=\r\n\ Gets\ the\ second\ word\ of\ the\ command\r\n\ \r\n\ @return\ The\ second\ word\ of\ this\ command.\ Returns\ null\ if\ there\ was\ no\ second\ word.\r\n
+comment4.params=
+comment4.target=boolean\ isUnknown()
+comment4.text=\r\n\ @return\ true\ if\ this\ command\ was\ not\ understood.\r\n
+comment5.params=
+comment5.target=boolean\ hasSecondWord()
+comment5.text=\r\n\ @return\ true\ if\ the\ command\ has\ a\ second\ word.\r\n
+numComments=6

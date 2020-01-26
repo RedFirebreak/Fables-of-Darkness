@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.target=Levels
+comment0.text=\r\n\ Levels\ contains\ all\ different\ levels\ Fables\ of\ Darkness\ has.\r\n\ It\ sets\ the\ rooms,\ items,\ enemies\ and\ all\ their\ variables.\r\n\r\n\ @author\ Stefan\ Jilderda\ and\ Stefan\ Kuppen\r\n\ @version\ 24-01-2020\r\n
+comment1.params=
+comment1.target=Room\ getStartRoom()
+comment2.params=
+comment2.target=void\ level1()
+comment2.text=\r\n\ Generate\ the\ rooms,\ their\ exits,\ descriptions\ and\ item\ availability.\r\n\ Set\ key\ items\ in\ rooms,\ and\ also\ generate\ random\ items.\r\n\ Put\ all\ roomids\ in\ a\ HashMap\ for\ use\ on\ other\ pages.\r\n\ Set\ all\ enemies\ and\ set\ them\ in\ rooms.\r\n\ Set\ all\ item\ values.\r\n
+comment3.params=
+comment3.target=java.util.HashMap\ getAllroomIDs()
+comment3.text=\r\n\ @return\ Returns\ the\ HashMap\ of\ all\ roomIDs\r\n
+numComments=4

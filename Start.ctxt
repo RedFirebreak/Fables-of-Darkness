@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.target=Start
+comment0.text=\r\n\ Start\ starts\ the\ game\r\n\ \r\n\ Only\ contains\ the\ main\ method\ to\ play\r\n\r\n\ @author\ Stefan\ Jilderda\ and\ Stefan\ Kuppen\r\n\ @version\ 24.01.2020\r\n
+comment1.params=
+comment1.target=Start()
+comment2.params=args
+comment2.target=void\ main(java.lang.String[])
+numComments=3
