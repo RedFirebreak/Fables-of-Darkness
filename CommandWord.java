@@ -1,25 +1,15 @@
-import java.util.*;
-
 /**
- * Representations for all the valid command words for the game along with a
- * string in a particular language.
+ * Representations for all the valid command words for the game along with the corresponding string.
  * 
- * @author Michael Kölling and David J. Barnes
- * @version 2016.02.29
+ * @author Stefan Jilderda and Stefan Kuppen
+ * @version 24.01.2020
  */
 public enum CommandWord {
-    // A value for each command word along with its
-    // corresponding user interface string.
+    // A value for each command word along with its corresponding user interface string.
     GO("go"), SEARCH("search"), LOOK("look"), TAKE("take"), DROP("drop"),  INV("inv"), USE("use"), BURN("burn"), 
-    INSPECT("inspect"), INFO("info"), EAT("eat"), EQUIP("equip"), UNEQUIP("unequip"), BACK("back"), QUIT("quit"), HELP("help"),
-    UNKNOWN("?"),
+    INSPECT("inspect"), INFO("info"), EAT("eat"), EQUIP("equip"), UNEQUIP("unequip"), BACK("back"), ATTACK("attack"), RUN("run"), QUIT("quit"), HELP("help"),
+    UNKNOWN("?");
     
-    // Extra Battle commands
-    ATTACK("attack"), RUN("run");
-    
-    // Aliasses for commands
-    //NORTH("north"), EAST("east"), SOUTH("south"), WEST("west"); [[FIX]]
-
     // The command string.
     private String commandString;
 

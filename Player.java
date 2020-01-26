@@ -1,10 +1,12 @@
-import java.util.*;
+import java.util.Stack;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The player class contains everything that is dedicated to the player.
  *
- * @author (Stefan Kuppen / Stefan Jilderda)
- * @version (14-01-2020)
+ * @author Stefan Jilderda and Stefan Kuppen
+ * @version 24.01.2020
  */
 public class Player {
     private Stack<String> back = new Stack<String>();
@@ -29,59 +31,85 @@ public class Player {
      */
     public Player() {
         playerInventory = new ArrayList<Item>();
-        unarmed = new Item("unarmed","Nothing in your hands equipped.","weapon",1,3,0,0,0,0,false);
-        naked = new Item("naked","Nothing is on your body.","armor",0,0,0,0,0,0,false);
+        unarmed = new Item("unarmed","Nothing in your hands equipped.","weapon",1,3,0,0,0,0,false,false);
+        naked = new Item("naked","Nothing is on your body.","armor",0,0,0,0,0,0,false,false);
         playerWeapon = unarmed;
         playerArmor = naked;
     }
-    
-    public void setArmorCount(int armorCount) {
-        this.armorCount = armorCount;
-    }
-
-    public void setArmor(Item armorPiece){
-        this.playerArmor = armorPiece;
-    }
-
-    public void setWeapon(Item weaponPiece){
-        this.playerWeapon = weaponPiece;
-    }
 
     //Adders
+    /**
+     * @param amount is the amount of health added to the player.
+     */
     public void addHealth(int amount) {
         healthPoints = healthPoints + amount;
-        if (healthPoints > 20){
-            healthPoints = 20; // make sure the players health can never be above 20
+        if (healthPoints > 20){// make sure the players health can never be above 20
+            healthPoints = 20; 
         }
     }
 
     /**
-     * [[ENTER JAVADOC]]
+     * @param addToBack add the String to the backStack
      */
     public void addBack(String addToBack) {
         back.push(addToBack); // Add something to the stack
-        // int index = back.search("3"); // Search the thirdindex = 3
     }
 
     /**
-     * @param The item to be added to the player's inventory.
+     * @param  itemName The item to be added to the player's inventory.
+     * @return The boolean whether the item will be picked up or not.
      */
-    public void addItemToInventory(Item itemName) {
-        playerInventory.add(itemName);
+    public boolean addItemToInventory(Item itemName) {
+        boolean canPickup = false;
+        int itemWeight = itemName.getItemWeight();
+        int currentCarryWeight = carryWeight;
+
+        if (itemName.getItemPickupAble()) { // check if item can be picked up
+            int checkWeight = currentCarryWeight + itemWeight;
+            if(checkWeight>maxCarryWeight) { // check if player carryweight plus the new item does not exceed the maxcarryweight
+                canPickup = false;
+            } else { // add the item to the inventory
+                carryWeight = checkWeight; // set the new carryweight
+                playerInventory.add(itemName); // add the item to the inventory
+                canPickup = true;
+            }
+        }
+        return canPickup;
     }
 
     /**
-     * @param Add the carryweight of the new item to the current carryweight.
+     * Only used for equip, when inventory is full you dont lose the item.
+     * 
+     * @param  itemName The item to be added to the player's inventory, or room inventory.
+     * @return The boolean whether the item will be picked up or not.
      */
-    public void addToCarryWeight(int carryWeight) {
-        this.carryWeight += carryWeight;
-    }
+    public boolean addItemToInventoryFromEquip(Item itemName) {
+        boolean canPickup = false;
+        int itemWeight = itemName.getItemWeight();
+        int currentCarryWeight = carryWeight;
+        int checkWeight = currentCarryWeight + itemWeight;
+        
+        if(checkWeight>maxCarryWeight) { // check if player carryweight plus the new item does not exceed the maxcarryweight
+            canPickup = false;
+            currentRoom.setRoomInventory(itemName);
+            System.out.println("You drop the item on the floor because you inventory is full.");
+        } else { // add the item to the inventory
+            carryWeight = checkWeight; // set the new carryweight
+            playerInventory.add(itemName); // add the item to the inventory
+            canPickup = true;
+        }
 
+        return canPickup;
+    }
+    
     // Removers
+    /**
+     * @param amount Removes some health equal to the amount
+     */
     public void removeHealth(int amount) {
         healthPoints = healthPoints - amount;
-        if (healthPoints < 0){
-            healthPoints = 0; // make sure the players health can never be below 0
+        if (healthPoints < 0){ // make sure the players health can never be below 0
+            healthPoints = 0; 
         }
     }
 
@@ -97,10 +125,11 @@ public class Player {
      */
     public void removeItemFromInventory(Item itemName) {
         playerInventory.remove(itemName);
+        removeFromCarryWeight(itemName.getItemWeight());
     }
 
     /**
-     * @param Remove the carryweight of the dropped or eaten item from the current carryweight.
+     * @param Remove the carryweight of the dropped, eaten or used item from the current carryweight.
      */
     public void removeFromCarryWeight(int carryWeight) {
         this.carryWeight -= carryWeight;
@@ -114,42 +143,58 @@ public class Player {
     }
 
     // Setters
+    /**
+     * @param armorCount changes the armorCount.
+     */
+    public void setArmorCount(int armorCount) {
+        this.armorCount = armorCount;
+    }
+
+    /**
+     * @param armorPiece changes the player's armor.
+     */
+    public void setArmor(Item armorPiece){
+        this.playerArmor = armorPiece;
+    }
+
+    /**
+     * @param weaponPiece changes the player's weapon.
+     */
+    public void setWeapon(Item weaponPiece){
+        this.playerWeapon = weaponPiece;
+    }
+
+    /**
+     * @param room Sets the currentRoom.
+     */
     public void setCurrentRoom(Room room) {
         currentRoom = room;
     }
 
     /**
-     * @param Set the initial carryweight of the player.
+     * @param minHit Sets the new minimum damage hit
      */
-    public void setCarryWeight(int carryWeight) {
-        this.carryWeight = carryWeight;
-    }
-
-    /**
-     * @param Set the maximum carryweight of the player.
-     */
-    public void setMaxCarryWeight(int maxCarryWeight) {
-        this.maxCarryWeight = maxCarryWeight;
-    }
-
     public void setMinHit(int minHit) {
         this.minHit = minHit;
     }
 
+    /**
+     * @param minHit Sets the new maximum damage hit
+     */
     public void setMaxHit(int maxHit) {
         this.maxHit = maxHit;
     }
 
     // Getters
     /**
-     * @return The player's current armorrating.
+     * @return The player's current armorCount
      */
     public int getPlayerArmorRating() {
         int armorRating = 0;
-        if (playerArmor == null) {
+        if (playerArmor == null) { // never have armorRating at 0
             armorRating = 0;
         } else {
-            armorRating = playerArmor.getItemArmorRating();// een int is altijd 0 als die nog niet bestaat. dus geen "NULL"
+            armorRating = playerArmor.getItemArmorRating(); // set the armorCount equal to the currently equipped armor
         }
         return armorRating;
     }
@@ -176,36 +221,57 @@ public class Player {
     }
 
     /**
-     * [[ENTER JAVADOC]]
+     * @return The whole backStack, full of roomID Strings.
      */
     public Stack<String> getBack() {
         return back;
     }
 
+    /**
+     * @return The player's current room.
+     */
     public Room getCurrentRoom() {
         return currentRoom;
     }
 
+    /**
+     * @return The player's current health.
+     */
     public int getHealth() {
         return healthPoints;
     }
 
+    /**
+     * @return The player's current minimum damage hit.
+     */
     public int getMinHit() {
         return minHit;
     }
 
+    /**
+     * @return The player's current maximum damage hit.
+     */
     public int getMaxHit() {
         return maxHit;
     }
-    
+
+    /**
+     * @return The player's current armorCount.
+     */
     public int getArmorCount() {
         return armorCount;
     }
-    
+
+    /**
+     * @return The player's currently equipped weapon.
+     */
     public Item getPlayerWeapon() {
         return playerWeapon;
     }
-    
+
+    /**
+     * @return The player's currently equipped armor.
+     */
     public Item getPlayerArmor() {
         return playerArmor;
     }
