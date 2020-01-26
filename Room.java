@@ -137,15 +137,17 @@ public class Room {
     public void setCanBeBurned(boolean canBurn) {
         canBeBurned = canBurn;
     }
-
-    public boolean getIsTrapRoom() {
-        return isTrapRoom;
-    }
     
+     /**
+     * @return returns true if the room is a win room.
+     */
     public boolean getWinRoom() {
         return winRoom;
     }
     
+    /**
+     * @param sets the winroom based on input. isWinRoom sets the win room.
+     */
     public void setWinRoom(boolean isWinRoom){
         winRoom = isWinRoom;
     }

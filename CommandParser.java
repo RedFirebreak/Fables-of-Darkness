@@ -111,21 +111,20 @@ public class CommandParser {
             }
         }
 
-            if (goToNextRoom) {
-                if (previousRoom.getIsTrapRoom()) { // check if the previous room was a trapdoor room, so we dont add it to the backstack
-                    currentRoom = nextRoom; // go to the next room
-                    player.setCurrentRoom(currentRoom); // save the current room in the player class
-                    System.out.println("");
-                    System.out.println(currentRoom.getRoomDescription()); // Print out the current description
-                    System.out.println("You don't think you can manage to go back to that horrible room.");
-                    System.out.println(currentRoom.getlongDescription()); // Print out the current long description
-                }else{ // normal room movement
-                    player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
-                    currentRoom = nextRoom; // go to the next room
-                    player.setCurrentRoom(currentRoom); // save the current room in the player class
-                    System.out.println("");
-                    System.out.println(currentRoom.getRoomDescription()); // Print out the current description
-                }
+        if (goToNextRoom) {
+            if (previousRoom.getIsTrapRoom()) { // check if the previous room was a trapdoor room, so we dont add it to the backstack
+                currentRoom = nextRoom; // go to the next room
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
+                System.out.println("");
+                System.out.println(currentRoom.getRoomDescription()); // Print out the current description
+                System.out.println("You don't think you can manage to go back to that horrible room.");
+                System.out.println(currentRoom.getlongDescription()); // Print out the current long description
+            }else{ // normal room movement
+                player.addBack(currentRoom.getRoomID()); // add the previous room to the "back" command.
+                currentRoom = nextRoom; // go to the next room
+                player.setCurrentRoom(currentRoom); // save the current room in the player class
+                System.out.println("");
+                System.out.println(currentRoom.getRoomDescription()); // Print out the current description
             }
         }
     }
